@@ -18,21 +18,41 @@ MainWindow::MainWindow(QWidget *parent)
     // UI SETUP
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
 
+    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
+
     // Connections
     connect(ui->pushButton_newSession, &QPushButton::released, controller,  &Controller::startNewSession);
     connect(ui->pushButton_dateTime, &QPushButton::released, controller,  &Controller::setDateTime);
     connect(ui->pushButton_viewHistory, &QPushButton::released, controller,  &Controller::viewSessionHistory);
 
-    connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, this,  &MainWindow::togglePlug);
+    // Battery Functionality
+    connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=]() {
+        ConnectionState newCS = DISCONNECTED;
+        if (ui->checkBox_pluggedIn->checkState() == Qt::Checked) {
+            newCS = CONNECTED;
+        }
+        this->controller->setChargingState(newCS);
 
+        if (this->controller->getChargingState() == CONNECTED) {
+            updateBattery(100);
+        }
+    });
     connect(ui->pushButton_chargeBattery, &QPushButton::released, [=]() {
-        controller->chargeBattery(5);
+        this->controller->chargeBattery(5);
     });
-
     connect(ui->pushButton_reduceBattery, &QPushButton::released, [=]() {
-        controller->reduceBattery(5);
+        this->controller->reduceBattery(5);
     });
 
+    // Power Functionality.
+    connect(ui->pushButton_power, &QPushButton::released, [=]() {
+        if (this->controller->getPowerState() == ON) {
+            this->controller->setPowerState(OFF);
+        } else {
+            this->controller->setPowerState(ON);
+        }
+    });
+    connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
     connect(controller, &Controller::updateBattery, this, &MainWindow::updateBattery);
 
 }
@@ -42,7 +62,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+// Battery Control
 void MainWindow::updateBattery(int batteryRemaining) {
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
     int currentBatteryLevel = ui->progressBar_battery->value();
@@ -61,18 +81,16 @@ void MainWindow::updateBattery(int batteryRemaining) {
     }
 }
 
-void MainWindow::togglePlug() {
-    bool pluggedIn = false;
-    if (ui->checkBox_pluggedIn->checkState() == Qt::Checked) {
-        pluggedIn = true;
-    }
-    this->controller->setIsCharging(pluggedIn);
-
-    if (pluggedIn) {
-        updateBattery(100);
+// Power Control
+void MainWindow::togglePower(){
+    if (this->controller->getPowerState() == ON) {
+        ui->label_powerLight->setStyleSheet("background-color: rgb(220, 138, 221);");
+    } else {
+        ui->label_powerLight->setStyleSheet("background-color: rgb(94, 92, 100);");
     }
 }
 
+// Light Control
 void MainWindow::toggleBlueLight(PowerState newState) {
     if (newState == OFF) {
         //Controller.toggleBlueLight(PowerState newState) ;

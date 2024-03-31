@@ -11,21 +11,33 @@ class Controller : public QObject
 {
     Q_OBJECT
 public:
-    Controller(int batteryRemaining = 100, PowerState poweredOn = ON, QDate currentDate = QDate(2024, 1, 1), QTime currentTime = QTime(0,0,0));
-    ~Controller();
-    int getBatteryRemaining();
-    void setIsCharging(bool pluggedIn);
+    // Constructor(s)
+    Controller(int batteryRemaining = 100, PowerState powerState = ON, QDate currentDate = QDate(2024, 1, 1), QTime currentTime = QTime(0,0,0));
 
+    // Destructor(s)
+    ~Controller();
+
+    // Getter(s)
+    int getBatteryRemaining();
+    ConnectionState getChargingState();
+    PowerState getPowerState();
+
+    // Setter(s)
+    void setChargingState(ConnectionState newCS);
+    void setPowerState(PowerState newPS);
+
+// Member Variable(s)
 private:
     int batteryRemaining;
-    bool isCharging;
-    PowerState poweredOn;
+    ConnectionState chargingState;
+    PowerState powerState;
     QDate currentDate;
     QTime currentTime;
     QVector<Session> sessionHistory;
 
 signals:
     void updateBattery(int batteryRemaining);
+    void togglePower();
 
 public slots:
 

@@ -1,8 +1,8 @@
 #include "Controller.h"
 
 // Constructor(s)
-Controller::Controller(int batteryRemaining, PowerState poweredOn, QDate currentDate, QTime currentTime) :
-    batteryRemaining(batteryRemaining), poweredOn(poweredOn), currentDate(currentDate), currentTime(currentTime)
+Controller::Controller(int batteryRemaining, PowerState powerState, QDate currentDate, QTime currentTime) :
+    batteryRemaining(batteryRemaining), powerState(powerState), currentDate(currentDate), currentTime(currentTime)
 {
 }
 
@@ -17,13 +17,27 @@ int Controller::getBatteryRemaining() {
     return this->batteryRemaining;
 }
 
+ConnectionState Controller::getChargingState() {
+    return this->chargingState;
+}
+
+PowerState Controller::getPowerState() {
+    return this->powerState;
+}
+
 // Setter(s)
-void Controller::setIsCharging(bool pluggedIn) {
-    this->isCharging = pluggedIn;
-    if (pluggedIn) {
+void Controller::setChargingState(ConnectionState newCS) {
+    this->chargingState = newCS;
+    if (this->chargingState == CONNECTED) {
         this->chargeBattery(100);
     }
 }
+
+void Controller::setPowerState(PowerState newPS) {
+    this->powerState = newPS;
+    emit togglePower();
+}
+
 
 void Controller::startNewSession()
 {
@@ -55,7 +69,7 @@ void Controller::chargeBattery(int percentAmount)
 
 void Controller::reduceBattery(int percentAmount)
 {
-    if ((!this->isCharging) && (batteryRemaining > 0)) {
+    if ((this->chargingState == DISCONNECTED) && (batteryRemaining > 0)) {
         if ((batteryRemaining - percentAmount) < 0) {
             batteryRemaining = 0;
         } else {

@@ -9,7 +9,10 @@ class Headset : public QObject
 {
     Q_OBJECT
 public:
+    // Constructor(s)
     Headset();
+
+    // Destructor(s)
     ~Headset();
 
 private:
