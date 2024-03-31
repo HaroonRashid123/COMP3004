@@ -30,6 +30,6 @@ public slots:
     void toggleRedLight(PowerState newState);
 
     void updateBattery(int batteryRemaining);
-
+    void togglePlug();
 };
 #endif // MAINWINDOW_H

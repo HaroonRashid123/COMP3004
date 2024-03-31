@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_dateTime, &QPushButton::released, controller,  &Controller::setDateTime);
     connect(ui->pushButton_viewHistory, &QPushButton::released, controller,  &Controller::viewSessionHistory);
 
-    connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, this,  &MainWindow::updateBattery);
+    connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, this,  &MainWindow::togglePlug);
 
     connect(ui->pushButton_chargeBattery, &QPushButton::released, [=]() {
         controller->chargeBattery(5);
@@ -58,6 +58,18 @@ void MainWindow::updateBattery(int batteryRemaining) {
         ui->progressBar_battery->setStyleSheet("background-color: rgb(222, 221, 218);"
                                                "selection-color: rgb(0, 0, 0);"
                                                "selection-background-color: rgb(38, 162, 105);");
+    }
+}
+
+void MainWindow::togglePlug() {
+    bool pluggedIn = false;
+    if (ui->checkBox_pluggedIn->checkState() == Qt::Checked) {
+        pluggedIn = true;
+    }
+    this->controller->setIsCharging(pluggedIn);
+
+    if (pluggedIn) {
+        updateBattery(100);
     }
 }
 

@@ -14,9 +14,11 @@ public:
     Controller(int batteryRemaining = 100, PowerState poweredOn = ON, QDate currentDate = QDate(2024, 1, 1), QTime currentTime = QTime(0,0,0));
     ~Controller();
     int getBatteryRemaining();
+    void setIsCharging(bool pluggedIn);
 
 private:
     int batteryRemaining;
+    bool isCharging;
     PowerState poweredOn;
     QDate currentDate;
     QTime currentTime;
