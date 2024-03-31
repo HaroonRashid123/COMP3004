@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     Controller.cpp \
+    ExternalObj.cpp \
     Headset.cpp \
     main.cpp \
     mainwindow.cpp

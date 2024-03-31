@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include "ExternalObj.h"
 #include "Controller.h"
 #include "Headset.h"
@@ -20,9 +21,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    // Members
     Controller *controller;
     Headset *headset;
-signals:
 
 public slots:
     // Menu

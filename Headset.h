@@ -15,9 +15,16 @@ public:
     // Destructor(s)
     ~Headset();
 
+    //Getter(s)
+    ConnectionState getElectrode(int e_id);
+    ConnectionState* getElectrodes();
+
+    //Setter(s)
+    void setElectrode(int e_id, ConnectionState newCS);
+
     //Member Variable(s)
 private:
-    QHash<int, ConnectionState> electrodes;
+    ConnectionState *electrodes;
 
 signals:
 

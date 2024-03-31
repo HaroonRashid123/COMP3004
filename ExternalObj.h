@@ -3,6 +3,9 @@
 
 #include <QDateTime>
 #include <QVector>
+#include <QString>
+
+#define MAX_ELECTRODES 21
 
 // To represent the power state of an electronic componenent
 enum PowerState {
@@ -22,5 +25,12 @@ struct Session {
     int baselines_before[21];
     int baselines_after[21];
 };
+
+
+// Enum to string mapping function for PowerState
+QString powerStateToStr(PowerState state);
+
+// Enum to string mapping function for ConnectionState
+QString connectionStateToStr(ConnectionState state);
 
 #endif // EXTERNALOBJ_H

@@ -14,6 +14,7 @@ git add README.md
 git add Controller.cpp
 git add Controller.h
 git add ExternalObj.h
+git add ExternalObj.cpp
 git add Headset.cpp
 git add Headset.h
 git add comp3004_final_neureset.pro

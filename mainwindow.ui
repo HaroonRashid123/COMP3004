@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>998</width>
+    <width>1091</width>
     <height>530</height>
    </rect>
   </property>
@@ -462,7 +462,7 @@ selection-background-color: rgb(98, 160, 234)</string>
      <rect>
       <x>610</x>
       <y>30</y>
-      <width>351</width>
+      <width>341</width>
       <height>361</height>
      </rect>
     </property>
@@ -481,8 +481,8 @@ selection-background-color: rgb(98, 160, 234)</string>
      </property>
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>40</y>
+       <x>30</x>
+       <y>70</y>
        <width>41</width>
        <height>23</height>
       </rect>
@@ -498,8 +498,8 @@ selection-background-color: rgb(98, 160, 234)</string>
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>280</y>
-       <width>151</width>
+       <y>320</y>
+       <width>131</width>
        <height>25</height>
       </rect>
      </property>
@@ -513,9 +513,9 @@ selection-background-color: rgb(98, 160, 234)</string>
     <widget class="QPushButton" name="pushButton_chargeBattery">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>280</y>
-       <width>151</width>
+       <x>30</x>
+       <y>320</y>
+       <width>131</width>
        <height>25</height>
       </rect>
      </property>
@@ -531,7 +531,7 @@ selection-background-color: rgb(98, 160, 234)</string>
       <rect>
        <x>20</x>
        <y>10</y>
-       <width>311</width>
+       <width>301</width>
        <height>20</height>
       </rect>
      </property>
@@ -546,8 +546,8 @@ selection-background-color: rgb(98, 160, 234)</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>250</y>
-       <width>311</width>
+       <y>260</y>
+       <width>301</width>
        <height>20</height>
       </rect>
      </property>
@@ -558,14 +558,14 @@ selection-background-color: rgb(98, 160, 234)</string>
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_e1_2">
+    <widget class="QCheckBox" name="checkBox_e2">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>40</y>
+       <x>30</x>
+       <y>100</y>
        <width>41</width>
        <height>23</height>
       </rect>
@@ -577,14 +577,14 @@ selection-background-color: rgb(98, 160, 234)</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_e1_3">
+    <widget class="QCheckBox" name="checkBox_e3">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>40</y>
+       <x>30</x>
+       <y>130</y>
        <width>41</width>
        <height>23</height>
       </rect>
@@ -596,14 +596,14 @@ selection-background-color: rgb(98, 160, 234)</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_e1_4">
+    <widget class="QCheckBox" name="checkBox_e4">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>40</y>
+       <x>30</x>
+       <y>160</y>
        <width>41</width>
        <height>23</height>
       </rect>
@@ -615,14 +615,14 @@ selection-background-color: rgb(98, 160, 234)</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_e1_5">
+    <widget class="QCheckBox" name="checkBox_e5">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>40</y>
+       <x>30</x>
+       <y>190</y>
        <width>41</width>
        <height>23</height>
       </rect>
@@ -640,14 +640,318 @@ selection-background-color: rgb(98, 160, 234)</string>
      </property>
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>320</y>
-       <width>161</width>
-       <height>23</height>
+       <x>30</x>
+       <y>290</y>
+       <width>281</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
       <string>Plugged into Charger</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e8">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>70</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E8</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e10">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>130</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E10</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e6">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>220</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E6</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e7">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>40</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E7</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e9">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>100</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E9</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e12">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>190</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E12</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e11">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>160</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E11</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e14">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>40</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E14</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e13">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>220</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E13</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e15">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>70</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E15</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e16">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>100</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E16</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e20">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>220</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E20</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e18">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>160</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E18</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e19">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>190</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E19</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e17">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>130</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E17</string>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_e0">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>40</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>E0</string>
      </property>
      <property name="tristate">
       <bool>false</bool>
@@ -676,7 +980,7 @@ selection-background-color: rgb(98, 160, 234)</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>998</width>
+     <width>1091</width>
      <height>22</height>
     </rect>
    </property>

@@ -17,11 +17,39 @@ MainWindow::MainWindow(QWidget *parent)
     this->controller = new Controller(100, ON, QDateTime::currentDateTime());
     this->headset = new Headset();
 
+    QCheckBox* electrodes[MAX_ELECTRODES];
+    electrodes[0] = ui->checkBox_e0;
+    electrodes[1] = ui->checkBox_e1;
+    electrodes[2] = ui->checkBox_e2;
+    electrodes[3] = ui->checkBox_e3;
+    electrodes[4] = ui->checkBox_e4;
+    electrodes[5] = ui->checkBox_e5;
+    electrodes[6] = ui->checkBox_e6;
+    electrodes[7] = ui->checkBox_e7;
+    electrodes[8] = ui->checkBox_e8;
+    electrodes[9] = ui->checkBox_e9;
+    electrodes[10] = ui->checkBox_e10;
+    electrodes[11] = ui->checkBox_e11;
+    electrodes[12] = ui->checkBox_e12;
+    electrodes[13] = ui->checkBox_e13;
+    electrodes[14] = ui->checkBox_e14;
+    electrodes[15] = ui->checkBox_e15;
+    electrodes[16] = ui->checkBox_e16;
+    electrodes[17] = ui->checkBox_e17;
+    electrodes[18] = ui->checkBox_e18;
+    electrodes[19] = ui->checkBox_e19;
+    electrodes[20] = ui->checkBox_e20;
+
     /*====================================================================================================*\
      * UI SETUP (to match controller state)
     \*====================================================================================================*/
+    //Set Power
     this->togglePower();
+
+    // Set Menu
     this->showMenu();
+
+    // Set Date/Time
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
     if (this->controller->getChargingState() == CONNECTED){
         ui->checkBox_pluggedIn->setChecked(true);
@@ -30,6 +58,11 @@ MainWindow::MainWindow(QWidget *parent)
     }
     qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
 
+    // Set Electrode Connections
+    for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        bool connected = (this->headset->getElectrode(e_id) == CONNECTED) ? true : false;
+        electrodes[e_id]->setChecked(connected);
+    }
 
     /*====================================================================================================*\
      * MENU CONNECTIONS
@@ -51,7 +84,19 @@ MainWindow::MainWindow(QWidget *parent)
         timer->start(3000);
     });
     /*====================================================================================================*\
-     * BATTERY RELATED CONNECTIONS
+     * POWER CONNECTIONS
+    \*====================================================================================================*/
+    connect(ui->pushButton_power, &QPushButton::released, [=]() {
+        if (this->controller->getPowerState() == ON) {
+            this->controller->setPowerState(OFF);
+        } else {
+            this->controller->setPowerState(ON);
+        }
+    });
+    connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
+
+    /*====================================================================================================*\
+     * BATTERY CONNECTIONS
     \*====================================================================================================*/
     connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=]() {
         ConnectionState newCS = DISCONNECTED;
@@ -69,21 +114,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(controller, &Controller::updateBattery, this, &MainWindow::updateBattery);
 
     /*====================================================================================================*\
-     * POWER RELATED CONNECTIONS
+     * ELECTRODE CONNECTIONS
     \*====================================================================================================*/
-    connect(ui->pushButton_power, &QPushButton::released, [=]() {
-        if (this->controller->getPowerState() == ON) {
-            this->controller->setPowerState(OFF);
-        } else {
-            this->controller->setPowerState(ON);
-        }
-    });
-    connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
+    for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        connect(electrodes[e_id], &QCheckBox::stateChanged, [=]() {
+            ConnectionState newCS = (electrodes[e_id]->isChecked()) ? CONNECTED : DISCONNECTED;
+            this->headset->setElectrode(e_id, newCS);
+            qInfo("Electrode %d is %s", e_id, qPrintable(connectionStateToStr(this->headset->getElectrode(e_id))));
+        });
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete controller;
+    delete headset;
 }
 
 /*====================================================================================================*\
@@ -131,6 +177,7 @@ void MainWindow::showMenu_sessionLogs(){
     ui->pushButton_back->setEnabled(true);
     ui->pushButton_back->show();
 }
+
 void MainWindow::hideMenu(){
     ui->pushButton_menuNewSession->setDisabled(true);
     ui->pushButton_menuNewSession->hide();
