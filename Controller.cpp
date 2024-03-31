@@ -1,51 +1,43 @@
 #include "Controller.h"
 
-// Constructor(s)
+/*====================================================================================================*\
+ * CONSTRUCTOR(S)
+\*====================================================================================================*/
 Controller::Controller(int batteryRemaining, PowerState powerState, QDate currentDate, QTime currentTime) :
-    batteryRemaining(batteryRemaining), powerState(powerState), currentDate(currentDate), currentTime(currentTime), chargingState(DISCONNECTED)
-{
-}
+    batteryRemaining(batteryRemaining), powerState(powerState), currentDate(currentDate), currentTime(currentTime),
+    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF)
+{}
 
-// Destructor(s)
+/*====================================================================================================*\
+ * DESTRUCTOR(S)
+\*====================================================================================================*/
 Controller::~Controller()
-{
+{}
 
-}
+/*====================================================================================================*\
+ * GETTER(S)
+\*====================================================================================================*/
+int Controller::getBatteryRemaining() { return this->batteryRemaining; }
+ConnectionState Controller::getChargingState() { return this->chargingState; }
+PowerState Controller::getPowerState() { return this->powerState; }
 
-// Getter(s)
-int Controller::getBatteryRemaining() {
-    return this->batteryRemaining;
-}
+/*====================================================================================================*\
+ * SETTER(S)
+\*====================================================================================================*/
+void Controller::setChargingState(ConnectionState newCS) { this->chargingState = newCS; }
+void Controller::setPowerState(PowerState newPS) { this->powerState = newPS; emit togglePower();}
 
-ConnectionState Controller::getChargingState() {
-    return this->chargingState;
-}
-
-PowerState Controller::getPowerState() {
-    return this->powerState;
-}
-
-// Setter(s)
-void Controller::setChargingState(ConnectionState newCS) {
-    this->chargingState = newCS;
-}
-
-void Controller::setPowerState(PowerState newPS) {
-    this->powerState = newPS;
-    emit togglePower();
-}
-
-
+/*====================================================================================================*\
+ * SLOT FUNCTION(S)
+\*====================================================================================================*/
 void Controller::startNewSession()
 {
     if (this->powerState == ON) {}
 }
 
-void Controller::setDateTime()
-{
+void Controller::setDateTime() {
     if (this->powerState == ON) {}
 }
-
 
 void Controller::viewSessionHistory()
 {
@@ -61,7 +53,7 @@ void Controller::chargeBattery(int percentAmount)
             batteryRemaining += percentAmount;
         }
     }
-    emit updateBattery(batteryRemaining);
+    emit updateBattery();
 }
 
 void Controller::reduceBattery(int percentAmount)
@@ -73,5 +65,5 @@ void Controller::reduceBattery(int percentAmount)
             batteryRemaining -= percentAmount;
         }
     }
-    emit updateBattery(batteryRemaining);
+    emit updateBattery();
 }

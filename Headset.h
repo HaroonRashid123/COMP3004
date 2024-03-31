@@ -15,6 +15,7 @@ public:
     // Destructor(s)
     ~Headset();
 
+    //Member Variable(s)
 private:
     QHash<int, ConnectionState> electrodes;
 

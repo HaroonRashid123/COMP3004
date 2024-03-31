@@ -4,16 +4,19 @@
 #include <QDateTime>
 #include <QVector>
 
+// To represent the power state of an electronic componenent
 enum PowerState {
     OFF,
     ON
 };
 
+// To represent the connection state of a connection componenent
 enum ConnectionState {
     DISCONNECTED,
     CONNECTED
 };
 
+// Models a neureset session
 struct Session {
     QDate date;
     QTime time;

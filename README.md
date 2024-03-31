@@ -6,10 +6,10 @@ Daren Ko
 
 ## Work flow steps:
 
-### Clone repo (One-time)
+### Uploading Progress:
+#### Clone repo (One-time)
 git clone https://github.com/HaroonRashid123/COMP3004.git
-
-### Add Files
+#### Add Files
 git add README.md
 git add Controller.cpp
 git add Controller.h
@@ -22,11 +22,12 @@ git add main.cpp
 git add mainwindow.cpp
 git add mainwindow.h
 git add mainwindow.ui
-
-### Commit
+#### Commit
 git commit -m "what_you_worked_on/did"
-
-### Push
+#### Push
 git push origin main
 or
 git push
+
+### Updating branch (to make sure oyu have the most recent changes):
+git pull

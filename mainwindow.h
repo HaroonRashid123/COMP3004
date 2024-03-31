@@ -25,11 +25,11 @@ private:
 signals:
 
 public slots:
-    void toggleBlueLight(PowerState newState);
-    void toggleGreenLight(PowerState newState);
-    void toggleRedLight(PowerState newState);
+    void toggleBlueLight();
+    void toggleGreenLight();
+    void toggleRedLight();
 
-    void updateBattery(int batteryRemaining);
+    void updateBattery();
     void togglePower();
 };
 #endif // MAINWINDOW_H

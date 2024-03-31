@@ -26,21 +26,24 @@ public:
     void setChargingState(ConnectionState newCS);
     void setPowerState(PowerState newPS);
 
-// Member Variable(s)
+    // Member Variable(s)
 private:
     int batteryRemaining;
     ConnectionState chargingState;
     PowerState powerState;
+    PowerState blueLight;
+    PowerState greenLight;
+    PowerState redLight;
+
     QDate currentDate;
     QTime currentTime;
     QVector<Session> sessionHistory;
 
 signals:
-    void updateBattery(int batteryRemaining);
+    void updateBattery();
     void togglePower();
 
 public slots:
-
     void startNewSession();
     void setDateTime();
     void viewSessionHistory();
