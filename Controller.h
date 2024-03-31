@@ -12,7 +12,7 @@ class Controller : public QObject
     Q_OBJECT
 public:
     // Constructor(s)
-    Controller(int batteryRemaining = 100, PowerState powerState = ON, QDate currentDate = QDate(2024, 1, 1), QTime currentTime = QTime(0,0,0));
+    Controller(int batteryRemaining = 100, PowerState powerState = ON, QDateTime currentDateTime = QDateTime(QDate(2024, 1, 1), QTime(0,0,0)));
 
     // Destructor(s)
     ~Controller();
@@ -21,10 +21,12 @@ public:
     int getBatteryRemaining();
     ConnectionState getChargingState();
     PowerState getPowerState();
+    QDateTime getCurrentDateTime();
 
     // Setter(s)
     void setChargingState(ConnectionState newCS);
     void setPowerState(PowerState newPS);
+    void setDateTime(QDateTime newDT);
 
     // Member Variable(s)
 private:
@@ -35,8 +37,7 @@ private:
     PowerState greenLight;
     PowerState redLight;
 
-    QDate currentDate;
-    QTime currentTime;
+    QDateTime currentDateTime;
     QVector<Session> sessionHistory;
 
 signals:

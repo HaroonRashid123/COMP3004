@@ -25,11 +25,24 @@ private:
 signals:
 
 public slots:
-    void toggleBlueLight();
-    void toggleGreenLight();
-    void toggleRedLight();
+    // Menu
+    void showMenu();
+    void showMenu_newSession();
+    void showMenu_dateTime();
+    void showMenu_sessionLogs();
+    void hideMenu();
+    void hideMenu_newSession();
+    void hideMenu_dateTime();
+    void hideMenu_sessionLogs();
+
+//    void startNewSession();
+//    void setDateTime();
+//    void viewSessionHistory();
 
     void updateBattery();
     void togglePower();
+    void toggleBlueLight();
+    void toggleGreenLight();
+    void toggleRedLight();
 };
 #endif // MAINWINDOW_H

@@ -3,8 +3,8 @@
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
 \*====================================================================================================*/
-Controller::Controller(int batteryRemaining, PowerState powerState, QDate currentDate, QTime currentTime) :
-    batteryRemaining(batteryRemaining), powerState(powerState), currentDate(currentDate), currentTime(currentTime),
+Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
+    batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
     chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF)
 {}
 
@@ -20,12 +20,14 @@ Controller::~Controller()
 int Controller::getBatteryRemaining() { return this->batteryRemaining; }
 ConnectionState Controller::getChargingState() { return this->chargingState; }
 PowerState Controller::getPowerState() { return this->powerState; }
+QDateTime Controller::getCurrentDateTime() { return this->currentDateTime; }
 
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
 void Controller::setChargingState(ConnectionState newCS) { this->chargingState = newCS; }
 void Controller::setPowerState(PowerState newPS) { this->powerState = newPS; emit togglePower();}
+void Controller::setDateTime(QDateTime newDT) { this->currentDateTime = newDT; }
 
 /*====================================================================================================*\
  * SLOT FUNCTION(S)

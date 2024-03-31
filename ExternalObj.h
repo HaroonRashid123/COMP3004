@@ -18,8 +18,7 @@ enum ConnectionState {
 
 // Models a neureset session
 struct Session {
-    QDate date;
-    QTime time;
+    QDateTime dateTime;
     int baselines_before[21];
     int baselines_after[21];
 };

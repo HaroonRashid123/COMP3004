@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include <QAction>
+#include <QTimer>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,27 +14,42 @@ MainWindow::MainWindow(QWidget *parent)
     /*====================================================================================================*\
      * INIT MEMBER(S)
     \*====================================================================================================*/
-    this->controller = new Controller(100, ON, QDate::currentDate(), QTime::currentTime());
+    this->controller = new Controller(100, ON, QDateTime::currentDateTime());
     this->headset = new Headset();
 
     /*====================================================================================================*\
      * UI SETUP (to match controller state)
     \*====================================================================================================*/
-    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
     this->togglePower();
+    this->showMenu();
+    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
     if (this->controller->getChargingState() == CONNECTED){
         ui->checkBox_pluggedIn->setChecked(true);
     } else {
         ui->checkBox_pluggedIn->setChecked(false);
     }
+    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+
 
     /*====================================================================================================*\
-     * CONNECTIONS
+     * MENU CONNECTIONS
     \*====================================================================================================*/
-    connect(ui->pushButton_newSession, &QPushButton::released, this,  &Controller::startNewSession);
-    connect(ui->pushButton_dateTime, &QPushButton::released, this,  &Controller::setDateTime);
-    connect(ui->pushButton_viewHistory, &QPushButton::released, this,  &Controller::viewSessionHistory);
-
+//    connect(ui->pushButton_menuNewSession, &QPushButton::released, this,  &MainWindow::startNewSession);
+    connect(ui->pushButton_menuDateTime, &QPushButton::released, this,  &MainWindow::showMenu_dateTime);
+//    connect(ui->pushButton_menuSessionLogs, &QPushButton::released, this,  &MainWindow::viewSessionHistory);
+    connect(ui->pushButton_back, &QPushButton::released, this,  &MainWindow::showMenu);
+    connect(ui->pushButton_changeDateTime, &QPushButton::released, [=]() {
+        QDateTime dateTime = ui->dateTimeEdit->dateTime();
+        this->controller->setDateTime(dateTime);
+        ui->label_dateTimeChanged->show();
+        qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [=]() {
+            ui->label_dateTimeChanged->hide();
+            timer->deleteLater();
+        });
+        timer->start(3000);
+    });
     /*====================================================================================================*\
      * BATTERY RELATED CONNECTIONS
     \*====================================================================================================*/
@@ -62,11 +79,6 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
     connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
-
-    /*====================================================================================================*\
-     * TEMPLATE
-    \*====================================================================================================*/
-
 }
 
 MainWindow::~MainWindow()
@@ -75,7 +87,91 @@ MainWindow::~MainWindow()
 }
 
 /*====================================================================================================*\
- * BATTERY CONTROL
+ * MENU NAVIGATION
+\*====================================================================================================*/
+
+void MainWindow::showMenu(){
+    this->hideMenu_newSession();
+    this->hideMenu_dateTime();
+    this->hideMenu_sessionLogs();
+
+    ui->pushButton_menuNewSession->setEnabled(true);
+    ui->pushButton_menuNewSession->show();
+    ui->pushButton_menuNewSession->setEnabled(true);
+    ui->pushButton_menuDateTime->show();
+    ui->pushButton_menuNewSession->setEnabled(true);
+    ui->pushButton_menuSessionLogs->show();
+}
+
+void MainWindow::showMenu_newSession(){
+    this->hideMenu();
+
+    ui->pushButton_back->setEnabled(true);
+    ui->pushButton_back->show();
+}
+
+void MainWindow::showMenu_dateTime(){
+    this->hideMenu();
+    ui->label_dateTimeChanged->hide();
+
+    ui->dateTimeEdit->setDateTime(QDateTime::currentDateTime());
+    ui->dateTimeEdit->setEnabled(true);
+    ui->dateTimeEdit->show();
+    ui->pushButton_changeDateTime->setEnabled(true);
+    ui->pushButton_changeDateTime->show();
+
+    ui->pushButton_back->setEnabled(true);
+    ui->pushButton_back->show();
+
+}
+
+void MainWindow::showMenu_sessionLogs(){
+    this->hideMenu();
+
+    ui->pushButton_back->setEnabled(true);
+    ui->pushButton_back->show();
+}
+void MainWindow::hideMenu(){
+    ui->pushButton_menuNewSession->setDisabled(true);
+    ui->pushButton_menuNewSession->hide();
+    ui->pushButton_menuNewSession->setDisabled(true);
+    ui->pushButton_menuDateTime->hide();
+    ui->pushButton_menuNewSession->setDisabled(true);
+    ui->pushButton_menuSessionLogs->hide();
+}
+
+void MainWindow::hideMenu_newSession() {
+
+    ui->pushButton_back->setDisabled(true);
+    ui->pushButton_back->hide();
+}
+
+void MainWindow::hideMenu_dateTime(){
+    ui->dateTimeEdit->setDisabled(true);
+    ui->dateTimeEdit->hide();
+    ui->pushButton_changeDateTime->setDisabled(true);
+    ui->pushButton_changeDateTime->hide();
+    ui->label_dateTimeChanged->hide();
+
+    ui->pushButton_back->setDisabled(true);
+    ui->pushButton_back->hide();
+
+}
+
+void MainWindow::hideMenu_sessionLogs(){
+
+    ui->pushButton_back->setDisabled(true);
+    ui->pushButton_back->hide();
+}
+
+/*====================================================================================================*\
+ * MENU CONTROL
+\*====================================================================================================*/
+
+
+
+/*====================================================================================================*\
+ * BATTERY
 \*====================================================================================================*/
 void MainWindow::updateBattery() {
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
@@ -96,7 +192,7 @@ void MainWindow::updateBattery() {
 }
 
 /*====================================================================================================*\
- * POWER CONTROL
+ * POWER
 \*====================================================================================================*/
 void MainWindow::togglePower(){
     if (this->controller->getPowerState() == ON) {
@@ -115,7 +211,7 @@ void MainWindow::togglePower(){
 }
 
 /*====================================================================================================*\
- * SESSION LIGHTS CONTROL
+ * SESSION LIGHTS
 \*====================================================================================================*/
 void MainWindow::toggleBlueLight() {
     if ((this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
