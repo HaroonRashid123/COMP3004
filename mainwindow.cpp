@@ -15,10 +15,14 @@ MainWindow::MainWindow(QWidget *parent)
     this->controller = new Controller(100, ON, QDate::currentDate(), QTime::currentTime());
     this->headset = new Headset();
 
-    // UI SETUP
+    // UI SETUP (to match controller state)
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
-
-    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
+    this->togglePower();
+    if (this->controller->getChargingState() == CONNECTED){
+        ui->checkBox_pluggedIn->setChecked(true);
+    } else {
+        ui->checkBox_pluggedIn->setChecked(false);
+    }
 
     // Connections
     connect(ui->pushButton_newSession, &QPushButton::released, controller,  &Controller::startNewSession);
@@ -32,10 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
             newCS = CONNECTED;
         }
         this->controller->setChargingState(newCS);
-
-        if (this->controller->getChargingState() == CONNECTED) {
-            updateBattery(100);
-        }
     });
     connect(ui->pushButton_chargeBattery, &QPushButton::released, [=]() {
         this->controller->chargeBattery(5);

@@ -2,7 +2,7 @@
 
 // Constructor(s)
 Controller::Controller(int batteryRemaining, PowerState powerState, QDate currentDate, QTime currentTime) :
-    batteryRemaining(batteryRemaining), powerState(powerState), currentDate(currentDate), currentTime(currentTime)
+    batteryRemaining(batteryRemaining), powerState(powerState), currentDate(currentDate), currentTime(currentTime), chargingState(DISCONNECTED)
 {
 }
 
@@ -28,9 +28,6 @@ PowerState Controller::getPowerState() {
 // Setter(s)
 void Controller::setChargingState(ConnectionState newCS) {
     this->chargingState = newCS;
-    if (this->chargingState == CONNECTED) {
-        this->chargeBattery(100);
-    }
 }
 
 void Controller::setPowerState(PowerState newPS) {
@@ -41,23 +38,23 @@ void Controller::setPowerState(PowerState newPS) {
 
 void Controller::startNewSession()
 {
-
+    if (this->powerState == ON) {}
 }
 
 void Controller::setDateTime()
 {
-
+    if (this->powerState == ON) {}
 }
 
 
 void Controller::viewSessionHistory()
 {
-
+    if (this->powerState == ON) {}
 }
 
 void Controller::chargeBattery(int percentAmount)
 {
-    if (batteryRemaining < 100) {
+    if ((this->chargingState == CONNECTED) && (batteryRemaining < 100)) {
         if ((batteryRemaining + percentAmount) > 100) {
             batteryRemaining = 100;
         } else {
@@ -69,7 +66,7 @@ void Controller::chargeBattery(int percentAmount)
 
 void Controller::reduceBattery(int percentAmount)
 {
-    if ((this->chargingState == DISCONNECTED) && (batteryRemaining > 0)) {
+    if ((this->powerState == ON) && (this->chargingState == DISCONNECTED) && (batteryRemaining > 0)) {
         if ((batteryRemaining - percentAmount) < 0) {
             batteryRemaining = 0;
         } else {
