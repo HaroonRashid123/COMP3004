@@ -27,14 +27,9 @@ private:
 
 public slots:
     // Menu
+    void toggleMenu();
     void showMenu();
-    void showMenu_newSession();
-    void showMenu_dateTime();
-    void showMenu_sessionLogs();
     void hideMenu();
-    void hideMenu_newSession();
-    void hideMenu_dateTime();
-    void hideMenu_sessionLogs();
 
 //    void startNewSession();
 //    void setDateTime();

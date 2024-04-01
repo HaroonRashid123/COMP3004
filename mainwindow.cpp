@@ -68,11 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     /*====================================================================================================*\
      * MAIN MENU
     \*====================================================================================================*/
-//    connect(ui->pushButton_menuNewSession, &QPushButton::released, this,  &MainWindow::startNewSession);
-    connect(ui->pushButton_menuDateTime, &QPushButton::released, this,  &MainWindow::showMenu_dateTime);
-    connect(ui->pushButton_menuSessionLogs, &QPushButton::released, this,  &MainWindow::showMenu_sessionLogs);
-
-    connect(ui->pushButton_back, &QPushButton::released, this,  &MainWindow::showMenu);
+    connect(ui->pushButton_menu, &QPushButton::released, this,  &MainWindow::toggleMenu);
 
     /*====================================================================================================*\
      * SUB MENU - DATE/TIME
@@ -93,7 +89,11 @@ MainWindow::MainWindow(QWidget *parent)
     /*====================================================================================================*\
      * SUB MENU - SESSION LOGS
     \*====================================================================================================*/
-
+    connect(ui->pushButton_upload, &QPushButton::released, [=]() {
+        QVector<Session> sessionLogs = this->controller->getSessionLogs();
+        // upload Strings to PC
+        // Change text browser on display montor
+    });
     /*====================================================================================================*\
      * POWER
     \*====================================================================================================*/
@@ -139,96 +139,31 @@ MainWindow::~MainWindow()
 /*====================================================================================================*\
  * MENU NAVIGATION
 \*====================================================================================================*/
+void MainWindow::toggleMenu(){
+    if (ui->tabWidget_menu->isEnabled()) {
+        this->hideMenu();
+    } else {
+        this->showMenu();
+    }
+}
 
 void MainWindow::showMenu(){
-    this->hideMenu_newSession();
-    this->hideMenu_dateTime();
-    this->hideMenu_sessionLogs();
+    ui->tabWidget_menu->setCurrentIndex(0);
+    ui->tabWidget_menu->setEnabled(true);
+    ui->tabWidget_menu->show();
 
-    ui->pushButton_menuNewSession->setEnabled(true);
-    ui->pushButton_menuNewSession->show();
-    ui->pushButton_menuNewSession->setEnabled(true);
-    ui->pushButton_menuDateTime->show();
-    ui->pushButton_menuNewSession->setEnabled(true);
-    ui->pushButton_menuSessionLogs->show();
-}
+    ui->label_progressTimer->setDisabled(true);
+    ui->label_progressTimer->hide();
+    ui->progressBar_session->setDisabled(true);
+    ui->progressBar_session->hide();
 
-void MainWindow::showMenu_newSession(){
-    this->hideMenu();
-
-    ui->pushButton_back->setEnabled(true);
-    ui->pushButton_back->show();
-}
-
-void MainWindow::showMenu_dateTime(){
-    this->hideMenu();
+    ui->label_dateTimeChanged->setDisabled(true);
     ui->label_dateTimeChanged->hide();
-
-    ui->dateTimeEdit->setDateTime(QDateTime::currentDateTime());
-    ui->dateTimeEdit->setEnabled(true);
-    ui->dateTimeEdit->show();
-    ui->pushButton_changeDateTime->setEnabled(true);
-    ui->pushButton_changeDateTime->show();
-
-    ui->pushButton_back->setEnabled(true);
-    ui->pushButton_back->show();
-
-}
-
-void MainWindow::showMenu_sessionLogs(){
-    this->hideMenu();
-
-    // Get Session History
-    QString sessionLogStrings;
-    QVector<Session> sessionLogs = this->controller->getSessionLogs();
-    for (const Session& session : sessionLogs) {
-        sessionLogStrings += session.dateTime.toString("yyyy-MM-dd HH:mm:ss") + "\n";
-    }
-    ui->textBrowser_sessionLogs->setText(sessionLogStrings);
-    ui->textBrowser_sessionLogs->setEnabled(true);
-    ui->textBrowser_sessionLogs->show();
-
-    ui->pushButton_upload->setEnabled(true);
-    ui->pushButton_upload->show();
-    ui->pushButton_back->setEnabled(true);
-    ui->pushButton_back->show();
 }
 
 void MainWindow::hideMenu(){
-    ui->pushButton_menuNewSession->setDisabled(true);
-    ui->pushButton_menuNewSession->hide();
-    ui->pushButton_menuNewSession->setDisabled(true);
-    ui->pushButton_menuDateTime->hide();
-    ui->pushButton_menuNewSession->setDisabled(true);
-    ui->pushButton_menuSessionLogs->hide();
-}
-
-void MainWindow::hideMenu_newSession() {
-
-    ui->pushButton_back->setDisabled(true);
-    ui->pushButton_back->hide();
-}
-
-void MainWindow::hideMenu_dateTime(){
-    ui->dateTimeEdit->setDisabled(true);
-    ui->dateTimeEdit->hide();
-    ui->pushButton_changeDateTime->setDisabled(true);
-    ui->pushButton_changeDateTime->hide();
-    ui->label_dateTimeChanged->hide();
-
-    ui->pushButton_back->setDisabled(true);
-    ui->pushButton_back->hide();
-
-}
-
-void MainWindow::hideMenu_sessionLogs(){
-    ui->textBrowser_sessionLogs->setText("");
-    ui->textBrowser_sessionLogs->setDisabled(true);
-    ui->textBrowser_sessionLogs->hide();
-    ui->pushButton_upload->setDisabled(true);
-    ui->pushButton_upload->hide();
-    ui->pushButton_back->setDisabled(true);
-    ui->pushButton_back->hide();
+    ui->tabWidget_menu->setDisabled(true);
+    ui->tabWidget_menu->hide();
 }
 
 /*====================================================================================================*\
@@ -275,9 +210,6 @@ void MainWindow::togglePower(){
                                                "selection-color: rgb(94, 92, 100);;"
                                                "selection-background-color: rgb(94, 92, 100);");
         this->hideMenu();
-        this->hideMenu_newSession();
-        this->hideMenu_dateTime();
-        this->hideMenu_sessionLogs();
     }
 
     this->toggleBlueLight();

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>530</height>
+    <width>1046</width>
+    <height>753</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>981</width>
-      <height>441</height>
+      <width>861</width>
+      <height>431</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -38,8 +38,8 @@
        <rect>
         <x>20</x>
         <y>30</y>
-        <width>581</width>
-        <height>361</height>
+        <width>471</width>
+        <height>351</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -54,8 +54,8 @@
       <widget class="QProgressBar" name="progressBar_battery">
        <property name="geometry">
         <rect>
-         <x>500</x>
-         <y>330</y>
+         <x>390</x>
+         <y>320</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -79,82 +79,11 @@ selection-background-color: rgb(38, 162, 105);
         <number>100</number>
        </property>
       </widget>
-      <widget class="QFrame" name="frame_progress">
-       <property name="geometry">
-        <rect>
-         <x>50</x>
-         <y>180</y>
-         <width>481</width>
-         <height>111</height>
-        </rect>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(36, 31, 49);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QProgressBar" name="progressBar_session">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>80</y>
-          <width>461</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(192, 191, 188);
-selection-color: rgb(0, 0, 0);
-selection-background-color: rgb(98, 160, 234)</string>
-        </property>
-        <property name="value">
-         <number>100</number>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>461</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>DejaVu Sans</family>
-          <pointsize>24</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color : rgb(255, 255, 255)</string>
-        </property>
-        <property name="text">
-         <string>0:00</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </widget>
       <widget class="QPushButton" name="pushButton_play">
        <property name="geometry">
         <rect>
-         <x>220</x>
-         <y>300</y>
+         <x>160</x>
+         <y>280</y>
          <width>41</width>
          <height>41</height>
         </rect>
@@ -172,8 +101,8 @@ selection-background-color: rgb(98, 160, 234)</string>
       <widget class="QPushButton" name="pushButton_pause">
        <property name="geometry">
         <rect>
-         <x>270</x>
-         <y>300</y>
+         <x>210</x>
+         <y>280</y>
          <width>41</width>
          <height>41</height>
         </rect>
@@ -191,8 +120,8 @@ selection-background-color: rgb(98, 160, 234)</string>
       <widget class="QPushButton" name="pushButton_stop">
        <property name="geometry">
         <rect>
-         <x>320</x>
-         <y>300</y>
+         <x>260</x>
+         <y>280</y>
          <width>41</width>
          <height>41</height>
         </rect>
@@ -207,7 +136,7 @@ selection-background-color: rgb(98, 160, 234)</string>
       <widget class="QPushButton" name="pushButton_power">
        <property name="geometry">
         <rect>
-         <x>510</x>
+         <x>400</x>
          <y>10</y>
          <width>61</width>
          <height>31</height>
@@ -222,178 +151,6 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="text">
         <string>― O</string>
        </property>
-      </widget>
-      <widget class="QFrame" name="frame">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>40</y>
-         <width>341</width>
-         <height>131</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(119, 118, 123);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QPushButton" name="pushButton_menuNewSession">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>111</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="mouseTracking">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(222, 221, 218);</string>
-        </property>
-        <property name="text">
-         <string>New Session</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_menuDateTime">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>111</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(222, 221, 218);</string>
-        </property>
-        <property name="text">
-         <string>Time and Date</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_menuSessionLogs">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>70</y>
-          <width>111</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(222, 221, 218);</string>
-        </property>
-        <property name="text">
-         <string>Session Logs</string>
-        </property>
-       </widget>
-       <widget class="QDateTimeEdit" name="dateTimeEdit">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>10</y>
-          <width>201</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_back">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>100</y>
-          <width>61</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(222, 221, 218);</string>
-        </property>
-        <property name="text">
-         <string>Back</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_changeDateTime">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>40</y>
-          <width>141</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(222, 221, 218);</string>
-        </property>
-        <property name="text">
-         <string>Change Date/Time</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_dateTimeChanged">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>100</y>
-          <width>201</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(224, 27, 36);</string>
-        </property>
-        <property name="text">
-         <string>Date and TIme Changed !</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_upload">
-        <property name="geometry">
-         <rect>
-          <x>260</x>
-          <y>100</y>
-          <width>71</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(222, 221, 218);</string>
-        </property>
-        <property name="text">
-         <string>Upload</string>
-        </property>
-       </widget>
-       <widget class="QTextBrowser" name="textBrowser_sessionLogs">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>10</y>
-          <width>201</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-       </widget>
       </widget>
       <widget class="QLabel" name="label_blueLight">
        <property name="geometry">
@@ -446,7 +203,7 @@ selection-background-color: rgb(98, 160, 234)</string>
       <widget class="QLabel" name="label_powerLight">
        <property name="geometry">
         <rect>
-         <x>490</x>
+         <x>380</x>
          <y>10</y>
          <width>21</width>
          <height>31</height>
@@ -462,8 +219,8 @@ selection-background-color: rgb(98, 160, 234)</string>
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>510</x>
-         <y>307</y>
+         <x>400</x>
+         <y>297</y>
          <width>51</width>
          <height>20</height>
         </rect>
@@ -472,29 +229,273 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>Battery</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_UI_2">
+      <widget class="QPushButton" name="pushButton_menu">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>20</y>
-         <width>371</width>
-         <height>21</height>
+         <x>60</x>
+         <y>50</y>
+         <width>71</width>
+         <height>25</height>
         </rect>
+       </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(222, 221, 218);</string>
        </property>
        <property name="text">
         <string>MENU</string>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+      </widget>
+      <widget class="QFrame" name="frame_menu">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>80</y>
+         <width>351</width>
+         <height>191</height>
+        </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(94, 92, 100);</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QTabWidget" name="tabWidget_menu">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>351</width>
+          <height>191</height>
+         </rect>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::North</enum>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="elideMode">
+         <enum>Qt::ElideLeft</enum>
+        </property>
+        <widget class="QWidget" name="tab_3">
+         <attribute name="title">
+          <string>New Session</string>
+         </attribute>
+         <widget class="QFrame" name="frame_progress">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>331</width>
+            <height>141</height>
+           </rect>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(94, 92, 100);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QProgressBar" name="progressBar_session">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>90</y>
+             <width>291</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(192, 191, 188);
+selection-color: rgb(0, 0, 0);
+selection-background-color: rgb(98, 160, 234)</string>
+           </property>
+           <property name="value">
+            <number>100</number>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_progressTimer">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>20</y>
+             <width>271</width>
+             <height>51</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>DejaVu Sans</family>
+             <pointsize>24</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color : rgb(255, 255, 255)</string>
+           </property>
+           <property name="text">
+            <string>0:00</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tab_4">
+         <attribute name="title">
+          <string>Date and Time</string>
+         </attribute>
+         <widget class="QPushButton" name="pushButton_changeDateTime">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>10</y>
+            <width>141</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(222, 221, 218);</string>
+          </property>
+          <property name="text">
+           <string>Change Date/Time</string>
+          </property>
+         </widget>
+         <widget class="QDateTimeEdit" name="dateTimeEdit">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>181</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_dateTimeChanged">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>50</y>
+            <width>291</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(224, 27, 36);</string>
+          </property>
+          <property name="text">
+           <string>Date and Time Changed !</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tab_5">
+         <attribute name="title">
+          <string>Session History</string>
+         </attribute>
+         <widget class="QPushButton" name="pushButton_upload">
+          <property name="geometry">
+           <rect>
+            <x>260</x>
+            <y>30</y>
+            <width>81</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(222, 221, 218);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+         </widget>
+         <widget class="QTextBrowser" name="textBrowser_sessionLogs">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>30</y>
+            <width>231</width>
+            <height>121</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_8">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>10</y>
+            <width>211</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Session History</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </widget>
+       </widget>
       </widget>
      </widget>
      <widget class="QLabel" name="label_masterControl">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>520</x>
         <y>10</y>
-        <width>351</width>
+        <width>301</width>
         <height>20</height>
        </rect>
       </property>
@@ -508,9 +509,9 @@ selection-background-color: rgb(98, 160, 234)</string>
      <widget class="QLabel" name="label_UI">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>30</x>
         <y>10</y>
-        <width>581</width>
+        <width>451</width>
         <height>20</height>
        </rect>
       </property>
@@ -524,10 +525,10 @@ selection-background-color: rgb(98, 160, 234)</string>
      <widget class="QFrame" name="frame_masterControl">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>500</x>
         <y>30</y>
         <width>341</width>
-        <height>361</height>
+        <height>351</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -562,7 +563,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>320</y>
+         <y>310</y>
          <width>131</width>
          <height>25</height>
         </rect>
@@ -578,7 +579,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>320</y>
+         <y>310</y>
          <width>131</width>
          <height>25</height>
         </rect>
@@ -705,7 +706,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>290</y>
+         <y>280</y>
          <width>281</width>
          <height>21</height>
         </rect>
@@ -1064,7 +1065,7 @@ selection-background-color: rgb(98, 160, 234)</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1046</width>
      <height>22</height>
     </rect>
    </property>
