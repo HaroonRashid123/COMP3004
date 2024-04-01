@@ -1,7 +1,7 @@
 # COMP3004
 Kyle Eng	1011925959
 Haroon Rashid
-Will Siri
+Will Siri 101195794
 Daren Ko
 
 ## Work flow steps:
@@ -30,5 +30,5 @@ git push origin main
 or
 git push
 
-### Updating branch (to make sure oyu have the most recent changes):
+### Updating branch (to make sure you have the most recent changes):
 git pull
