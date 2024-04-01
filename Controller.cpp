@@ -21,6 +21,7 @@ int Controller::getBatteryRemaining() { return this->batteryRemaining; }
 ConnectionState Controller::getChargingState() { return this->chargingState; }
 PowerState Controller::getPowerState() { return this->powerState; }
 QDateTime Controller::getCurrentDateTime() { return this->currentDateTime; }
+QVector<Session> Controller::getSessionLogs() { return this->sessionLogs; }
 
 /*====================================================================================================*\
  * SETTER(S)
@@ -41,7 +42,7 @@ void Controller::setDateTime() {
     if (this->powerState == ON) {}
 }
 
-void Controller::viewSessionHistory()
+void Controller::viewsessionLogs()
 {
     if (this->powerState == ON) {}
 }
@@ -54,8 +55,8 @@ void Controller::chargeBattery(int percentAmount)
         } else {
             batteryRemaining += percentAmount;
         }
+        emit updateBattery();
     }
-    emit updateBattery();
 }
 
 void Controller::reduceBattery(int percentAmount)
@@ -66,6 +67,6 @@ void Controller::reduceBattery(int percentAmount)
         } else {
             batteryRemaining -= percentAmount;
         }
+        emit updateBattery();
     }
-    emit updateBattery();
 }

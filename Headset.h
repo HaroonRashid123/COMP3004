@@ -2,7 +2,6 @@
 #define HEADSET_H
 
 #include <QObject>
-#include <QHash>
 #include "ExternalObj.h"
 
 class Headset : public QObject

@@ -2,8 +2,6 @@
 #define CONTROLLER_H
 
 #include <QObject>
-#include <QVector>
-
 #include "ExternalObj.h"
 
 
@@ -22,6 +20,7 @@ public:
     ConnectionState getChargingState();
     PowerState getPowerState();
     QDateTime getCurrentDateTime();
+    QVector<Session> getSessionLogs();
 
     // Setter(s)
     void setChargingState(ConnectionState newCS);
@@ -38,7 +37,7 @@ private:
     PowerState redLight;
 
     QDateTime currentDateTime;
-    QVector<Session> sessionHistory;
+    QVector<Session> sessionLogs;
 
 signals:
     void updateBattery();
@@ -47,7 +46,7 @@ signals:
 public slots:
     void startNewSession();
     void setDateTime();
-    void viewSessionHistory();
+    void viewsessionLogs();
 
     void chargeBattery(int percentAmount);
     void reduceBattery(int percentAmount);

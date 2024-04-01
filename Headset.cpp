@@ -40,8 +40,8 @@ Headset::~Headset()
 /*====================================================================================================*\
  * GETTER(S)
 \*====================================================================================================*/
-ConnectionState Headset::getElectrode(int e_id){ return this->electrodes[e_id]; }
-ConnectionState* Headset::getElectrodes(){ return this->electrodes; }
+ConnectionState Headset::getElectrode(int e_id) { return this->electrodes[e_id]; }
+ConnectionState* Headset::getElectrodes() { return this->electrodes; }
 
 /*====================================================================================================*\
  * SETTER(S)

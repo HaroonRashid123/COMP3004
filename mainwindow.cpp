@@ -17,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->controller = new Controller(100, ON, QDateTime::currentDateTime());
     this->headset = new Headset();
 
+    /*====================================================================================================*\
+     * UI SETUP (to match controller state)
+    \*====================================================================================================*/
+    // For easier referencing...
     QCheckBox* electrodes[MAX_ELECTRODES];
     electrodes[0] = ui->checkBox_e0;
     electrodes[1] = ui->checkBox_e1;
@@ -34,15 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
     electrodes[13] = ui->checkBox_e13;
     electrodes[14] = ui->checkBox_e14;
     electrodes[15] = ui->checkBox_e15;
-    electrodes[16] = ui->checkBox_e16;
+    electrodes[16] =ui->checkBox_e16;
     electrodes[17] = ui->checkBox_e17;
     electrodes[18] = ui->checkBox_e18;
     electrodes[19] = ui->checkBox_e19;
     electrodes[20] = ui->checkBox_e20;
 
-    /*====================================================================================================*\
-     * UI SETUP (to match controller state)
-    \*====================================================================================================*/
     //Set Power
     this->togglePower();
 
@@ -65,12 +66,17 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     /*====================================================================================================*\
-     * MENU CONNECTIONS
+     * MAIN MENU
     \*====================================================================================================*/
 //    connect(ui->pushButton_menuNewSession, &QPushButton::released, this,  &MainWindow::startNewSession);
     connect(ui->pushButton_menuDateTime, &QPushButton::released, this,  &MainWindow::showMenu_dateTime);
-//    connect(ui->pushButton_menuSessionLogs, &QPushButton::released, this,  &MainWindow::viewSessionHistory);
+    connect(ui->pushButton_menuSessionLogs, &QPushButton::released, this,  &MainWindow::showMenu_sessionLogs);
+
     connect(ui->pushButton_back, &QPushButton::released, this,  &MainWindow::showMenu);
+
+    /*====================================================================================================*\
+     * SUB MENU - DATE/TIME
+    \*====================================================================================================*/
     connect(ui->pushButton_changeDateTime, &QPushButton::released, [=]() {
         QDateTime dateTime = ui->dateTimeEdit->dateTime();
         this->controller->setDateTime(dateTime);
@@ -83,26 +89,24 @@ MainWindow::MainWindow(QWidget *parent)
         });
         timer->start(3000);
     });
+
     /*====================================================================================================*\
-     * POWER CONNECTIONS
+     * SUB MENU - SESSION LOGS
+    \*====================================================================================================*/
+
+    /*====================================================================================================*\
+     * POWER
     \*====================================================================================================*/
     connect(ui->pushButton_power, &QPushButton::released, [=]() {
-        if (this->controller->getPowerState() == ON) {
-            this->controller->setPowerState(OFF);
-        } else {
-            this->controller->setPowerState(ON);
-        }
+        this->controller->setPowerState(this->controller->getPowerState() == ON ? OFF : ON);
     });
     connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
 
     /*====================================================================================================*\
-     * BATTERY CONNECTIONS
+     * BATTERY
     \*====================================================================================================*/
     connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=]() {
-        ConnectionState newCS = DISCONNECTED;
-        if (ui->checkBox_pluggedIn->checkState() == Qt::Checked) {
-            newCS = CONNECTED;
-        }
+        ConnectionState newCS = (ui->checkBox_pluggedIn->checkState() == Qt::Checked) ? CONNECTED : DISCONNECTED;
         this->controller->setChargingState(newCS);
     });
     connect(ui->pushButton_chargeBattery, &QPushButton::released, [=]() {
@@ -114,7 +118,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(controller, &Controller::updateBattery, this, &MainWindow::updateBattery);
 
     /*====================================================================================================*\
-     * ELECTRODE CONNECTIONS
+     * ELECTRODES
     \*====================================================================================================*/
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
         connect(electrodes[e_id], &QCheckBox::stateChanged, [=]() {
@@ -174,6 +178,18 @@ void MainWindow::showMenu_dateTime(){
 void MainWindow::showMenu_sessionLogs(){
     this->hideMenu();
 
+    // Get Session History
+    QString sessionLogStrings;
+    QVector<Session> sessionLogs = this->controller->getSessionLogs();
+    for (const Session& session : sessionLogs) {
+        sessionLogStrings += session.dateTime.toString("yyyy-MM-dd HH:mm:ss") + "\n";
+    }
+    ui->textBrowser_sessionLogs->setText(sessionLogStrings);
+    ui->textBrowser_sessionLogs->setEnabled(true);
+    ui->textBrowser_sessionLogs->show();
+
+    ui->pushButton_upload->setEnabled(true);
+    ui->pushButton_upload->show();
     ui->pushButton_back->setEnabled(true);
     ui->pushButton_back->show();
 }
@@ -206,7 +222,11 @@ void MainWindow::hideMenu_dateTime(){
 }
 
 void MainWindow::hideMenu_sessionLogs(){
-
+    ui->textBrowser_sessionLogs->setText("");
+    ui->textBrowser_sessionLogs->setDisabled(true);
+    ui->textBrowser_sessionLogs->hide();
+    ui->pushButton_upload->setDisabled(true);
+    ui->pushButton_upload->hide();
     ui->pushButton_back->setDisabled(true);
     ui->pushButton_back->hide();
 }
@@ -223,18 +243,21 @@ void MainWindow::hideMenu_sessionLogs(){
 void MainWindow::updateBattery() {
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
     int currentBatteryLevel = ui->progressBar_battery->value();
-    if (currentBatteryLevel <= 10) {
-        ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                               "selection-color: rgb(0, 0, 0);"
-                                               "selection-background-color: rgb(237, 51, 59);");
-    } else if (currentBatteryLevel <= 20) {
-        ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                               "selection-color: rgb(0, 0, 0);"
-                                               "selection-background-color: rgb(249, 240, 107);");
-    } else {
-        ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                               "selection-color: rgb(0, 0, 0);"
-                                               "selection-background-color: rgb(38, 162, 105);");
+
+    if (this->controller->getPowerState() == ON) {
+        if (currentBatteryLevel <= 10) {
+            ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
+                                                   "selection-color: rgb(0, 0, 0);"
+                                                   "selection-background-color: rgb(237, 51, 59);");
+        } else if (currentBatteryLevel <= 20) {
+            ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
+                                                   "selection-color: rgb(0, 0, 0);"
+                                                   "selection-background-color: rgb(249, 240, 107);");
+        } else {
+            ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
+                                                   "selection-color: rgb(0, 0, 0);"
+                                                   "selection-background-color: rgb(38, 162, 105);");
+        }
     }
 }
 
@@ -244,14 +267,19 @@ void MainWindow::updateBattery() {
 void MainWindow::togglePower(){
     if (this->controller->getPowerState() == ON) {
         ui->label_powerLight->setStyleSheet("background-color: rgb(220, 138, 221);");
+        this->showMenu();
         this->updateBattery();
-
     } else {
         ui->label_powerLight->setStyleSheet("background-color: rgb(94, 92, 100);");
         ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
                                                "selection-color: rgb(94, 92, 100);;"
                                                "selection-background-color: rgb(94, 92, 100);");
+        this->hideMenu();
+        this->hideMenu_newSession();
+        this->hideMenu_dateTime();
+        this->hideMenu_sessionLogs();
     }
+
     this->toggleBlueLight();
     this->toggleGreenLight();
     this->toggleRedLight();

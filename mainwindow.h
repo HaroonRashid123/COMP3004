@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
 #include "ExternalObj.h"
 #include "Controller.h"
 #include "Headset.h"

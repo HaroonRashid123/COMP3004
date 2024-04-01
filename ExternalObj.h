@@ -2,6 +2,7 @@
 #define EXTERNALOBJ_H
 
 #include <QDateTime>
+#include <QHash>
 #include <QVector>
 #include <QString>
 
