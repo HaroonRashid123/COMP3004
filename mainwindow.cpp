@@ -103,6 +103,57 @@ MainWindow::MainWindow(QWidget *parent)
     connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
 
     /*====================================================================================================*\
+     * NEW SESSION
+    \*====================================================================================================*/
+
+    isTimerPaused = false;
+    // NOTE TO SELF BUG WHERE YOU HAVE TO PRESS PLAY TWICE ONCE YOU EXIT THE TIMER IS BECAUSE I DIDNT UPDATE TIMER->STOP()
+    connect(ui->pushButton_play, &QPushButton::released, [=]() {
+        if (timer) {
+            if (isTimerPaused) {
+                timer->start(1000);
+                isTimerPaused = false;
+            } else {
+                timer->stop();
+                isTimerPaused = true;
+            }
+        } else {
+            timer = new QTimer(this);
+            ui->progressBar_session->setMaximum(300);
+            int totalTime = 300;
+            connect(timer, &QTimer::timeout, [=]() {
+                int currentTime = totalTime - ui->progressBar_session->value();
+                ui->progressBar_session->setValue(ui->progressBar_session->value() + 1);
+                int minutes = currentTime / 60;
+                int seconds = currentTime % 60;
+                QString timeString = QString::number(minutes) + ":" + QString::number(seconds);
+                ui->label_progressTimer->setText(timeString);
+                if (currentTime <= 0) {
+                    timer->stop();
+                }
+            });
+            timer->start(1000);
+        }
+    });
+
+
+
+        connect(ui->pushButton_stop, &QPushButton::released, [=]() {
+            ui->progressBar_session->setValue(0);
+            QString timeString = QString::number(5) + ":" + QString::number(0);
+            ui->label_progressTimer->setText(timeString);
+            if (timer) {
+                timer->stop();
+            }
+
+    });
+
+
+
+
+
+
+    /*====================================================================================================*\
      * BATTERY
     \*====================================================================================================*/
     connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=]() {
@@ -152,10 +203,10 @@ void MainWindow::showMenu(){
     ui->tabWidget_menu->setEnabled(true);
     ui->tabWidget_menu->show();
 
-    ui->label_progressTimer->setDisabled(true);
-    ui->label_progressTimer->hide();
-    ui->progressBar_session->setDisabled(true);
-    ui->progressBar_session->hide();
+//    ui->label_progressTimer->setDisabled(true);
+//    ui->label_progressTimer->hide();
+//    ui->progressBar_session->setDisabled(true);
+//    ui->progressBar_session->hide();
 
     ui->label_dateTimeChanged->setDisabled(true);
     ui->label_dateTimeChanged->hide();

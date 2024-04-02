@@ -24,6 +24,8 @@ private:
     // Members
     Controller *controller;
     Headset *headset;
+    QTimer *timer;
+    bool isTimerPaused;
 
 public slots:
     // Menu

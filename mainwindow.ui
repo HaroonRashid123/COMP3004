@@ -84,7 +84,7 @@ selection-background-color: rgb(38, 162, 105);
         <rect>
          <x>160</x>
          <y>280</y>
-         <width>41</width>
+         <width>91</width>
          <height>41</height>
         </rect>
        </property>
@@ -92,29 +92,10 @@ selection-background-color: rgb(38, 162, 105);
         <string notr="true">background-color: rgb(222, 221, 218);</string>
        </property>
        <property name="text">
-        <string> ▶</string>
+        <string> ▶|</string>
        </property>
        <property name="flat">
         <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_pause">
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>280</y>
-         <width>41</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="toolTipDuration">
-        <number>0</number>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(222, 221, 218);</string>
-       </property>
-       <property name="text">
-        <string>| |</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_stop">
@@ -339,7 +320,7 @@ selection-color: rgb(0, 0, 0);
 selection-background-color: rgb(98, 160, 234)</string>
            </property>
            <property name="value">
-            <number>100</number>
+            <number>0</number>
            </property>
           </widget>
           <widget class="QLabel" name="label_progressTimer">
@@ -361,7 +342,7 @@ selection-background-color: rgb(98, 160, 234)</string>
             <string notr="true">color : rgb(255, 255, 255)</string>
            </property>
            <property name="text">
-            <string>0:00</string>
+            <string>5:0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
