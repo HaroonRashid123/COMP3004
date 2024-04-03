@@ -5,8 +5,18 @@
 \*====================================================================================================*/
 Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
-    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF)
-{}
+    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF), isTimerPaused(false), currentTime(300)
+{
+        timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [=]() {
+            currentTime--;
+            emit updateProgressBar(((300 - currentTime) * 100) / 300);
+            emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+            if (currentTime <= 0) {
+                timer->stop();
+             }
+        });
+}
 
 /*====================================================================================================*\
  * DESTRUCTOR(S)
@@ -70,3 +80,24 @@ void Controller::reduceBattery(int percentAmount)
         emit updateBattery();
     }
 }
+
+void Controller::playPauseTimer()
+{
+    if (timer->isActive()) {
+        timer->stop();
+        isTimerPaused = true;
+    } else {
+        timer->start(1000);
+        isTimerPaused = false;
+    }
+}
+
+void Controller::resetTimer()
+{
+    currentTime = 300;
+    emit updateProgressBar(((300 - currentTime) * 100) / 300);
+    emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+    timer->stop();
+}
+
+

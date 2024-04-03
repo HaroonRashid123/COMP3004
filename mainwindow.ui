@@ -342,7 +342,7 @@ selection-background-color: rgb(98, 160, 234)</string>
             <string notr="true">color : rgb(255, 255, 255)</string>
            </property>
            <property name="text">
-            <string>5:0</string>
+            <string>5:00</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

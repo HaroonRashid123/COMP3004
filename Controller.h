@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "ExternalObj.h"
+#include <QTimer>
 
 
 class Controller : public QObject
@@ -35,21 +36,27 @@ private:
     PowerState blueLight;
     PowerState greenLight;
     PowerState redLight;
-
+    QTimer *timer;
+        bool isTimerPaused;
+        int currentTime;
     QDateTime currentDateTime;
     QVector<Session> sessionLogs;
 
 signals:
     void updateBattery();
     void togglePower();
+    void updateProgressBar(int value);
+     void updateTimerLabel(const QString &text);
 
 public slots:
     void startNewSession();
     void setDateTime();
     void viewsessionLogs();
-
     void chargeBattery(int percentAmount);
     void reduceBattery(int percentAmount);
+    void playPauseTimer();
+    void resetTimer();
+
 };
 
 #endif // CONTROLLER_H
