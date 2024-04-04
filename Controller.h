@@ -21,12 +21,18 @@ public:
     int getBatteryRemaining();
     ConnectionState getChargingState();
     PowerState getPowerState();
+    PowerState getBlueLight();
+    PowerState getRedLight();
+    PowerState getGreenLight();
     QDateTime getCurrentDateTime();
     QVector<Session> getSessionLogs();
 
     // Setter(s)
     void setChargingState(ConnectionState newCS);
     void setPowerState(PowerState newPS);
+    void setBlueLight(PowerState newPS);
+    void setRedLight(PowerState newPS);
+    void setGreenLight(PowerState newPS);
     void setDateTime(QDateTime newDT);
 
     // Member Variable(s)

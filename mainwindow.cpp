@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QDebug>
 
+bool isFlashOn = false;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -17,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
     this->controller = new Controller(100, ON, QDateTime::currentDateTime());
     this->headset = new Headset();
 
-    /*====================================================================================================*\
-     * UI SETUP (to match controller state)
-    \*====================================================================================================*/
     // For easier referencing...
     QCheckBox* electrodes[MAX_ELECTRODES];
     electrodes[0] = ui->checkBox_e0;
@@ -44,26 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     electrodes[19] = ui->checkBox_e19;
     electrodes[20] = ui->checkBox_e20;
 
-    //Set Power
-    this->togglePower();
-
-    // Set Menu
-    this->showMenu();
-
-    // Set Date/Time
-    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
-    if (this->controller->getChargingState() == CONNECTED){
-        ui->checkBox_pluggedIn->setChecked(true);
-    } else {
-        ui->checkBox_pluggedIn->setChecked(false);
-    }
-    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
-
-    // Set Electrode Connections
-    for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        bool connected = (this->headset->getElectrode(e_id) == CONNECTED) ? true : false;
-        electrodes[e_id]->setChecked(connected);
-    }
 
     /*====================================================================================================*\
      * MENU - DATE/TIME
@@ -130,6 +109,33 @@ MainWindow::MainWindow(QWidget *parent)
             this->headset->setElectrode(e_id, newCS);
             qInfo("Electrode %d is %s", e_id, qPrintable(connectionStateToStr(this->headset->getElectrode(e_id))));
         });
+    }
+
+    connect(headset, &Headset::connectionStateChanged, this, &MainWindow::showConnection);
+//    connect(controller, &Controller::updateTimerLabel, ui->label_redLight, &MainWindow::toggleRedLight);
+
+    /*====================================================================================================*\
+     * UI SETUP (to match controller state)
+    \*====================================================================================================*/
+    //Set Power
+    this->togglePower();
+
+    // Set Menu
+    this->showMenu();
+
+    // Set Date/Time
+    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
+    if (this->controller->getChargingState() == CONNECTED){
+        ui->checkBox_pluggedIn->setChecked(true);
+    } else {
+        ui->checkBox_pluggedIn->setChecked(false);
+    }
+    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+
+    // Set Electrode Connections
+    for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        bool connected = (this->headset->getElectrode(e_id) == CONNECTED) ? true : false;
+        electrodes[e_id]->setChecked(connected);
     }
 }
 
@@ -221,41 +227,63 @@ void MainWindow::togglePower(){
 }
 
 /*====================================================================================================*\
- * SESSION LIGHTS
+ * CONNECTION LIGHTS
 \*====================================================================================================*/
+void MainWindow::showConnection(ConnectionState cs) {
+    if (cs == CONNECTED) {
+        toggleRedLight(OFF);
+        toggleBlueLight(ON);
+    } else {
+        toggleRedLight(ON);
+        toggleBlueLight(OFF);
+
+        // Timer to flash Red Lights
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [=]() {
+            if (isFlashOn) {
+                ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
+                isFlashOn = false;
+            } else {
+                ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(RED));
+                isFlashOn = true;
+            }
+
+            if (this->controller->getRedLight() == OFF) {
+                ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
+                timer->deleteLater();
+            }
+        });
+        timer->setSingleShot(false);
+        timer->start(200);
+    }
+}
+
 void MainWindow::toggleBlueLight(PowerState ps) {
     if ((ps == ON) && (this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
+        this->controller->setBlueLight(ON);
         ui->label_blueLight->setStyleSheet("background-color: " + ColourToStr(BLUE));
     } else {
+        this->controller->setBlueLight(OFF);
         ui->label_blueLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }
 
 void MainWindow::toggleGreenLight(PowerState ps) {
     if ((ps == ON) && (this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
+        this->controller->setGreenLight(ON);
         ui->label_greenLight->setStyleSheet("background-color:" + ColourToStr(GREEN));
-        QTimer *timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, [=]() {
-            this->toggleGreenLight(OFF);
-        });
-        timer->start(1000); // 1 second for Treatment
     } else {
+        this->controller->setGreenLight(OFF);
         ui->label_greenLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }
 
 void MainWindow::toggleRedLight(PowerState ps) {
     if ((ps == ON) && (this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
+        this->controller->setRedLight(ON);
         ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(RED));
-        QTimer *timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, [=]() {
-            // Erase session
-            // Power off Device.
-            this->togglePower();
-            timer->deleteLater();
-        });
-        timer->start(300000); // 5 minutes to recconnect
     } else {
+        this->controller->setRedLight(OFF);
         ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }

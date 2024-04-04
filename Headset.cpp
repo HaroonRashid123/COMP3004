@@ -26,6 +26,22 @@ Headset::Headset() {
     this->electrodes[18] = CONNECTED;
     this->electrodes[19] = CONNECTED;
     this->electrodes[20] = CONNECTED;
+
+    this->connectionState = CONNECTED;
+    emit connectionStateChanged(CONNECTED);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, [=]() {
+       if (this->connectionState == CONNECTED && this->hasDisconnection()) {
+           this->connectionState = DISCONNECTED;
+           emit connectionStateChanged(DISCONNECTED);
+       } else if (this->connectionState == DISCONNECTED && !this->hasDisconnection()) {
+           this->connectionState = CONNECTED;
+           emit connectionStateChanged(CONNECTED);
+       }
+    });
+    timer->setSingleShot(false);
+    timer->start(1000);
 }
 
 /*====================================================================================================*\
@@ -47,3 +63,9 @@ void Headset::setElectrode(int e_id, ConnectionState newCS){ this->electrodes[e_
 /*====================================================================================================*\
  * SLOT FUNCTIONS(S)
 \*====================================================================================================*/
+bool Headset::hasDisconnection() {
+    for(int e_id=0; e_id < MAX_ELECTRODES; ++e_id) {
+        if (this->electrodes[e_id] == DISCONNECTED) { return true; }
+    }
+    return false;
+}

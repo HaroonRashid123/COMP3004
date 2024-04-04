@@ -24,8 +24,9 @@ private:
     // Members
     Controller *controller;
     Headset *headset;
-    QTimer *timer;
-    bool isTimerPaused;
+//    QTimer *timer;
+//    bool isTimerPaused;
+    bool redLightOn = false;
 
 public slots:
     // Menu
@@ -40,6 +41,7 @@ public slots:
     void updateBattery();
     void togglePower();
 
+    void showConnection(ConnectionState cs);
     void toggleBlueLight(PowerState ps);
     void toggleGreenLight(PowerState ps);
     void toggleRedLight(PowerState ps);

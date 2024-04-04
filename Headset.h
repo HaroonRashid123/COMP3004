@@ -23,11 +23,14 @@ public:
 
     //Member Variable(s)
 private:
+    ConnectionState connectionState;
     ConnectionState *electrodes;
 
 signals:
+    void connectionStateChanged(ConnectionState cs);
 
 public slots:
+    bool hasDisconnection();
 };
 
 #endif // HEADSET_H

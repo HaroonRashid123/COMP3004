@@ -34,3 +34,5 @@ git push
 
 ### Updating branch (to make sure you have the most recent changes):
 git pull
+
+## Work Outline

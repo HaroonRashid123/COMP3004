@@ -29,6 +29,9 @@ Controller::~Controller() {}
 int Controller::getBatteryRemaining() { return this->batteryRemaining; }
 ConnectionState Controller::getChargingState() { return this->chargingState; }
 PowerState Controller::getPowerState() { return this->powerState; }
+PowerState Controller::getBlueLight() { return this->blueLight; }
+PowerState Controller::getGreenLight() { return this->greenLight; }
+PowerState Controller::getRedLight() { return this->redLight; }
 QDateTime Controller::getCurrentDateTime() { return this->currentDateTime; }
 QVector<Session> Controller::getSessionLogs() { return this->sessionLogs; }
 
@@ -36,7 +39,15 @@ QVector<Session> Controller::getSessionLogs() { return this->sessionLogs; }
  * SETTER(S)
 \*====================================================================================================*/
 void Controller::setChargingState(ConnectionState newCS) { this->chargingState = newCS; }
-void Controller::setPowerState(PowerState newPS) { this->powerState = newPS; emit togglePower();}
+void Controller::setPowerState(PowerState newPS) {
+    this->powerState = newPS;
+    emit togglePower();
+}
+void Controller::setBlueLight(PowerState newPS) { this->blueLight = newPS; }
+void Controller::setGreenLight(PowerState newPS) { this->greenLight = newPS; }
+void Controller::setRedLight(PowerState newPS) { this->redLight = newPS; }
+
+
 void Controller::setDateTime(QDateTime newDT) { this->currentDateTime = newDT; }
 
 /*====================================================================================================*\
