@@ -22,6 +22,19 @@ enum ConnectionState {
     CONNECTED
 };
 
+enum Colour {
+    RED,
+    BLUE,
+    GREEN,
+    YELLOW,
+    PINK,
+    GREY,
+    BLACK,
+};
+
+QString ColourToStr(Colour colour);
+
+
 // Enum to string mapping function for PowerState
 QString powerStateToStr(PowerState state);
 

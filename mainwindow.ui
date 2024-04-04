@@ -210,25 +210,6 @@ selection-background-color: rgb(38, 162, 105);
         <string>Battery</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_menu">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>50</y>
-         <width>71</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(222, 221, 218);</string>
-       </property>
-       <property name="text">
-        <string>MENU</string>
-       </property>
-      </widget>
       <widget class="QFrame" name="frame_menu">
        <property name="geometry">
         <rect>
@@ -469,6 +450,19 @@ selection-background-color: rgb(98, 160, 234)</string>
          </widget>
         </widget>
        </widget>
+      </widget>
+      <widget class="QLabel" name="label_menu">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>51</y>
+         <width>62</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>MENU</string>
+       </property>
       </widget>
      </widget>
      <widget class="QLabel" name="label_masterControl">

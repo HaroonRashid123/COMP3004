@@ -39,8 +39,9 @@ public slots:
 
     void updateBattery();
     void togglePower();
-    void toggleBlueLight();
-    void toggleGreenLight();
-    void toggleRedLight();
+
+    void toggleBlueLight(PowerState ps);
+    void toggleGreenLight(PowerState ps);
+    void toggleRedLight(PowerState ps);
 };
 #endif // MAINWINDOW_H

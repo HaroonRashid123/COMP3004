@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     electrodes[13] = ui->checkBox_e13;
     electrodes[14] = ui->checkBox_e14;
     electrodes[15] = ui->checkBox_e15;
-    electrodes[16] =ui->checkBox_e16;
+    electrodes[16] = ui->checkBox_e16;
     electrodes[17] = ui->checkBox_e17;
     electrodes[18] = ui->checkBox_e18;
     electrodes[19] = ui->checkBox_e19;
@@ -101,7 +101,6 @@ MainWindow::MainWindow(QWidget *parent)
     /*====================================================================================================*\
      * NEW SESSION
     \*====================================================================================================*/
-
     connect(controller, &Controller::updateProgressBar, ui->progressBar_session, &QProgressBar::setValue);
     connect(controller, &Controller::updateTimerLabel, ui->label_progressTimer, &QLabel::setText);
     connect(ui->pushButton_play, &QPushButton::released, controller, &Controller::playPauseTimer);
@@ -134,8 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
     delete controller;
     delete headset;
@@ -144,7 +142,7 @@ MainWindow::~MainWindow()
 /*====================================================================================================*\
  * MENU NAVIGATION
 \*====================================================================================================*/
-void MainWindow::toggleMenu(){
+void MainWindow::toggleMenu() {
     if (ui->tabWidget_menu->isEnabled()) {
         this->hideMenu();
     } else {
@@ -186,17 +184,17 @@ void MainWindow::updateBattery() {
 
     if (this->controller->getPowerState() == ON) {
         if (currentBatteryLevel <= 10) {
-            ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                                   "selection-color: rgb(0, 0, 0);"
-                                                   "selection-background-color: rgb(237, 51, 59);");
+            ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
+                                                   "selection-color: " + ColourToStr(BLACK) +
+                                                   "selection-background-color: " + ColourToStr(RED));
         } else if (currentBatteryLevel <= 20) {
-            ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                                   "selection-color: rgb(0, 0, 0);"
-                                                   "selection-background-color: rgb(249, 240, 107);");
+            ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
+                                                   "selection-color: " + ColourToStr(BLACK) +
+                                                   "selection-background-color: " + ColourToStr(YELLOW));
         } else {
-            ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                                   "selection-color: rgb(0, 0, 0);"
-                                                   "selection-background-color: rgb(38, 162, 105);");
+            ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
+                                                   "selection-color: " + ColourToStr(BLACK) +
+                                                   "selection-background-color: " + ColourToStr(GREEN));
         }
     }
 }
@@ -206,46 +204,59 @@ void MainWindow::updateBattery() {
 \*====================================================================================================*/
 void MainWindow::togglePower(){
     if (this->controller->getPowerState() == ON) {
-        ui->label_powerLight->setStyleSheet("background-color: rgb(220, 138, 221);");
+        ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(PINK));
         this->showMenu();
         this->updateBattery();
     } else {
-        ui->label_powerLight->setStyleSheet("background-color: rgb(94, 92, 100);");
-        ui->progressBar_battery->setStyleSheet("background-color: rgb(94, 92, 100);"
-                                               "selection-color: rgb(94, 92, 100);;"
-                                               "selection-background-color: rgb(94, 92, 100);");
+        ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(GREY));
+        ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
+                                               "selection-color: " + ColourToStr(GREY) +
+                                               "selection-background-color: " + ColourToStr(GREY));
         this->hideMenu();
     }
 
-    this->toggleBlueLight();
-    this->toggleGreenLight();
-    this->toggleRedLight();
+    this->toggleBlueLight(OFF);
+    this->toggleGreenLight(OFF);
+    this->toggleRedLight(OFF);
 }
 
 /*====================================================================================================*\
  * SESSION LIGHTS
 \*====================================================================================================*/
-void MainWindow::toggleBlueLight() {
-    if ((this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
-        ui->label_blueLight->setStyleSheet("background-color: rgb(26, 95, 180);");
+void MainWindow::toggleBlueLight(PowerState ps) {
+    if ((ps == ON) && (this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
+        ui->label_blueLight->setStyleSheet("background-color: " + ColourToStr(BLUE));
     } else {
-        ui->label_blueLight->setStyleSheet("background-color: rgb(94, 92, 100);");
+        ui->label_blueLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }
 
-void MainWindow::toggleGreenLight() {
-    if ((this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
-        ui->label_greenLight->setStyleSheet("background-color: rgb(38, 162, 105);");
+void MainWindow::toggleGreenLight(PowerState ps) {
+    if ((ps == ON) && (this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
+        ui->label_greenLight->setStyleSheet("background-color:" + ColourToStr(GREEN));
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [=]() {
+            this->toggleGreenLight(OFF);
+        });
+        timer->start(1000); // 1 second for Treatment
     } else {
-        ui->label_greenLight->setStyleSheet("background-color: rgb(94, 92, 100);");
+        ui->label_greenLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }
 
-void MainWindow::toggleRedLight() {
-    if ((this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
-        ui->label_redLight->setStyleSheet("background-color: rgb(224, 27, 36);");
+void MainWindow::toggleRedLight(PowerState ps) {
+    if ((ps == ON) && (this->controller->getPowerState() == ON) && (/*in session*/true) && /* all nodes are connected */true) {
+        ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(RED));
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [=]() {
+            // Erase session
+            // Power off Device.
+            this->togglePower();
+            timer->deleteLater();
+        });
+        timer->start(300000); // 5 minutes to recconnect
     } else {
-        ui->label_redLight->setStyleSheet("background-color: rgb(94, 92, 100);");
+        ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }
 
