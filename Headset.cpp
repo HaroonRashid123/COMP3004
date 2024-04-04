@@ -3,8 +3,7 @@
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
 \*====================================================================================================*/
-Headset::Headset()
-{
+Headset::Headset() {
     this->electrodes = new ConnectionState[MAX_ELECTRODES];
     this->electrodes[0]  = CONNECTED;
     this->electrodes[1]  = CONNECTED;
@@ -32,10 +31,7 @@ Headset::Headset()
 /*====================================================================================================*\
  * DESTRUCTOR(S)
 \*====================================================================================================*/
-Headset::~Headset()
-{
-    delete[] this->electrodes;
-}
+Headset::~Headset() { delete[] this->electrodes; }
 
 /*====================================================================================================*\
  * GETTER(S)
@@ -46,9 +42,7 @@ ConnectionState* Headset::getElectrodes() { return this->electrodes; }
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
-void Headset::setElectrode(int e_id, ConnectionState newCS){
-    this->electrodes[e_id] = newCS;
-}
+void Headset::setElectrode(int e_id, ConnectionState newCS){ this->electrodes[e_id] = newCS; }
 
 /*====================================================================================================*\
  * SLOT FUNCTIONS(S)

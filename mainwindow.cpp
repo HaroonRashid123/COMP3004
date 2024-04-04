@@ -66,12 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     /*====================================================================================================*\
-     * MAIN MENU
-    \*====================================================================================================*/
-    connect(ui->pushButton_menu, &QPushButton::released, this,  &MainWindow::toggleMenu);
-
-    /*====================================================================================================*\
-     * SUB MENU - DATE/TIME
+     * MENU - DATE/TIME
     \*====================================================================================================*/
     connect(ui->pushButton_changeDateTime, &QPushButton::released, [=]() {
         QDateTime dateTime = ui->dateTimeEdit->dateTime();
@@ -87,13 +82,14 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     /*====================================================================================================*\
-     * SUB MENU - SESSION LOGS
+     * MENU - SESSION LOGS
     \*====================================================================================================*/
     connect(ui->pushButton_upload, &QPushButton::released, [=]() {
         QVector<Session> sessionLogs = this->controller->getSessionLogs();
         // upload Strings to PC
         // Change text browser on display montor
     });
+
     /*====================================================================================================*\
      * POWER
     \*====================================================================================================*/

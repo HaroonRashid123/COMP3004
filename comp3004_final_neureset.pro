@@ -12,6 +12,7 @@ SOURCES += \
     Controller.cpp \
     ExternalObj.cpp \
     Headset.cpp \
+    Session.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -19,6 +20,7 @@ HEADERS += \
     Controller.h \
     ExternalObj.h \
     Headset.h \
+    Session.h \
     mainwindow.h
 
 FORMS += \

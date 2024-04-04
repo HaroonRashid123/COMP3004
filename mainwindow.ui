@@ -82,9 +82,9 @@ selection-background-color: rgb(38, 162, 105);
       <widget class="QPushButton" name="pushButton_play">
        <property name="geometry">
         <rect>
-         <x>160</x>
+         <x>180</x>
          <y>280</y>
-         <width>91</width>
+         <width>51</width>
          <height>41</height>
         </rect>
        </property>
@@ -101,9 +101,9 @@ selection-background-color: rgb(38, 162, 105);
       <widget class="QPushButton" name="pushButton_stop">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>240</x>
          <y>280</y>
-         <width>41</width>
+         <width>51</width>
          <height>41</height>
         </rect>
        </property>

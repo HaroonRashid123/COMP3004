@@ -2,6 +2,8 @@
 #define EXTERNALOBJ_H
 
 #include <QDateTime>
+#include <QTimer>
+
 #include <QHash>
 #include <QVector>
 #include <QString>
@@ -19,14 +21,6 @@ enum ConnectionState {
     DISCONNECTED,
     CONNECTED
 };
-
-// Models a neureset session
-struct Session {
-    QDateTime dateTime;
-    int baselines_before[21];
-    int baselines_after[21];
-};
-
 
 // Enum to string mapping function for PowerState
 QString powerStateToStr(PowerState state);

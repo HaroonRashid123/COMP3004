@@ -5,15 +5,15 @@
 \*====================================================================================================*/
 Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
-    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF), isTimerPaused(false), currentTime(300)
+    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF), sessionPaused(false), currentTime(300)
 {
-        timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, [=]() {
+        this->sessionTimer = new QTimer(this);
+        connect(this->sessionTimer, &QTimer::timeout, [=]() {
             currentTime--;
             emit updateProgressBar(((300 - currentTime) * 100) / 300);
             emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
             if (currentTime <= 0) {
-                timer->stop();
+                this->sessionTimer->stop();
              }
         });
 }
@@ -21,8 +21,7 @@ Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime cu
 /*====================================================================================================*\
  * DESTRUCTOR(S)
 \*====================================================================================================*/
-Controller::~Controller()
-{}
+Controller::~Controller() {}
 
 /*====================================================================================================*\
  * GETTER(S)
@@ -52,13 +51,11 @@ void Controller::setDateTime() {
     if (this->powerState == ON) {}
 }
 
-void Controller::viewsessionLogs()
-{
+void Controller::viewsessionLogs() {
     if (this->powerState == ON) {}
 }
 
-void Controller::chargeBattery(int percentAmount)
-{
+void Controller::chargeBattery(int percentAmount) {
     if ((this->chargingState == CONNECTED) && (batteryRemaining < 100)) {
         if ((batteryRemaining + percentAmount) > 100) {
             batteryRemaining = 100;
@@ -69,8 +66,7 @@ void Controller::chargeBattery(int percentAmount)
     }
 }
 
-void Controller::reduceBattery(int percentAmount)
-{
+void Controller::reduceBattery(int percentAmount) {
     if ((this->powerState == ON) && (this->chargingState == DISCONNECTED) && (batteryRemaining > 0)) {
         if ((batteryRemaining - percentAmount) < 0) {
             batteryRemaining = 0;
@@ -81,23 +77,21 @@ void Controller::reduceBattery(int percentAmount)
     }
 }
 
-void Controller::playPauseTimer()
-{
-    if (timer->isActive()) {
-        timer->stop();
-        isTimerPaused = true;
+void Controller::playPauseTimer() {
+    if (this->sessionTimer->isActive()) {
+        this->sessionTimer->stop();
+        this->sessionPaused = true;
     } else {
-        timer->start(1000);
-        isTimerPaused = false;
+        this->sessionTimer->start(1000);
+        this->sessionPaused = false;
     }
 }
 
-void Controller::resetTimer()
-{
+void Controller::resetTimer() {
     currentTime = 300;
     emit updateProgressBar(((300 - currentTime) * 100) / 300);
     emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
-    timer->stop();
+    this->sessionTimer->stop();
 }
 
 
