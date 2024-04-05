@@ -11,7 +11,6 @@ class Session : public QObject
 public:
     // Constructor(s)
     Session(QDateTime startDT);
-    Session(const Session &session);
 
     // Destructor(s)
     ~Session();
@@ -26,6 +25,7 @@ public:
     void setBaseline(bool baseline_final, int e_id, int b_value);
 
 private:
+    SessionState sessionState;
     QDateTime startDateTime;
     int baselines_before[21];
     int baselines_after[21];

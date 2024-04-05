@@ -25,7 +25,7 @@ public:
     PowerState getRedLight();
     PowerState getGreenLight();
     QDateTime getCurrentDateTime();
-    QVector<Session> getSessionLogs();
+    QVector<Session*> getSessionLogs();
 
     // Setter(s)
     void setChargingState(ConnectionState newCS);
@@ -46,11 +46,11 @@ private:
     QDateTime currentDateTime;
 
     //Session Related
-    QVector<Session> sessionLogs;
-    bool inSession;
-    QTimer *sessionTimer;
-        bool sessionPaused;
-        int currentTime;
+    QVector<Session*> sessionLogs;
+    QTimer* sessionTimer;
+    bool inSession; 
+    bool sessionPaused;
+    int currentTime;
 
 signals:
     void updateBattery();
@@ -60,12 +60,11 @@ signals:
 
 public slots:
     void startNewSession();
-    void setDateTime();
-    void viewsessionLogs();
+
     void chargeBattery(int percentAmount);
     void reduceBattery(int percentAmount);
-    void playPauseTimer();
-    void resetTimer();
+    void playOrPauseSession();
+    void stopSession();
 
 };
 

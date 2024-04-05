@@ -5,12 +5,11 @@
 \*====================================================================================================*/
 Session::Session(QDateTime startDateTime) : startDateTime(startDateTime) {}
 
-Session::Session(const Session &session) {
-    this->startDateTime = session.startDateTime;
-    std::copy(std::begin(session.baselines_after), std::end(session.baselines_after), std::begin(this->baselines_after));
-    std::copy(std::begin(session.baselines_before), std::end(session.baselines_before), std::begin(this->baselines_before));
-
-}
+//Session::Session(const Session &session) {
+//    this->startDateTime = session.startDateTime;
+//    std::copy(std::begin(session.baselines_after), std::end(session.baselines_after), std::begin(this->baselines_after));
+//    std::copy(std::begin(session.baselines_before), std::end(session.baselines_before), std::begin(this->baselines_before));
+//}
 
 /*====================================================================================================*\
  * DESTRUCTOR(S)

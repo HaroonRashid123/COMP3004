@@ -4,8 +4,6 @@
 #include <QDateTime>
 #include <QTimer>
 
-#include <QHash>
-#include <QVector>
 #include <QString>
 
 #define MAX_ELECTRODES 21
@@ -21,6 +19,13 @@ enum ConnectionState {
     DISCONNECTED,
     CONNECTED
 };
+
+enum SessionState {
+    IN_PROGRESS,
+    PAUSED,
+    COMPLETE,
+};
+
 
 enum Colour {
     RED,

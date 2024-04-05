@@ -43,10 +43,24 @@ MainWindow::MainWindow(QWidget *parent)
     electrodes[19] = ui->checkBox_e19;
     electrodes[20] = ui->checkBox_e20;
 
-
     /*====================================================================================================*\
-     * MENU - DATE/TIME
+     * MENU
     \*====================================================================================================*/
+
+    // NEW SESSION
+    connect(controller, &Controller::updateProgressBar, ui->progressBar_session, &QProgressBar::setValue);
+    connect(controller, &Controller::updateTimerLabel, ui->label_progressTimer, &QLabel::setText);
+    connect(ui->pushButton_play, &QPushButton::released, controller, &Controller::playOrPauseSession);
+    connect(ui->pushButton_stop, &QPushButton::released, controller, &Controller::stopSession);
+
+    //SESSION LOGS
+    connect(ui->pushButton_upload, &QPushButton::released, [=]() {
+        QVector<Session*> sessionLogs = this->controller->getSessionLogs();
+        // upload Strings to PC
+        // Change text browser on display montor
+    });
+
+    // DATE/TIME
     connect(ui->pushButton_changeDateTime, &QPushButton::released, [=]() {
         QDateTime dateTime = ui->dateTimeEdit->dateTime();
         this->controller->setDateTime(dateTime);
@@ -61,29 +75,12 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     /*====================================================================================================*\
-     * MENU - SESSION LOGS
-    \*====================================================================================================*/
-    connect(ui->pushButton_upload, &QPushButton::released, [=]() {
-        QVector<Session> sessionLogs = this->controller->getSessionLogs();
-        // upload Strings to PC
-        // Change text browser on display montor
-    });
-
-    /*====================================================================================================*\
      * POWER
     \*====================================================================================================*/
     connect(ui->pushButton_power, &QPushButton::released, [=]() {
         this->controller->setPowerState(this->controller->getPowerState() == ON ? OFF : ON);
     });
     connect(controller, &Controller::togglePower, this, &MainWindow::togglePower);
-
-    /*====================================================================================================*\
-     * NEW SESSION
-    \*====================================================================================================*/
-    connect(controller, &Controller::updateProgressBar, ui->progressBar_session, &QProgressBar::setValue);
-    connect(controller, &Controller::updateTimerLabel, ui->label_progressTimer, &QLabel::setText);
-    connect(ui->pushButton_play, &QPushButton::released, controller, &Controller::playPauseTimer);
-    connect(ui->pushButton_stop, &QPushButton::released, controller, &Controller::resetTimer);
 
     /*====================================================================================================*\
      * BATTERY
@@ -174,12 +171,6 @@ void MainWindow::hideMenu(){
     ui->tabWidget_menu->setDisabled(true);
     ui->tabWidget_menu->hide();
 }
-
-/*====================================================================================================*\
- * MENU CONTROL
-\*====================================================================================================*/
-
-
 
 /*====================================================================================================*\
  * BATTERY

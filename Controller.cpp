@@ -5,17 +5,18 @@
 \*====================================================================================================*/
 Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
-    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF), sessionPaused(false), currentTime(300)
+    chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF),
+    inSession(false), sessionPaused(false), currentTime(300)
 {
-        this->sessionTimer = new QTimer(this);
-        connect(this->sessionTimer, &QTimer::timeout, [=]() {
-            currentTime--;
-            emit updateProgressBar(((300 - currentTime) * 100) / 300);
-            emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
-            if (currentTime <= 0) {
-                this->sessionTimer->stop();
-             }
-        });
+    this->sessionTimer = new QTimer(this);
+    connect(this->sessionTimer, &QTimer::timeout, [=]() {
+        currentTime--;
+        emit updateProgressBar(((300 - currentTime) * 100) / 300);
+        emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+        if (currentTime <= 0) {
+            this->sessionTimer->stop();
+         }
+    });
 }
 
 /*====================================================================================================*\
@@ -33,7 +34,7 @@ PowerState Controller::getBlueLight() { return this->blueLight; }
 PowerState Controller::getGreenLight() { return this->greenLight; }
 PowerState Controller::getRedLight() { return this->redLight; }
 QDateTime Controller::getCurrentDateTime() { return this->currentDateTime; }
-QVector<Session> Controller::getSessionLogs() { return this->sessionLogs; }
+QVector<Session*> Controller::getSessionLogs() { return this->sessionLogs; }
 
 /*====================================================================================================*\
  * SETTER(S)
@@ -55,15 +56,11 @@ void Controller::setDateTime(QDateTime newDT) { this->currentDateTime = newDT; }
 \*====================================================================================================*/
 void Controller::startNewSession()
 {
-    if (this->powerState == ON) {}
-}
-
-void Controller::setDateTime() {
-    if (this->powerState == ON) {}
-}
-
-void Controller::viewsessionLogs() {
-    if (this->powerState == ON) {}
+    if (this->powerState == ON) {
+        Session* session = new Session(this->getCurrentDateTime());
+        this->sessionLogs.append(session);
+        this->sessionTimer->start(1000);
+    }
 }
 
 void Controller::chargeBattery(int percentAmount) {
@@ -88,21 +85,28 @@ void Controller::reduceBattery(int percentAmount) {
     }
 }
 
-void Controller::playPauseTimer() {
-    if (this->sessionTimer->isActive()) {
-        this->sessionTimer->stop();
-        this->sessionPaused = true;
+void Controller::playOrPauseSession() {
+    if (this->inSession) {
+        startNewSession();
     } else {
-        this->sessionTimer->start(1000);
-        this->sessionPaused = false;
+        if (this->sessionTimer->isActive()) {
+            this->sessionTimer->stop();
+            this->sessionPaused = true;
+        } else {
+            this->sessionTimer->start(1000);
+            this->sessionPaused = false;
+        }
     }
 }
 
-void Controller::resetTimer() {
-    currentTime = 300;
-    emit updateProgressBar(((300 - currentTime) * 100) / 300);
-    emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
-    this->sessionTimer->stop();
+void Controller::stopSession() {
+    if (this->inSession) {
+        // TODO: Erase session
+        currentTime = 300;
+        emit updateProgressBar(((300 - currentTime) * 100) / 300);
+        emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+        this->sessionTimer->stop();
+    }
 }
 
 
