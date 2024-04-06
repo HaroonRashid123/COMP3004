@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(controller, &Controller::updateUI_redLight, this, &MainWindow::updateUI_redLight);
 
     /*====================================================================================================*\
-     * ELECTRODES
+     * HEADSET/ELECTRODES
     \*====================================================================================================*/
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
         connect(electrodes[e_id], &QCheckBox::stateChanged, [=]() {
@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Set Menu
     if (this->controller->getPowerState() == ON) {
-        this->showMenu();
+        this->updateUI_showMenu();
     }
 
     // Set Date/Time

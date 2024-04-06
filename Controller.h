@@ -43,6 +43,8 @@ private:
     PowerState blueLight;
     PowerState greenLight;
     PowerState redLight;
+
+    ConnectionState connectionState;
     QDateTime currentDateTime;
 
     //Session Related

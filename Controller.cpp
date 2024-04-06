@@ -6,7 +6,7 @@
 Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
     chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF),
-    inSession(false), sessionPaused(false), currentTime(300)
+    connectionState(CONNECTED), inSession(false), sessionPaused(false), currentTime(300)
 {
     this->sessionTimer = new QTimer(this);
     connect(this->sessionTimer, &QTimer::timeout, [=]() {
@@ -103,14 +103,23 @@ void Controller::reduceBattery(int percentAmount) {
 }
 
 void Controller::updateConnectionState(ConnectionState cs) {
-    if (inSession) {
-        if (cs == CONNECTED) {
-            emit updateUI_blueLight(ON);
-            emit updateUI_redLight(OFF);
-        } else {
-            emit updateUI_blueLight(OFF);
-            emit updateUI_redLight(ON);
-        }
+    if (cs == CONNECTED) {
+        this->connectionState = CONNECTED;
+        emit updateUI_blueLight(ON);
+        emit updateUI_redLight(OFF);
+
+        // TODO:
+        // Oposite of below
+    } else {
+        this->connectionState = DISCONNECTED;
+        emit updateUI_blueLight(OFF);
+        emit updateUI_redLight(ON);
+
+        // TODO:
+//        if contact is lost pauyse timer for max 5 min
+//        if pause is p[ressed pause session for 5 min
+//        if stop is pressed, end session, delete session, and reset timer + other variables
+
     }
 }
 
@@ -119,15 +128,13 @@ void Controller::startNewSession()
     Session* session = new Session(this->getCurrentDateTime());
     this->sessionLogs.append(session);
     this->sessionTimer->start(1000);
-
-    // Connection Lights
-    emit checkHeadsetConnections();
-
 }
 
 void Controller::playOrPauseSession() {
     if (!this->inSession) {
-        startNewSession();
+        if (this->connectionState == CONNECTED) {
+            startNewSession();
+        }
     } else {
         if (this->sessionTimer->isActive()) {
             this->sessionTimer->stop();
