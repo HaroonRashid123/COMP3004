@@ -11,8 +11,8 @@ Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime cu
     this->sessionTimer = new QTimer(this);
     connect(this->sessionTimer, &QTimer::timeout, [=]() {
         currentTime--;
-        emit updateProgressBar(((300 - currentTime) * 100) / 300);
-        emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+        emit updateUI_progressBar(((300 - currentTime) * 100) / 300);
+        emit updateUI_timerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
         if (currentTime <= 0) {
             this->sessionTimer->stop();
          }
@@ -39,28 +39,45 @@ QVector<Session*> Controller::getSessionLogs() { return this->sessionLogs; }
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
-void Controller::setChargingState(ConnectionState newCS) { this->chargingState = newCS; }
-void Controller::setPowerState(PowerState newPS) {
-    this->powerState = newPS;
-    emit togglePower();
+void Controller::setChargingState(ConnectionState cs) {
+    this->chargingState = cs;
 }
-void Controller::setBlueLight(PowerState newPS) { this->blueLight = newPS; }
-void Controller::setGreenLight(PowerState newPS) { this->greenLight = newPS; }
-void Controller::setRedLight(PowerState newPS) { this->redLight = newPS; }
 
+void Controller::setPowerState(PowerState ps) {
+    this->powerState = ps;
+    emit updateUI_power(ps);
+}
+
+void Controller::setBlueLight(PowerState ps) {
+    this->blueLight = ps;
+    emit updateUI_blueLight(ps);
+}
+
+void Controller::setGreenLight(PowerState ps) {
+    this->greenLight = ps;
+    emit updateUI_greenLight(ps);
+}
+
+void Controller::setRedLight(PowerState ps) {
+    this->redLight = ps;
+    emit updateUI_redLight(ps);
+}
 
 void Controller::setDateTime(QDateTime newDT) { this->currentDateTime = newDT; }
 
 /*====================================================================================================*\
  * SLOT FUNCTION(S)
 \*====================================================================================================*/
-void Controller::startNewSession()
-{
+void Controller::togglePower() {
     if (this->powerState == ON) {
-        Session* session = new Session(this->getCurrentDateTime());
-        this->sessionLogs.append(session);
-        this->sessionTimer->start(1000);
+        this->setPowerState(OFF);
+    } else {
+
+        this->setPowerState(ON);
     }
+    this->setBlueLight(OFF);
+    this->setGreenLight(OFF);
+    this->setRedLight(OFF);
 }
 
 void Controller::chargeBattery(int percentAmount) {
@@ -70,7 +87,7 @@ void Controller::chargeBattery(int percentAmount) {
         } else {
             batteryRemaining += percentAmount;
         }
-        emit updateBattery();
+        emit updateUI_battery();
     }
 }
 
@@ -81,12 +98,35 @@ void Controller::reduceBattery(int percentAmount) {
         } else {
             batteryRemaining -= percentAmount;
         }
-        emit updateBattery();
+        emit updateUI_battery();
     }
 }
 
+void Controller::updateConnectionState(ConnectionState cs) {
+    if (inSession) {
+        if (cs == CONNECTED) {
+            emit updateUI_blueLight(ON);
+            emit updateUI_redLight(OFF);
+        } else {
+            emit updateUI_blueLight(OFF);
+            emit updateUI_redLight(ON);
+        }
+    }
+}
+
+void Controller::startNewSession()
+{
+    Session* session = new Session(this->getCurrentDateTime());
+    this->sessionLogs.append(session);
+    this->sessionTimer->start(1000);
+
+    // Connection Lights
+    emit checkHeadsetConnections();
+
+}
+
 void Controller::playOrPauseSession() {
-    if (this->inSession) {
+    if (!this->inSession) {
         startNewSession();
     } else {
         if (this->sessionTimer->isActive()) {
@@ -103,8 +143,8 @@ void Controller::stopSession() {
     if (this->inSession) {
         // TODO: Erase session
         currentTime = 300;
-        emit updateProgressBar(((300 - currentTime) * 100) / 300);
-        emit updateTimerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+        emit updateUI_progressBar(((300 - currentTime) * 100) / 300);
+        emit updateUI_timerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
         this->sessionTimer->stop();
     }
 }

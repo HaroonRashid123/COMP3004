@@ -19,7 +19,7 @@ public:
     ConnectionState* getElectrodes();
 
     //Setter(s)
-    void setElectrode(int e_id, ConnectionState newCS);
+    void setElectrode(int e_id, ConnectionState cs);
 
     //Member Variable(s)
 private:

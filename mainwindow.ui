@@ -79,7 +79,7 @@ selection-background-color: rgb(38, 162, 105);
         <number>100</number>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_play">
+      <widget class="QPushButton" name="pushButton_playPause">
        <property name="geometry">
         <rect>
          <x>180</x>

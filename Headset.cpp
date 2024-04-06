@@ -58,7 +58,7 @@ ConnectionState* Headset::getElectrodes() { return this->electrodes; }
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
-void Headset::setElectrode(int e_id, ConnectionState newCS){ this->electrodes[e_id] = newCS; }
+void Headset::setElectrode(int e_id, ConnectionState cs){ this->electrodes[e_id] = cs; }
 
 /*====================================================================================================*\
  * SLOT FUNCTIONS(S)

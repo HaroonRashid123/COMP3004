@@ -31,19 +31,21 @@ private:
 public slots:
     // Menu
     void toggleMenu();
-    void showMenu();
-    void hideMenu();
+    void updateUI_showMenu();
+    void updateUI_hideMenu();
 
 //    void startNewSession();
 //    void setDateTime();
 //    void viewSessionHistory();
 
-    void updateBattery();
-    void togglePower();
+    void updateUI_battery();
+    void updateUI_power(PowerState ps);
 
-    void showConnection(ConnectionState cs);
-    void toggleBlueLight(PowerState ps);
-    void toggleGreenLight(PowerState ps);
-    void toggleRedLight(PowerState ps);
+    void updateUI_dateTime();
+
+//    void showConnection(ConnectionState cs);
+    void updateUI_blueLight(PowerState ps);
+    void updateUI_greenLight(PowerState ps);
+    void updateUI_redLight(PowerState ps);
 };
 #endif // MAINWINDOW_H

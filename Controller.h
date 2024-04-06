@@ -28,11 +28,11 @@ public:
     QVector<Session*> getSessionLogs();
 
     // Setter(s)
-    void setChargingState(ConnectionState newCS);
-    void setPowerState(PowerState newPS);
-    void setBlueLight(PowerState newPS);
-    void setRedLight(PowerState newPS);
-    void setGreenLight(PowerState newPS);
+    void setChargingState(ConnectionState cs);
+    void setPowerState(PowerState ps);
+    void setBlueLight(PowerState ps);
+    void setRedLight(PowerState ps);
+    void setGreenLight(PowerState ps);
     void setDateTime(QDateTime newDT);
 
     // Member Variable(s)
@@ -53,16 +53,24 @@ private:
     int currentTime;
 
 signals:
-    void updateBattery();
-    void togglePower();
-    void updateProgressBar(int value);
-     void updateTimerLabel(const QString &text);
+    void updateUI_power(PowerState ps);
+    void updateUI_battery();
+    void updateUI_blueLight(PowerState ps);
+    void updateUI_greenLight(PowerState ps);
+    void updateUI_redLight(PowerState ps);
+    void updateUI_progressBar(int value);
+    void updateUI_timerLabel(const QString &text);
+
+    void updateUI_dateTimeChanged();
 
 public slots:
-    void startNewSession();
-
+    void togglePower();
     void chargeBattery(int percentAmount);
     void reduceBattery(int percentAmount);
+
+     void updateConnectionState(ConnectionState cs);
+
+    void startNewSession();
     void playOrPauseSession();
     void stopSession();
 
