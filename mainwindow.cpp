@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QAction>
@@ -48,10 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
     \*====================================================================================================*/
 
     // NEW SESSION
-    connect(controller, &Controller::updateUI_progressBar, ui->progressBar_session, &QProgressBar::setValue);
-    connect(controller, &Controller::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
     connect(ui->pushButton_playPause, &QPushButton::released, controller, &Controller::playOrPauseSession);
     connect(ui->pushButton_stop, &QPushButton::released, controller, &Controller::stopSession);
+
+    connect(controller, &Controller::updateUI_progressBar, ui->progressBar_session, &QProgressBar::setValue);
+    connect(controller, &Controller::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
 
     // SESSION LOGS
 //    connect(ui->pushButton_upload, &QPushButton::released, controller, &Controller::uploadLogs);
@@ -68,7 +69,12 @@ MainWindow::MainWindow(QWidget *parent)
      * POWER
     \*====================================================================================================*/
     connect(ui->pushButton_power, &QPushButton::released, [=]() {
-        this->controller->togglePower();
+        if (this->controller->getPowerState() == ON) {
+            this->controller->togglePower(OFF);
+        } else {
+            this->controller->togglePower(ON);
+        }
+
     });
     connect(controller, &Controller::updateUI_power, this, &MainWindow::updateUI_power);
 
@@ -107,19 +113,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(headset, &Headset::connectionStateChanged, controller, &Controller::updateConnectionState);
 
-
-//    connect(headset, &Headset::connectionStateChanged, this, &MainWindow::showConnection);
-//    connect(headset, &Headset::connectionStateChanged, controller, &Controller::showConnection);
-//    connect(controller, &Controller::updateTimerLabel, ui->label_redLight, &MainWindow::toggleRedLight);
-
     /*====================================================================================================*\
      * UI SETUP (to match controller state)
     \*====================================================================================================*/
     //Set Power
-    this->updateUI_power(this->controller->getPowerState());
-    this->updateUI_blueLight(this->controller->getBlueLight());
-    this->updateUI_greenLight(this->controller->getGreenLight());
-    this->updateUI_redLight(this->controller->getRedLight());
+    this->updateUI_blueLight(OFF);
+    this->updateUI_greenLight(OFF);
+    this->updateUI_redLight(OFF);
+    this->controller->togglePower(ON);
 
     // Set Menu
     if (this->controller->getPowerState() == ON) {
@@ -127,13 +128,18 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // Set Date/Time
+    ui->label_dateTimeChanged->hide();
+    ui->dateTimeEdit->setDateTime(this->controller->getCurrentDateTime());
+    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+
+    // Battery
     ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
     if (this->controller->getChargingState() == CONNECTED){
         ui->checkBox_pluggedIn->setChecked(true);
     } else {
         ui->checkBox_pluggedIn->setChecked(false);
     }
-    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+
 
     // Set Electrode Connections
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
@@ -224,11 +230,11 @@ void MainWindow::updateUI_battery() {
 void MainWindow::updateUI_power(PowerState ps){
     if (ps == ON) {
         ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(PINK));
-        this->showMenu();
+        this->updateUI_showMenu();
         this->updateUI_battery();
     } else {
         ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(GREY));
-        this->hideMenu();
+        this->updateUI_hideMenu();
 //        ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
 //                                               "selection-color: " + ColourToStr(GREY) +
 //                                               "selection-background-color: " + ColourToStr(GREY));

@@ -1,4 +1,4 @@
-#ifndef EXTERNALOBJ_H
+﻿#ifndef EXTERNALOBJ_H
 #define EXTERNALOBJ_H
 
 #include <QDateTime>
@@ -7,6 +7,8 @@
 #include <QString>
 
 #define MAX_ELECTRODES 21
+#define MAX_DISCONNECT_TIME 20000   // milliseconds ( = 5 min)
+#define MAX_SESSION_TIME 300        // seconds (= 5 min)
 
 // To represent the power state of an electronic componenent
 enum PowerState {
@@ -26,7 +28,6 @@ enum SessionState {
     COMPLETE,
 };
 
-
 enum Colour {
     RED,
     BLUE,
@@ -37,8 +38,8 @@ enum Colour {
     BLACK,
 };
 
+// Enum to string mapping function for Colour
 QString ColourToStr(Colour colour);
-
 
 // Enum to string mapping function for PowerState
 QString powerStateToStr(PowerState state);

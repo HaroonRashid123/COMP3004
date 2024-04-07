@@ -1,4 +1,4 @@
-#include "Headset.h"
+﻿#include "Headset.h"
 
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
@@ -31,6 +31,7 @@ Headset::Headset() {
     emit connectionStateChanged(CONNECTED);
 
     QTimer *timer = new QTimer(this);
+    timer->setSingleShot(false);
     connect(timer, &QTimer::timeout, [=]() {
        if (this->connectionState == CONNECTED && this->hasDisconnection()) {
            this->connectionState = DISCONNECTED;
@@ -40,7 +41,7 @@ Headset::Headset() {
            emit connectionStateChanged(CONNECTED);
        }
     });
-    timer->setSingleShot(false);
+
     timer->start(1000);
 }
 
@@ -53,12 +54,14 @@ Headset::~Headset() { delete[] this->electrodes; }
  * GETTER(S)
 \*====================================================================================================*/
 ConnectionState Headset::getElectrode(int e_id) { return this->electrodes[e_id]; }
-ConnectionState* Headset::getElectrodes() { return this->electrodes; }
+ConnectionState* Headset::getElectrodes() {return this->electrodes; }
 
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
-void Headset::setElectrode(int e_id, ConnectionState cs){ this->electrodes[e_id] = cs; }
+void Headset::setElectrode(int e_id, ConnectionState cs){
+    this->electrodes[e_id] = cs;
+}
 
 /*====================================================================================================*\
  * SLOT FUNCTIONS(S)

@@ -1,4 +1,4 @@
-#include "Controller.h"
+﻿#include "Controller.h"
 
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
@@ -6,16 +6,24 @@
 Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
     chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF),
-    connectionState(CONNECTED), inSession(false), sessionPaused(false), currentTime(300)
+    connectionState(CONNECTED), inSession(false), sessionPaused(false), sessionTime(MAX_SESSION_TIME)
 {
+    // Progress Bar Countdown
     this->sessionTimer = new QTimer(this);
     connect(this->sessionTimer, &QTimer::timeout, [=]() {
-        currentTime--;
-        emit updateUI_progressBar(((300 - currentTime) * 100) / 300);
-        emit updateUI_timerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
-        if (currentTime <= 0) {
+        this->sessionTime--;
+        emit updateUI_progressBar(((300 - this->sessionTime) * 100) / 300);
+        emit updateUI_timerLabel(QString::number(this->sessionTime / 60) + ":" + QString::number(this->sessionTime % 60).rightJustified(2, '0'));
+        if (this->sessionTime <= 0) {
             this->sessionTimer->stop();
          }
+    });
+
+    // 5 minute cap before session ends
+    this->endSessionTimer = new QTimer(this);
+    connect(this->endSessionTimer, &QTimer::timeout, [=]() {
+        this->stopSession();
+        this->togglePower(OFF);
     });
 }
 
@@ -44,40 +52,45 @@ void Controller::setChargingState(ConnectionState cs) {
 }
 
 void Controller::setPowerState(PowerState ps) {
-    this->powerState = ps;
-    emit updateUI_power(ps);
+    emit updateUI_power(this->powerState = ps);
 }
 
 void Controller::setBlueLight(PowerState ps) {
-    this->blueLight = ps;
-    emit updateUI_blueLight(ps);
+    emit updateUI_blueLight(this->blueLight = ps);
 }
 
 void Controller::setGreenLight(PowerState ps) {
-    this->greenLight = ps;
-    emit updateUI_greenLight(ps);
+    emit updateUI_greenLight(this->greenLight = ps);
 }
 
 void Controller::setRedLight(PowerState ps) {
-    this->redLight = ps;
-    emit updateUI_redLight(ps);
+    emit updateUI_redLight(this->redLight = ps);
 }
 
-void Controller::setDateTime(QDateTime newDT) { this->currentDateTime = newDT; }
+void Controller::setDateTime(QDateTime dt) {
+    this->currentDateTime = dt;
+    emit updateUI_dateTimeChanged();
+}
 
 /*====================================================================================================*\
  * SLOT FUNCTION(S)
 \*====================================================================================================*/
-void Controller::togglePower() {
-    if (this->powerState == ON) {
+void Controller::togglePower(PowerState ps) {
+    if (ps == OFF) {
         this->setPowerState(OFF);
+        this->setBlueLight(OFF);
+        this->setRedLight(OFF);
     } else {
-
         this->setPowerState(ON);
+        if (this->connectionState == CONNECTED) {
+            this->setBlueLight(ON);
+            this->setRedLight(OFF);
+        } else {
+            this->setBlueLight(OFF);
+            this->setRedLight(ON);
+        }
     }
-    this->setBlueLight(OFF);
     this->setGreenLight(OFF);
-    this->setRedLight(OFF);
 }
 
 void Controller::chargeBattery(int percentAmount) {
@@ -105,55 +118,67 @@ void Controller::reduceBattery(int percentAmount) {
 void Controller::updateConnectionState(ConnectionState cs) {
     if (cs == CONNECTED) {
         this->connectionState = CONNECTED;
-        emit updateUI_blueLight(ON);
-        emit updateUI_redLight(OFF);
-
-        // TODO:
-        // Oposite of below
+        this->setBlueLight(ON);
+        this->setRedLight(OFF);
+        if (this->inSession && this->sessionPaused) {
+            // Play
+           this->sessionTimer->start(1000);
+           this->sessionPaused = false;
+           this->endSessionTimer->stop();
+        }
     } else {
         this->connectionState = DISCONNECTED;
-        emit updateUI_blueLight(OFF);
-        emit updateUI_redLight(ON);
-
-        // TODO:
-//        if contact is lost pauyse timer for max 5 min
-//        if pause is p[ressed pause session for 5 min
-//        if stop is pressed, end session, delete session, and reset timer + other variables
-
+        this->setBlueLight(OFF);
+        this->setRedLight(ON);
+        if (this->inSession && !this->sessionPaused) {
+            // Pause
+            this->sessionTimer->stop();
+            this->sessionPaused = true;
+            this->endSessionTimer->start(MAX_DISCONNECT_TIME);
+        }
     }
-}
-
-void Controller::startNewSession()
-{
-    Session* session = new Session(this->getCurrentDateTime());
-    this->sessionLogs.append(session);
-    this->sessionTimer->start(1000);
 }
 
 void Controller::playOrPauseSession() {
     if (!this->inSession) {
         if (this->connectionState == CONNECTED) {
-            startNewSession();
+            // Start New Session
+            Session* session = new Session(this->getCurrentDateTime());
+            this->sessionLogs.append(session);
+            this->inSession = true;
+            this->sessionPaused = false;
+            this->sessionTime = MAX_SESSION_TIME;
+            this->sessionTimer->start(1000);
         }
     } else {
-        if (this->sessionTimer->isActive()) {
-            this->sessionTimer->stop();
-            this->sessionPaused = true;
-        } else {
+        if (this->sessionPaused) {
+            // Play
             this->sessionTimer->start(1000);
             this->sessionPaused = false;
+            this->endSessionTimer->stop();
+        } else {
+            // Pause
+            this->sessionTimer->stop();
+            this->sessionPaused = true;
+            this->endSessionTimer->start(MAX_DISCONNECT_TIME);
         }
     }
 }
 
 void Controller::stopSession() {
     if (this->inSession) {
-        // TODO: Erase session
-        currentTime = 300;
-        emit updateUI_progressBar(((300 - currentTime) * 100) / 300);
-        emit updateUI_timerLabel(QString::number(currentTime / 60) + ":" + QString::number(currentTime % 60).rightJustified(2, '0'));
+        // Stop the End-Session timer
+        this->endSessionTimer->stop();
+
+        // Reset Session attributes
+        this->sessionLogs.removeLast();
+        this->inSession = false;
+        this->sessionPaused = false;
+        this->sessionTime = MAX_SESSION_TIME;
         this->sessionTimer->stop();
+
+        // Reset TimerUI
+        emit updateUI_progressBar(((300 - sessionTime) * 100) / 300);
+        emit updateUI_timerLabel(QString::number(sessionTime / 60) + ":" + QString::number(sessionTime % 60).rightJustified(2, '0'));
     }
 }
-
-

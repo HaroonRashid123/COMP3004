@@ -1,4 +1,4 @@
-#ifndef CONTROLLER_H
+﻿#ifndef CONTROLLER_H
 #define CONTROLLER_H
 
 #include <QObject>
@@ -33,7 +33,7 @@ public:
     void setBlueLight(PowerState ps);
     void setRedLight(PowerState ps);
     void setGreenLight(PowerState ps);
-    void setDateTime(QDateTime newDT);
+    void setDateTime(QDateTime dt);
 
     // Member Variable(s)
 private:
@@ -48,11 +48,12 @@ private:
     QDateTime currentDateTime;
 
     //Session Related
+    bool inSession;
+    bool sessionPaused;
+    int sessionTime;
     QVector<Session*> sessionLogs;
     QTimer* sessionTimer;
-    bool inSession; 
-    bool sessionPaused;
-    int currentTime;
+    QTimer* endSessionTimer;
 
 signals:
     void updateUI_power(PowerState ps);
@@ -62,20 +63,17 @@ signals:
     void updateUI_redLight(PowerState ps);
     void updateUI_progressBar(int value);
     void updateUI_timerLabel(const QString &text);
-
     void updateUI_dateTimeChanged();
 
 public slots:
-    void togglePower();
+    void togglePower(PowerState ps);
     void chargeBattery(int percentAmount);
     void reduceBattery(int percentAmount);
 
-     void updateConnectionState(ConnectionState cs);
+    void updateConnectionState(ConnectionState cs);
 
-    void startNewSession();
     void playOrPauseSession();
     void stopSession();
-
 };
 
 #endif // CONTROLLER_H
