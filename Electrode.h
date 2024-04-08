@@ -10,12 +10,13 @@ class Electrode : public QObject
 public:
     // Constructor(s)
     Electrode(int id);
+    Electrode();
 
     // Destructor(s)
     ~Electrode();
 
     // Getter(s)
-    ConnectionState getConnectionState();
+    ConnectionState getConnectionState() ;
     double getFrequency(int f_id);
     double getAmplitude(int a_id);
 

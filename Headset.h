@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "ExternalObj.h"
+#include "Electrode.h"
 
 class Headset : public QObject
 {
@@ -15,8 +16,8 @@ public:
     ~Headset();
 
     //Getter(s)
-    ConnectionState getElectrode(int e_id);
-    ConnectionState* getElectrodes();
+    Electrode* getElectrode(int e_id);
+    Electrode* getElectrodes();
 
     //Setter(s)
     void setElectrode(int e_id, ConnectionState cs);
@@ -24,7 +25,8 @@ public:
     //Member Variable(s)
 private:
     ConnectionState connectionState;
-    ConnectionState *electrodes;
+//    ConnectionState *electrodes;
+    Electrode *electrodes;
 
 signals:
     void connectionStateChanged(ConnectionState cs);

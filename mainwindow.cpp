@@ -126,7 +126,7 @@ MainWindow::MainWindow(QWidget *parent)
         connect(electrodes[e_id], &QCheckBox::stateChanged, [=]() {
             ConnectionState cs = (electrodes[e_id]->isChecked()) ? CONNECTED : DISCONNECTED;
             this->headset->setElectrode(e_id, cs);
-            qInfo("Electrode %d is %s", e_id, qPrintable(connectionStateToStr(this->headset->getElectrode(e_id))));
+//            qInfo("Electrode %d is %s", e_id, qPrintable(connectionStateToStr(this->headset->getElectrode(e_id))));
         });
     }
 
@@ -163,7 +163,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Set Electrode Connections
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        bool connected = (this->headset->getElectrode(e_id) == CONNECTED) ? true : false;
+        bool connected = (this->headset->getElectrode(e_id)->getConnectionState() == CONNECTED) ? true : false;
         electrodes[e_id]->setChecked(connected);
     }
 }

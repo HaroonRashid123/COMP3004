@@ -4,9 +4,9 @@
  * CONSTRUCTOR(S)
 \*====================================================================================================*/
 Headset::Headset() {
-    this->electrodes = new ConnectionState[MAX_ELECTRODES];
+    this->electrodes = new Electrode[MAX_ELECTRODES];
     for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        this->electrodes[e_id]  = CONNECTED;
+        this->electrodes[e_id].setConnectionState(CONNECTED);
     }
     this->connectionState = CONNECTED;
     emit connectionStateChanged(CONNECTED);
@@ -34,14 +34,14 @@ Headset::~Headset() { delete[] this->electrodes; }
 /*====================================================================================================*\
  * GETTER(S)
 \*====================================================================================================*/
-ConnectionState Headset::getElectrode(int e_id) { return this->electrodes[e_id]; }
-ConnectionState* Headset::getElectrodes() {return this->electrodes; }
+Electrode* Headset::getElectrode(int e_id) { return &this->electrodes[e_id]; }
+Electrode* Headset::getElectrodes() {return this->electrodes; }
 
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
 void Headset::setElectrode(int e_id, ConnectionState cs){
-    this->electrodes[e_id] = cs;
+    this->electrodes[e_id].setConnectionState(cs);
 }
 
 /*====================================================================================================*\
@@ -49,7 +49,7 @@ void Headset::setElectrode(int e_id, ConnectionState cs){
 \*====================================================================================================*/
 bool Headset::hasDisconnection() {
     for(int e_id=0; e_id < MAX_ELECTRODES; ++e_id) {
-        if (this->electrodes[e_id] == DISCONNECTED) { return true; }
+        if (this->electrodes[e_id].getConnectionState() == DISCONNECTED) { return true; }
     }
     return false;
 }
