@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     Controller.cpp \
+    Electrode.cpp \
     ExternalObj.cpp \
     Headset.cpp \
     Session.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     Controller.h \
+    Electrode.h \
     ExternalObj.h \
     Headset.h \
     Session.h \

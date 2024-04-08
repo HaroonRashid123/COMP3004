@@ -13,12 +13,14 @@ git clone https://github.com/HaroonRashid123/COMP3004.git
 git add README.md
 git add Controller.cpp
 git add Controller.h
+git add Electrode.cpp
+git add Electrode.h
+git add Headset.cpp
+git add Headset.h
 git add Session.cpp
 git add Session.h
 git add ExternalObj.cpp
 git add ExternalObj.h
-git add Headset.cpp
-git add Headset.h
 git add comp3004_final_neureset.pro
 git add comp3004_final_neureset.pro.user
 git add main.cpp
