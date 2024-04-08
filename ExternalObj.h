@@ -6,7 +6,7 @@
 
 #include <QString>
 
-#define MAX_ELECTRODES 21
+#define MAX_ELECTRODES 7            // 7 for testing purposesl as per the testing specification
 #define MAX_DISCONNECT_TIME 20000   // milliseconds ( = 5 min)
 #define MAX_SESSION_TIME 300        // seconds (= 5 min)
 
