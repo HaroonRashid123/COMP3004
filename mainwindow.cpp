@@ -4,6 +4,10 @@
 #include <QAction>
 #include <QTimer>
 #include <QDebug>
+#include <QComboBox>
+
+// Assuming you have a QComboBox instance called comboBox
+
 
 bool isFlashOn = false;
 
@@ -18,6 +22,18 @@ MainWindow::MainWindow(QWidget *parent)
     \*====================================================================================================*/
     this->controller = new Controller(100, ON, QDateTime::currentDateTime());
     this->headset = new Headset();
+
+    QStringList types = {"Delta", "Theta", "Alpha", "Beta"};
+
+    for (int i = 0; i <= 6; ++i) {
+        for (int j = 1; j <= 3; ++j) {
+            QString comboBoxName = QString("comboBox_e%1_f%2").arg(i).arg(j);
+            QComboBox *comboBox = findChild<QComboBox *>(comboBoxName);
+            if (comboBox)
+                comboBox->addItems(types);
+        }
+    }
+
 
     // For easier referencing...
     QCheckBox* electrodes[MAX_ELECTRODES];
@@ -42,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent)
 //    electrodes[18] = ui->checkBox_e18;
 //    electrodes[19] = ui->checkBox_e19;
 //    electrodes[20] = ui->checkBox_e20;
+
+
+
 
     /*====================================================================================================*\
      * MENU
