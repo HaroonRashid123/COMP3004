@@ -27,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     for (int i = 0; i <= 6; ++i) {
         for (int j = 1; j <= 3; ++j) {
-            QString comboBoxName = QString("comboBox_e%1_f%2").arg(i).arg(j);
-            QComboBox *comboBox = findChild<QComboBox *>(comboBoxName);
-            if (comboBox)
-                comboBox->addItems(types);
+            QString temp = QString("comboBox_e%1_f%2").arg(i).arg(j);
+            QComboBox *filter = findChild<QComboBox *>(temp);
+            if (filter)
+                filter->addItems(types);
         }
     }
 
