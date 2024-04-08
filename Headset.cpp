@@ -5,28 +5,9 @@
 \*====================================================================================================*/
 Headset::Headset() {
     this->electrodes = new ConnectionState[MAX_ELECTRODES];
-    this->electrodes[0]  = CONNECTED;
-    this->electrodes[1]  = CONNECTED;
-    this->electrodes[2]  = CONNECTED;
-    this->electrodes[3]  = CONNECTED;
-    this->electrodes[4]  = CONNECTED;
-    this->electrodes[5]  = CONNECTED;
-    this->electrodes[6]  = CONNECTED;
-    this->electrodes[7]  = CONNECTED;
-    this->electrodes[8]  = CONNECTED;
-    this->electrodes[9]  = CONNECTED;
-    this->electrodes[10] = CONNECTED;
-    this->electrodes[11] = CONNECTED;
-    this->electrodes[12] = CONNECTED;
-    this->electrodes[13] = CONNECTED;
-    this->electrodes[14] = CONNECTED;
-    this->electrodes[15] = CONNECTED;
-    this->electrodes[16] = CONNECTED;
-    this->electrodes[17] = CONNECTED;
-    this->electrodes[18] = CONNECTED;
-    this->electrodes[19] = CONNECTED;
-    this->electrodes[20] = CONNECTED;
-
+    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        this->electrodes[e_id]  = CONNECTED;
+    }
     this->connectionState = CONNECTED;
     emit connectionStateChanged(CONNECTED);
 

@@ -28,20 +28,20 @@ MainWindow::MainWindow(QWidget *parent)
     electrodes[4] = ui->checkBox_e4;
     electrodes[5] = ui->checkBox_e5;
     electrodes[6] = ui->checkBox_e6;
-    electrodes[7] = ui->checkBox_e7;
-    electrodes[8] = ui->checkBox_e8;
-    electrodes[9] = ui->checkBox_e9;
-    electrodes[10] = ui->checkBox_e10;
-    electrodes[11] = ui->checkBox_e11;
-    electrodes[12] = ui->checkBox_e12;
-    electrodes[13] = ui->checkBox_e13;
-    electrodes[14] = ui->checkBox_e14;
-    electrodes[15] = ui->checkBox_e15;
-    electrodes[16] = ui->checkBox_e16;
-    electrodes[17] = ui->checkBox_e17;
-    electrodes[18] = ui->checkBox_e18;
-    electrodes[19] = ui->checkBox_e19;
-    electrodes[20] = ui->checkBox_e20;
+//    electrodes[7] = ui->checkBox_e7;
+//    electrodes[8] = ui->checkBox_e8;
+//    electrodes[9] = ui->checkBox_e9;
+//    electrodes[10] = ui->checkBox_e10;
+//    electrodes[11] = ui->checkBox_e11;
+//    electrodes[12] = ui->checkBox_e12;
+//    electrodes[13] = ui->checkBox_e13;
+//    electrodes[14] = ui->checkBox_e14;
+//    electrodes[15] = ui->checkBox_e15;
+//    electrodes[16] = ui->checkBox_e16;
+//    electrodes[17] = ui->checkBox_e17;
+//    electrodes[18] = ui->checkBox_e18;
+//    electrodes[19] = ui->checkBox_e19;
+//    electrodes[20] = ui->checkBox_e20;
 
     /*====================================================================================================*\
      * MENU
@@ -112,6 +112,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     connect(headset, &Headset::connectionStateChanged, controller, &Controller::updateConnectionState);
+
 
     /*====================================================================================================*\
      * UI SETUP (to match controller state)
