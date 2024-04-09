@@ -38,8 +38,11 @@ public:
     // Member Variable(s)
 private:
     int batteryRemaining;
+    QTimer* batteryCharge;
+    QTimer* batteryDeplete;
     ConnectionState chargingState;
     PowerState powerState;
+
     PowerState blueLight;
     PowerState greenLight;
     PowerState redLight;

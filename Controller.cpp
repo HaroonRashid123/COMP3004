@@ -25,6 +25,26 @@ Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime cu
         this->stopSession();
         this->togglePower(OFF);
     });
+
+    // Will reduce battery when Power is ON, reduce extra if operating a session. Repeats every 15 seconds
+    this->batteryDeplete = new QTimer(this);
+    connect(this->batteryDeplete, &QTimer::timeout, [=]() {
+        if ((this->powerState == ON) && (this->inSession)) {
+            reduceBattery(2);
+        } else if ((this->powerState == ON) && (!this->inSession)) {
+            reduceBattery(1);
+        }
+    });
+    this->batteryDeplete->start(15000);
+
+    // Will Charge Battery when Plugged in. Repeats every 15 seconds
+    this->batteryCharge = new QTimer(this);
+    connect(this->batteryCharge, &QTimer::timeout, [=]() {
+        if (this->chargingState == CONNECTED) {
+            chargeBattery(1);
+        }
+    });
+    this->batteryCharge->start(5000);
 }
 
 /*====================================================================================================*\
