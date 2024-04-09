@@ -22,6 +22,9 @@
 #define BETA_MIN 12.0
 #define BETA_MAX 30.0
 
+#define OFFSET 5
+
+
 // To represent the power state of an electronic componenent
 enum PowerState {
     OFF,
@@ -35,9 +38,18 @@ enum ConnectionState {
 };
 
 enum SessionState {
-    IN_PROGRESS,
-    PAUSED,
+    INCOMPLETE = -1,
+    ROUND_ONE,
+    ROUND_TWO,
+    ROUND_THREE,
+    ROUND_FOUR,
     COMPLETE,
+};
+
+enum TreatmentState {
+    PRE_ANALYSIS,
+    TREATMENT,
+    POST_ANALYSIS
 };
 
 enum Band {

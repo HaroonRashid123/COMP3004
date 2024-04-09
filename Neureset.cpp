@@ -1,13 +1,33 @@
-﻿#include "Controller.h"
+﻿#include "Neureset.h"
 
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
 \*====================================================================================================*/
-Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
+Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
     chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF),
     connectionState(CONNECTED), inSession(false), sessionPaused(false), sessionTime(MAX_SESSION_TIME)
 {
+
+    // Electrode Connections Setup
+    this->electrodes = new Electrode[MAX_ELECTRODES];
+    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        this->electrodes[e_id].setConnectionState(CONNECTED);
+    }
+    this->connectionState = CONNECTED;
+
+    // Automated Electrode Connection checking
+    QTimer *timer = new QTimer(this);
+    timer->setSingleShot(false);
+    connect(timer, &QTimer::timeout, [=]() {
+       if (this->connectionState == CONNECTED && this->hasDisconnection()) {
+           this->updateConnectionState(DISCONNECTED);
+       } else if (this->connectionState == DISCONNECTED && !this->hasDisconnection()) {
+           this->updateConnectionState(CONNECTED);
+       }
+    });
+    timer->start(1000);
+
     // Progress Bar Countdown
     this->sessionTimer = new QTimer(this);
     connect(this->sessionTimer, &QTimer::timeout, [=]() {
@@ -50,44 +70,52 @@ Controller::Controller(int batteryRemaining, PowerState powerState, QDateTime cu
 /*====================================================================================================*\
  * DESTRUCTOR(S)
 \*====================================================================================================*/
-Controller::~Controller() {}
+Neureset::~Neureset() {
+    delete[] this->electrodes;
+ }
 
 /*====================================================================================================*\
  * GETTER(S)
 \*====================================================================================================*/
-int Controller::getBatteryRemaining() { return this->batteryRemaining; }
-ConnectionState Controller::getChargingState() { return this->chargingState; }
-PowerState Controller::getPowerState() { return this->powerState; }
-PowerState Controller::getBlueLight() { return this->blueLight; }
-PowerState Controller::getGreenLight() { return this->greenLight; }
-PowerState Controller::getRedLight() { return this->redLight; }
-QDateTime Controller::getCurrentDateTime() { return this->currentDateTime; }
-QVector<Session*> Controller::getSessionLogs() { return this->sessionLogs; }
+int Neureset::getBatteryRemaining() { return this->batteryRemaining; }
+ConnectionState Neureset::getChargingState() { return this->chargingState; }
+PowerState Neureset::getPowerState() { return this->powerState; }
+PowerState Neureset::getBlueLight() { return this->blueLight; }
+PowerState Neureset::getGreenLight() { return this->greenLight; }
+PowerState Neureset::getRedLight() { return this->redLight; }
+Electrode* Neureset::getElectrode(int e_id) { return &this->electrodes[e_id]; }
+Electrode* Neureset::getElectrodes() {return this->electrodes; }
+QDateTime Neureset::getCurrentDateTime() { return this->currentDateTime; }
+QVector<Session*> Neureset::getSessionLogs() { return this->sessionLogs; }
 
 /*====================================================================================================*\
  * SETTER(S)
 \*====================================================================================================*/
-void Controller::setChargingState(ConnectionState cs) {
+void Neureset::setChargingState(ConnectionState cs) {
     this->chargingState = cs;
 }
 
-void Controller::setPowerState(PowerState ps) {
+void Neureset::setPowerState(PowerState ps) {
     emit updateUI_power(this->powerState = ps);
 }
 
-void Controller::setBlueLight(PowerState ps) {
+void Neureset::setBlueLight(PowerState ps) {
     emit updateUI_blueLight(this->blueLight = ps);
 }
 
-void Controller::setGreenLight(PowerState ps) {
+void Neureset::setGreenLight(PowerState ps) {
     emit updateUI_greenLight(this->greenLight = ps);
 }
 
-void Controller::setRedLight(PowerState ps) {
+void Neureset::setRedLight(PowerState ps) {
     emit updateUI_redLight(this->redLight = ps);
 }
 
-void Controller::setDateTime(QDateTime dt) {
+void Neureset::setElectrode(int e_id, ConnectionState cs){
+    this->electrodes[e_id].setConnectionState(cs);
+}
+
+void Neureset::setDateTime(QDateTime dt) {
     this->currentDateTime = dt;
     emit updateUI_dateTimeChanged();
 }
@@ -95,7 +123,7 @@ void Controller::setDateTime(QDateTime dt) {
 /*====================================================================================================*\
  * SLOT FUNCTION(S)
 \*====================================================================================================*/
-void Controller::togglePower(PowerState ps) {
+void Neureset::togglePower(PowerState ps) {
     if (ps == OFF) {
         this->setPowerState(OFF);
         this->setBlueLight(OFF);
@@ -113,7 +141,7 @@ void Controller::togglePower(PowerState ps) {
     this->setGreenLight(OFF);
 }
 
-void Controller::chargeBattery(int percentAmount) {
+void Neureset::chargeBattery(int percentAmount) {
     if ((this->chargingState == CONNECTED) && (batteryRemaining < 100)) {
         if ((batteryRemaining + percentAmount) > 100) {
             batteryRemaining = 100;
@@ -124,7 +152,7 @@ void Controller::chargeBattery(int percentAmount) {
     }
 }
 
-void Controller::reduceBattery(int percentAmount) {
+void Neureset::reduceBattery(int percentAmount) {
     if ((this->powerState == ON) && (this->chargingState == DISCONNECTED) && (batteryRemaining > 0)) {
         if ((batteryRemaining - percentAmount) < 0) {
             batteryRemaining = 0;
@@ -135,7 +163,14 @@ void Controller::reduceBattery(int percentAmount) {
     }
 }
 
-void Controller::updateConnectionState(ConnectionState cs) {
+bool Neureset::hasDisconnection() {
+    for(int e_id=0; e_id < MAX_ELECTRODES; ++e_id) {
+        if (this->electrodes[e_id].getConnectionState() == DISCONNECTED) { return true; }
+    }
+    return false;
+}
+
+void Neureset::updateConnectionState(ConnectionState cs) {
     if (cs == CONNECTED) {
         this->connectionState = CONNECTED;
         this->setBlueLight(ON);
@@ -157,9 +192,10 @@ void Controller::updateConnectionState(ConnectionState cs) {
             this->endSessionTimer->start(MAX_DISCONNECT_TIME);
         }
     }
+
 }
 
-void Controller::playOrPauseSession() {
+void Neureset::playOrPauseSession() {
     if (!this->inSession) {
         if (this->connectionState == CONNECTED) {
             // Start New Session
@@ -169,6 +205,17 @@ void Controller::playOrPauseSession() {
             this->sessionPaused = false;
             this->sessionTime = MAX_SESSION_TIME;
             this->sessionTimer->start(1000);
+
+            // this->sessionLogs.last()->setSessionState
+            // Pre Analysis
+            /*
+            for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+               double df = this->el
+               this->sessionLogs.last()->setBaseline(false, e_id);
+            }
+            */
+
+
         }
     } else {
         if (this->sessionPaused) {
@@ -185,7 +232,7 @@ void Controller::playOrPauseSession() {
     }
 }
 
-void Controller::stopSession() {
+void Neureset::stopSession() {
     if (this->inSession) {
         // Stop the End-Session timer
         this->endSessionTimer->stop();
@@ -202,3 +249,4 @@ void Controller::stopSession() {
         emit updateUI_timerLabel(QString::number(sessionTime / 60) + ":" + QString::number(sessionTime % 60).rightJustified(2, '0'));
     }
 }
+

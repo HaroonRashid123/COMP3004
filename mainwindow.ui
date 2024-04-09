@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1055</width>
-    <height>696</height>
+    <width>1201</width>
+    <height>745</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QTabWidget" name="tabWidget_UI">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>10</y>
       <width>991</width>
       <height>611</height>
@@ -526,12 +526,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_7">
        <property name="geometry">
@@ -760,9 +754,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_19">
        <property name="geometry">
@@ -785,12 +776,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e0">
@@ -839,12 +824,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_44">
@@ -966,12 +945,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_52">
        <property name="geometry">
@@ -990,16 +963,10 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>101</y>
+         <y>100</y>
          <width>51</width>
-         <height>20</height>
+         <height>21</height>
         </rect>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e2">
@@ -1161,7 +1128,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_62">
@@ -1287,7 +1254,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_70">
@@ -1316,7 +1283,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e4">
@@ -1474,12 +1441,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_80">
        <property name="geometry">
@@ -1600,12 +1561,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_88">
        <property name="geometry">
@@ -1628,12 +1583,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e1">
@@ -1791,12 +1740,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_107">
        <property name="geometry">
@@ -1917,12 +1860,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
-       </property>
       </widget>
       <widget class="QLabel" name="label_115">
        <property name="geometry">
@@ -1945,12 +1882,6 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>50</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e3">
@@ -2112,7 +2043,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_134">
@@ -2238,7 +2169,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_142">
@@ -2267,7 +2198,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e5">
@@ -2429,7 +2360,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_161">
@@ -2555,7 +2486,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_169">
@@ -2584,7 +2515,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e6">
@@ -2856,7 +2787,7 @@ selection-background-color: rgb(98, 160, 234)</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1055</width>
+     <width>1201</width>
      <height>22</height>
     </rect>
    </property>

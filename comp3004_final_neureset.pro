@@ -9,19 +9,19 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Controller.cpp \
     Electrode.cpp \
     ExternalObj.cpp \
     Headset.cpp \
+    Neureset.cpp \
     Session.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    Controller.h \
     Electrode.h \
     ExternalObj.h \
     Headset.h \
+    Neureset.h \
     Session.h \
     mainwindow.h
 

@@ -1,21 +1,21 @@
-﻿#ifndef CONTROLLER_H
-#define CONTROLLER_H
+﻿#ifndef NEURESET_H
+#define NEURESET_H
 
 #include <QObject>
 #include "ExternalObj.h"
 
 #include "Session.h"
+#include "Electrode.h"
 
-
-class Controller : public QObject
+class Neureset : public QObject
 {
     Q_OBJECT
 public:
     // Constructor(s)
-    Controller(int batteryRemaining = 100, PowerState powerState = ON, QDateTime currentDateTime = QDateTime(QDate(2024, 1, 1), QTime(0,0,0)));
+    Neureset(int batteryRemaining = 100, PowerState powerState = ON, QDateTime currentDateTime = QDateTime(QDate(2024, 1, 1), QTime(0,0,0)));
 
     // Destructor(s)
-    ~Controller();
+    ~Neureset();
 
     // Getter(s)
     int getBatteryRemaining();
@@ -24,6 +24,10 @@ public:
     PowerState getBlueLight();
     PowerState getRedLight();
     PowerState getGreenLight();
+
+    Electrode* getElectrode(int e_id);
+    Electrode* getElectrodes();
+
     QDateTime getCurrentDateTime();
     QVector<Session*> getSessionLogs();
 
@@ -33,6 +37,8 @@ public:
     void setBlueLight(PowerState ps);
     void setRedLight(PowerState ps);
     void setGreenLight(PowerState ps);
+
+    void setElectrode(int e_id, ConnectionState cs);
     void setDateTime(QDateTime dt);
 
     // Member Variable(s)
@@ -48,6 +54,7 @@ private:
     PowerState redLight;
 
     ConnectionState connectionState;
+    Electrode *electrodes;
     QDateTime currentDateTime;
 
     //Session Related
@@ -73,10 +80,12 @@ public slots:
     void chargeBattery(int percentAmount);
     void reduceBattery(int percentAmount);
 
+    bool hasDisconnection();
     void updateConnectionState(ConnectionState cs);
 
     void playOrPauseSession();
     void stopSession();
+
 };
 
-#endif // CONTROLLER_H
+#endif // NEURESET_H
