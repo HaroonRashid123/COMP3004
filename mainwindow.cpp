@@ -20,12 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
     /*====================================================================================================*\
      * INIT MEMBER(S)
     \*====================================================================================================*/
-    this->controller = new Controller(100, ON, QDateTime::currentDateTime());
-    this->headset = new Headset();
+    this->neureset = new Neureset(100, ON, QDateTime::currentDateTime());
+//    this->headset = new Headset();
 
     /*
     QStringList types = {"Delta", "Theta", "Alpha", "Beta"};
-
     for (int i = 0; i <= 6; ++i) {
         for (int j = 1; j <= 3; ++j) {
             QString temp = QString("comboBox_e%1_f%2").arg(i).arg(j);
@@ -38,13 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // For easier referencing, organize the electrode widget into an array...
     QCheckBox* electrodes[MAX_ELECTRODES];
-    electrodes[0] = ui->checkBox_e0;
-    electrodes[1] = ui->checkBox_e1;
-    electrodes[2] = ui->checkBox_e2;
-    electrodes[3] = ui->checkBox_e3;
-    electrodes[4] = ui->checkBox_e4;
-    electrodes[5] = ui->checkBox_e5;
-    electrodes[6] = ui->checkBox_e6;
+    for (int i=0; i<MAX_ELECTRODES; ++i) {
+            electrodes[i] = findChild<QCheckBox*>(QString("checkBox_e%1").arg(i));
+    }
 
     QComboBox* electrodeFrequencies[MAX_ELECTRODES][3];
     for (int i=0; i<MAX_ELECTRODES; ++i) {
@@ -67,72 +62,71 @@ MainWindow::MainWindow(QWidget *parent)
     \*====================================================================================================*/
 
     // NEW SESSION
-    connect(ui->pushButton_playPause, &QPushButton::released, controller, &Controller::playOrPauseSession);
-    connect(ui->pushButton_stop, &QPushButton::released, controller, &Controller::stopSession);
+    connect(ui->pushButton_playPause, &QPushButton::released, neureset, &Neureset::playOrPauseSession);
+    connect(ui->pushButton_stop, &QPushButton::released, neureset, &Neureset::stopSession);
 
-    connect(controller, &Controller::updateUI_progressBar, ui->progressBar_session, &QProgressBar::setValue);
-    connect(controller, &Controller::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
+    connect(neureset, &Neureset::updateUI_progressBar, ui->progressBar_session, &QProgressBar::setValue);
+    connect(neureset, &Neureset::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
 
     // SESSION LOGS
-//    connect(ui->pushButton_upload, &QPushButton::released, controller, &Controller::uploadLogs);
+//    connect(ui->pushButton_upload, &QPushButton::released, neureset, &Neureset::uploadLogs);
 
     // DATE/TIME
     connect(ui->pushButton_changeDateTime, &QPushButton::released, [=] {
-        // Update Controller Date
+        // Update Neureset Date
         QDateTime dateTime = ui->dateTimeEdit->dateTime();
-        this->controller->setDateTime(dateTime);
+        this->neureset->setDateTime(dateTime);
     });
-    connect(controller, &Controller::updateUI_dateTimeChanged, this, &MainWindow::updateUI_dateTime);
+    connect(neureset, &Neureset::updateUI_dateTimeChanged, this, &MainWindow::updateUI_dateTime);
 
     /*====================================================================================================*\
      * POWER
     \*====================================================================================================*/
     connect(ui->pushButton_power, &QPushButton::released, [=]() {
-        if (this->controller->getPowerState() == ON) {
-            this->controller->togglePower(OFF);
+        if (this->neureset->getPowerState() == ON) {
+            this->neureset->togglePower(OFF);
         } else {
-            this->controller->togglePower(ON);
+            this->neureset->togglePower(ON);
         }
 
     });
-    connect(controller, &Controller::updateUI_power, this, &MainWindow::updateUI_power);
+    connect(neureset, &Neureset::updateUI_power, this, &MainWindow::updateUI_power);
 
     /*====================================================================================================*\
      * BATTERY
     \*====================================================================================================*/
     connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=] () {
         ConnectionState cs = (ui->checkBox_pluggedIn->checkState() == Qt::Checked) ? CONNECTED : DISCONNECTED;
-        this->controller->setChargingState(cs);
+        this->neureset->setChargingState(cs);
     });
-    connect(controller, &Controller::updateUI_battery, this, &MainWindow::updateUI_battery);
+    connect(neureset, &Neureset::updateUI_battery, this, &MainWindow::updateUI_battery);
 
     /*====================================================================================================*\
      * TREATMENT LIGHTS
     \*====================================================================================================*/
-    connect(controller, &Controller::updateUI_blueLight, this, &MainWindow::updateUI_blueLight);
-    connect(controller, &Controller::updateUI_greenLight, this, &MainWindow::updateUI_greenLight);
-    connect(controller, &Controller::updateUI_redLight, this, &MainWindow::updateUI_redLight);
+    connect(neureset, &Neureset::updateUI_blueLight, this, &MainWindow::updateUI_blueLight);
+    connect(neureset, &Neureset::updateUI_greenLight, this, &MainWindow::updateUI_greenLight);
+    connect(neureset, &Neureset::updateUI_redLight, this, &MainWindow::updateUI_redLight);
 
     /*====================================================================================================*\
-     * HEADSET/ELECTRODES
+     * ELECTRODES
     \*====================================================================================================*/
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
         connect(electrodes[e_id], &QCheckBox::stateChanged, [=]() {
             ConnectionState cs = (electrodes[e_id]->isChecked()) ? CONNECTED : DISCONNECTED;
-            this->headset->setElectrode(e_id, cs);
+            this->neureset->setElectrode(e_id, cs);
 //            qInfo("Electrode %d is %s", e_id, qPrintable(connectionStateToStr(this->headset->getElectrode(e_id))));
         });
     }
-    connect(headset, &Headset::connectionStateChanged, controller, &Controller::updateConnectionState);
 
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
         for(int fa_id=0; fa_id<3; ++fa_id) {
             connect(electrodeFrequencies[e_id][fa_id], QOverload<int>::of(&QComboBox::currentIndexChanged), [=] (int index) {
-                this->headset->getElectrode(e_id)->generateFrequency(fa_id, indexToBand(index));
+                this->neureset->getElectrode(e_id)->generateFrequency(fa_id, indexToBand(index));
             });
 
             connect(electrodeAmplitudes[e_id][fa_id], QOverload<int>::of(&QSpinBox::valueChanged), [=] (int value) {
-                this->headset->getElectrode(e_id)->setAmplitude(fa_id, (double)value);
+                this->neureset->getElectrode(e_id)->setAmplitude(fa_id, (double)value);
             });
 
         }
@@ -141,27 +135,27 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(ui->comboBox_e0_f1, &QComboBox::currentIndexChanged, headset, &Headset::getElectrode());
 
     /*====================================================================================================*\
-     * UI SETUP (to match controller state)
+     * UI SETUP (to match neureset state)
     \*====================================================================================================*/
     //Set Power
     this->updateUI_blueLight(OFF);
     this->updateUI_greenLight(OFF);
     this->updateUI_redLight(OFF);
-    this->controller->togglePower(ON);
+    this->neureset->togglePower(ON);
 
     // Set Menu
-    if (this->controller->getPowerState() == ON) {
+    if (this->neureset->getPowerState() == ON) {
         this->updateUI_showMenu();
     }
 
     // Set Date/Time
     ui->label_dateTimeChanged->hide();
-    ui->dateTimeEdit->setDateTime(this->controller->getCurrentDateTime());
-    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+    ui->dateTimeEdit->setDateTime(this->neureset->getCurrentDateTime());
+    qInfo("Date/Time is %s", qPrintable(this->neureset->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
 
     // Battery
-    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
-    if (this->controller->getChargingState() == CONNECTED){
+    ui->progressBar_battery->setValue(this->neureset->getBatteryRemaining());
+    if (this->neureset->getChargingState() == CONNECTED){
         ui->checkBox_pluggedIn->setChecked(true);
     } else {
         ui->checkBox_pluggedIn->setChecked(false);
@@ -170,15 +164,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Set Electrode Connections
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        bool connected = (this->headset->getElectrode(e_id)->getConnectionState() == CONNECTED) ? true : false;
+        bool connected = (this->neureset->getElectrode(e_id)->getConnectionState() == CONNECTED) ? true : false;
         electrodes[e_id]->setChecked(connected);
     }
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete controller;
-    delete headset;
+    delete neureset;
 }
 
 /*====================================================================================================*\
@@ -219,7 +212,7 @@ void MainWindow::updateUI_hideMenu(){
 void MainWindow::updateUI_dateTime() {
     // Update UI with Date/Time changed message
     ui->label_dateTimeChanged->show();
-    qInfo("Date/Time is %s", qPrintable(this->controller->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+    qInfo("Date/Time is %s", qPrintable(this->neureset->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=]() {
         ui->label_dateTimeChanged->hide();
@@ -231,10 +224,10 @@ void MainWindow::updateUI_dateTime() {
  * BATTERY
 \*====================================================================================================*/
 void MainWindow::updateUI_battery() {
-    ui->progressBar_battery->setValue(this->controller->getBatteryRemaining());
+    ui->progressBar_battery->setValue(this->neureset->getBatteryRemaining());
     int currentBatteryLevel = ui->progressBar_battery->value();
 
-    if (this->controller->getPowerState() == ON) {
+    if (this->neureset->getPowerState() == ON) {
         if (currentBatteryLevel <= 10) {
             ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
                                                    "selection-color: " + ColourToStr(BLACK) +
@@ -305,7 +298,7 @@ void MainWindow::updateUI_redLight(PowerState ps) {
                 isFlashOn = true;
             }
 
-            if (this->controller->getRedLight() == OFF) {
+            if (this->neureset->getRedLight() == OFF) {
                 ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
                 timer->deleteLater();
             }

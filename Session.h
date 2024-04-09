@@ -1,4 +1,4 @@
-#ifndef SESSION_H
+﻿#ifndef SESSION_H
 #define SESSION_H
 
 #include <QObject>
@@ -16,16 +16,22 @@ public:
     ~Session();
 
     // Getters
+    SessionState getSessionState();
+    TreatmentState getTreatmentState();
     QDateTime getStartDateTime();
     int getBaseline(bool baseline_final, int e_id);
     int* getBaselines(bool baseline_final);
 
     // Setters
+    void setSessionState(SessionState ss);
+    void setTreatmentState(TreatmentState ts);
     void setStartDateTime(QDateTime startDT);
     void setBaseline(bool baseline_final, int e_id, int b_value);
 
 private:
     SessionState sessionState;
+    TreatmentState treatmentState;
+
     QDateTime startDateTime;
     int baselines_before[21];
     int baselines_after[21];

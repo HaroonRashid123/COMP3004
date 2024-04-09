@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "ExternalObj.h"
-#include "Controller.h"
+#include "Neureset.h"
 #include "Headset.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,8 +22,7 @@ private:
     Ui::MainWindow *ui;
 
     // Members
-    Controller *controller;
-    Headset *headset;
+    Neureset *neureset;
 //    QTimer *timer;
 //    bool isTimerPaused;
     bool redLightOn = false;
