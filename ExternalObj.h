@@ -10,6 +10,18 @@
 #define MAX_DISCONNECT_TIME 20000   // milliseconds ( = 5 min)
 #define MAX_SESSION_TIME 300        // seconds (= 5 min)
 
+#define DELTA_MIN 1.0
+#define DELTA_MAX 4.0
+
+#define THETA_MIN 4.0
+#define THETA_MAX 8.0
+
+#define ALPHA_MIN 8.0
+#define ALPHA_MAX 12.0
+
+#define BETA_MIN 12.0
+#define BETA_MAX 30.0
+
 // To represent the power state of an electronic componenent
 enum PowerState {
     OFF,
@@ -28,6 +40,14 @@ enum SessionState {
     COMPLETE,
 };
 
+enum Band {
+    UNKNOWN_BAND = -1,
+    DELTA,
+    THETA,
+    ALPHA,
+    BETA,
+};
+
 enum Colour {
     RED,
     BLUE,
@@ -37,6 +57,9 @@ enum Colour {
     GREY,
     BLACK,
 };
+
+// Index to ENUM mapping function for UI wave input
+Band indexToBand(int index);
 
 // Enum to string mapping function for Colour
 QString ColourToStr(Colour colour);

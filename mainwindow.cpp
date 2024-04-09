@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->controller = new Controller(100, ON, QDateTime::currentDateTime());
     this->headset = new Headset();
 
+    /*
     QStringList types = {"Delta", "Theta", "Alpha", "Beta"};
 
     for (int i = 0; i <= 6; ++i) {
@@ -33,8 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
                 filter->addItems(types);
         }
     }
+    */
 
-    // For easier referencing...
+    // For easier referencing, organize the electrode widget into an array...
     QCheckBox* electrodes[MAX_ELECTRODES];
     electrodes[0] = ui->checkBox_e0;
     electrodes[1] = ui->checkBox_e1;
@@ -43,6 +45,22 @@ MainWindow::MainWindow(QWidget *parent)
     electrodes[4] = ui->checkBox_e4;
     electrodes[5] = ui->checkBox_e5;
     electrodes[6] = ui->checkBox_e6;
+
+    QComboBox* electrodeFrequencies[MAX_ELECTRODES][3];
+    for (int i=0; i<MAX_ELECTRODES; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            electrodeFrequencies[i][j] = findChild<QComboBox*>(QString("comboBox_e%1_f%2").arg(i).arg(j + 1));
+            // qInfo("%s", qPrintable(electrode_frequencies[i][j]->objectName()));
+        }
+    }
+
+    QSpinBox* electrodeAmplitudes[MAX_ELECTRODES][3];
+    for (int i=0; i<MAX_ELECTRODES; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            electrodeAmplitudes[i][j] = findChild<QSpinBox*>(QString("spinBox_e%1_a%2").arg(i).arg(j + 1));
+            // qInfo("%s", qPrintable(electrode_amplitudes[i][j]->objectName()));
+        }
+    }
 
     /*====================================================================================================*\
      * MENU
@@ -82,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent)
     /*====================================================================================================*\
      * BATTERY
     \*====================================================================================================*/
-    connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=]() {
+    connect(ui->checkBox_pluggedIn, &QCheckBox::stateChanged, [=] () {
         ConnectionState cs = (ui->checkBox_pluggedIn->checkState() == Qt::Checked) ? CONNECTED : DISCONNECTED;
         this->controller->setChargingState(cs);
     });
@@ -105,9 +123,22 @@ MainWindow::MainWindow(QWidget *parent)
 //            qInfo("Electrode %d is %s", e_id, qPrintable(connectionStateToStr(this->headset->getElectrode(e_id))));
         });
     }
-
     connect(headset, &Headset::connectionStateChanged, controller, &Controller::updateConnectionState);
 
+    for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        for(int fa_id=0; fa_id<3; ++fa_id) {
+            connect(electrodeFrequencies[e_id][fa_id], QOverload<int>::of(&QComboBox::currentIndexChanged), [=] (int index) {
+                this->headset->getElectrode(e_id)->generateFrequency(fa_id, indexToBand(index));
+            });
+
+            connect(electrodeAmplitudes[e_id][fa_id], QOverload<int>::of(&QSpinBox::valueChanged), [=] (int value) {
+                this->headset->getElectrode(e_id)->setAmplitude(fa_id, (double)value);
+            });
+
+        }
+    }
+
+//    connect(ui->comboBox_e0_f1, &QComboBox::currentIndexChanged, headset, &Headset::getElectrode());
 
     /*====================================================================================================*\
      * UI SETUP (to match controller state)

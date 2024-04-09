@@ -1,4 +1,4 @@
-#ifndef HEADSET_H
+﻿#ifndef HEADSET_H
 #define HEADSET_H
 
 #include <QObject>
@@ -25,7 +25,6 @@ public:
     //Member Variable(s)
 private:
     ConnectionState connectionState;
-//    ConnectionState *electrodes;
     Electrode *electrodes;
 
 signals:

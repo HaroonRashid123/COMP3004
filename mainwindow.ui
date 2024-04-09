@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1096</width>
-    <height>681</height>
+    <width>1055</width>
+    <height>696</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>981</width>
-      <height>631</height>
+      <width>991</width>
+      <height>611</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -524,6 +524,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_7">
        <property name="geometry">
@@ -605,6 +611,26 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
       <widget class="QComboBox" name="comboBox_e0_f1">
        <property name="geometry">
@@ -618,6 +644,26 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
       <widget class="QComboBox" name="comboBox_e0_f3">
        <property name="geometry">
@@ -631,6 +677,26 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
       <widget class="QLabel" name="label_16">
        <property name="geometry">
@@ -683,6 +749,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_19">
        <property name="geometry">
@@ -705,6 +774,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e0">
@@ -753,6 +828,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_44">
@@ -823,36 +904,6 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>F3</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_e2_f2">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e2_f1">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e2_f3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>100</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_49">
        <property name="geometry">
         <rect>
@@ -904,6 +955,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_52">
        <property name="geometry">
@@ -922,10 +979,16 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>100</y>
+         <y>101</y>
          <width>51</width>
-         <height>21</height>
+         <height>20</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e2">
@@ -946,6 +1009,105 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="tristate">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e2_f2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e2_f3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e2_f1">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_e1_3">
@@ -974,6 +1136,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_62">
@@ -1044,36 +1212,6 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>F3</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_e4_f2">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e4_f1">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e4_f3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>100</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_67">
        <property name="geometry">
         <rect>
@@ -1125,6 +1263,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_70">
        <property name="geometry">
@@ -1148,6 +1292,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e4">
        <property name="enabled">
@@ -1167,6 +1317,105 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="tristate">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e4_f2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e4_f1">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e4_f3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_e1_4">
@@ -1195,6 +1444,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_80">
@@ -1265,36 +1520,6 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>F3</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_e1_f2">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e1_f1">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e1_f3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>100</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_85">
        <property name="geometry">
         <rect>
@@ -1346,6 +1571,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_88">
        <property name="geometry">
@@ -1369,6 +1600,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e1">
        <property name="enabled">
@@ -1388,6 +1625,105 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="tristate">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e1_f2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e1_f3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e1_f1">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_e1_5">
@@ -1416,6 +1752,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_107">
@@ -1486,36 +1828,6 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>F3</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_e3_f2">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e3_f1">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e3_f3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>100</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_112">
        <property name="geometry">
         <rect>
@@ -1567,6 +1879,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_115">
        <property name="geometry">
@@ -1590,6 +1908,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e3">
        <property name="enabled">
@@ -1609,6 +1933,105 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="tristate">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e3_f2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e3_f1">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e3_f3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_e1_6">
@@ -1637,6 +2060,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_134">
@@ -1707,36 +2136,6 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>F3</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_e5_f2">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e5_f1">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e5_f3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>100</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_139">
        <property name="geometry">
         <rect>
@@ -1788,6 +2187,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_142">
        <property name="geometry">
@@ -1811,6 +2216,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e5">
        <property name="enabled">
@@ -1830,6 +2241,105 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="tristate">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e5_f2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e5_f1">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e5_f3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_e1_7">
@@ -1858,6 +2368,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_161">
@@ -1928,36 +2444,6 @@ selection-background-color: rgb(98, 160, 234)</string>
         <string>F3</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_e6_f2">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e6_f1">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox_e6_f3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>100</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_166">
        <property name="geometry">
         <rect>
@@ -2009,6 +2495,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_169">
        <property name="geometry">
@@ -2032,6 +2524,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e6">
        <property name="enabled">
@@ -2051,6 +2549,105 @@ selection-background-color: rgb(98, 160, 234)</string>
        <property name="tristate">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e6_f2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e6_f1">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_e6_f3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Delta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Theta</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alpha</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Beta</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QFrame" name="frame">
@@ -2104,7 +2701,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <x>750</x>
         <y>440</y>
         <width>221</width>
-        <height>91</height>
+        <height>81</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -2194,7 +2791,7 @@ selection-background-color: rgb(98, 160, 234)</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1096</width>
+     <width>1055</width>
      <height>22</height>
     </rect>
    </property>

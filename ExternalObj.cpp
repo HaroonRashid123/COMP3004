@@ -1,4 +1,4 @@
-#include "ExternalObj.h"
+﻿#include "ExternalObj.h"
 
 // Helper Functions
 QString ColourToStr(Colour colour) {
@@ -22,18 +22,39 @@ QString ColourToStr(Colour colour) {
     }
 }
 
+Band indexToBand(int index) {
+    switch(index) {
+        case 0:
+            return DELTA;
+        case 1:
+            return THETA;
+        case 2:
+            return ALPHA;
+        case 3:
+            return BETA;
+        default:
+            return UNKNOWN_BAND;
+    }
+}
+
 QString powerStateToStr(PowerState state) {
     switch (state) {
-        case OFF: return "OFF";
-        case ON: return "ON";
+        case OFF:
+            return "OFF";
+        case ON:
+            return "ON";
         default: return "Unknown Power State";
     }
 }
 
 QString connectionStateToStr(ConnectionState state) {
     switch (state) {
-        case DISCONNECTED: return "DISCONNECTED";
-        case CONNECTED: return "CONNECTED";
-        default: return "Unknown Connection State";
+        case DISCONNECTED:
+            return "DISCONNECTED";
+        case CONNECTED:
+            return "CONNECTED";
+        default:
+            return "Unknown Connection State";
     }
 }
+

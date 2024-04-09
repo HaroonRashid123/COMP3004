@@ -4,6 +4,8 @@
 #include <QObject>
 #include "ExternalObj.h"
 
+#include "random"
+
 class Electrode : public QObject
 {
     Q_OBJECT
@@ -35,7 +37,9 @@ private:
 signals:
     void connectionStateChanged(ConnectionState cs);
 
+
 public slots:
+    void generateFrequency(int f_id, Band bandType);
 
 };
 

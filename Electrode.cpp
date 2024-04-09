@@ -3,8 +3,10 @@
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
 \*====================================================================================================*/
-Electrode::Electrode(int id) : id(id)
-{}
+Electrode::Electrode(int id) : id(id) {
+
+
+}
 
 Electrode::Electrode()
 {}
@@ -72,3 +74,27 @@ void Electrode::setAmplitude(int a_id, double amplitude) {
         this->a3 = amplitude;
     }
 }
+
+/*====================================================================================================*\
+ * SLOT FUNCTION(S)
+\*====================================================================================================*/
+void Electrode::generateFrequency(int f_id, Band bandType) {
+    double freq = 0;
+    // TODO: Generate random frequency
+    if (bandType == DELTA) {
+        freq = 1;
+    } else if (bandType == THETA) {
+        freq = 4;
+    } else if (bandType == ALPHA) {
+        freq = 8;
+    } else if (bandType == BETA) {
+        freq = 12;
+    } else {
+        return;
+    }
+    this->setFrequency(f_id, freq);
+}
+
+
+
+
