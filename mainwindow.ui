@@ -507,7 +507,9 @@ selection-background-color: rgb(98, 160, 234)</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(246, 245, 244);</string>
+       <string notr="true">background-color: rgb(246, 245, 244);
+
+</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -608,6 +610,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -641,6 +646,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -673,6 +681,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
@@ -1019,6 +1030,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1052,6 +1066,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1084,6 +1101,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
@@ -1327,6 +1347,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1360,6 +1383,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1392,6 +1418,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
@@ -1635,6 +1664,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1668,6 +1700,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1700,6 +1735,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
@@ -1943,6 +1981,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -1976,6 +2017,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -2008,6 +2052,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
@@ -2251,6 +2298,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -2284,6 +2334,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -2316,6 +2369,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
@@ -2559,6 +2615,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -2592,6 +2651,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
+       </property>
        <property name="maxVisibleItems">
         <number>4</number>
        </property>
@@ -2624,6 +2686,9 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>81</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(224, 27, 36);</string>
        </property>
        <property name="maxVisibleItems">
         <number>4</number>
