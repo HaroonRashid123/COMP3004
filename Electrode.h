@@ -40,6 +40,7 @@ signals:
 
 public slots:
     void generateFrequency(int f_id, Band bandType);
+    double calculateBaseline();
 
 };
 

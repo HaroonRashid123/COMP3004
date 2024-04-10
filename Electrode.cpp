@@ -95,6 +95,12 @@ void Electrode::generateFrequency(int f_id, Band bandType) {
     this->setFrequency(f_id, freq);
 }
 
+double Electrode::calculateBaseline() {
+    double df_numerator = (f1*a1*a1) + (f2*a2*a2) + (f3*a3*a3);
+    double df_denominator = (a1*a1) + (a2*a2) + (a3*a3);
+    double adf = df_numerator / df_denominator;
+    return adf;
+}
 
 
 

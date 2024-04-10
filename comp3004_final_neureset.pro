@@ -11,7 +11,6 @@ CONFIG += c++11
 SOURCES += \
     Electrode.cpp \
     ExternalObj.cpp \
-    Headset.cpp \
     Neureset.cpp \
     Session.cpp \
     main.cpp \
@@ -20,7 +19,6 @@ SOURCES += \
 HEADERS += \
     Electrode.h \
     ExternalObj.h \
-    Headset.h \
     Neureset.h \
     Session.h \
     mainwindow.h

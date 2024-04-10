@@ -65,6 +65,8 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
         }
     });
     this->batteryCharge->start(5000);
+
+//    connect(this,&Neureset::readyForTreatment(), this, &Neureset::deliverTreatment());
 }
 
 /*====================================================================================================*\
@@ -205,17 +207,6 @@ void Neureset::playOrPauseSession() {
             this->sessionPaused = false;
             this->sessionTime = MAX_SESSION_TIME;
             this->sessionTimer->start(1000);
-
-            // this->sessionLogs.last()->setSessionState
-            // Pre Analysis
-            /*
-            for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-               double df = this->el
-               this->sessionLogs.last()->setBaseline(false, e_id);
-            }
-            */
-
-
         }
     } else {
         if (this->sessionPaused) {
@@ -250,3 +241,47 @@ void Neureset::stopSession() {
     }
 }
 
+void Neureset::deliverTreatment() {
+    // PRE Analysis
+    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        double bl = this->electrodes[e_id].calculateBaseline();
+        this->sessionLogs.last()->setBaseline(false, e_id, bl);
+    }
+
+    // find average of all baselines
+    double average_df_preTreatment = 0;
+    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        average_df_preTreatment = this->sessionLogs.last()->getBaseline(false, e_id);
+    }
+    average_df_preTreatment = average_df_preTreatment / MAX_ELECTRODES;
+
+    // Treatmet/Therapy
+    // IDK WHAT TO DO:
+    /*
+    //            make memeber variables
+    QTimer *treatmentTimer = new QTimer(this);
+    int treatmentCount = 0;
+    connect(this->treatmentTimer, &QTimer::timeout, [=]() {
+        // deliver treatment (1/16 dominant frequency + offset)
+        // find new baseline
+        treatmentCount++;
+        if (treatmentCount >= 16) {
+            this->treatmentTimer->stop();
+            treatmentCount = 0;
+        }
+    });
+    */
+
+    // Post Analysis
+    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        double bl = this->electrodes[e_id].calculateBaseline();
+        this->sessionLogs.last()->setBaseline(true, e_id, bl);
+    }
+
+    // find average of all final baselines
+    double average_df_postTreatment = 0;
+    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+        average_df_postTreatment = this->sessionLogs.last()->getBaseline(true, e_id);
+    }
+    average_df_postTreatment = average_df_postTreatment / MAX_ELECTRODES;
+}

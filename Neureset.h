@@ -83,6 +83,7 @@ public slots:
     bool hasDisconnection();
     void updateConnectionState(ConnectionState cs);
 
+    void deliverTreatment();
     void playOrPauseSession();
     void stopSession();
 

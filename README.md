@@ -11,12 +11,10 @@ Daren Ko
 git clone https://github.com/HaroonRashid123/COMP3004.git
 #### Add Files
 git add README.md
-git add Controller.cpp
-git add Controller.h
+git add Neureset.cpp
+git add Neureset.h
 git add Electrode.cpp
 git add Electrode.h
-git add Headset.cpp
-git add Headset.h
 git add Session.cpp
 git add Session.h
 git add ExternalObj.cpp
