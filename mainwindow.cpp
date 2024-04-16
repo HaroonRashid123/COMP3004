@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QComboBox>
+#include <qcustomplot.h>
 
 // Assuming you have a QComboBox instance called comboBox
 
@@ -169,10 +170,13 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
+
+
 MainWindow::~MainWindow() {
     delete ui;
     delete neureset;
 }
+
 
 /*====================================================================================================*\
  * MENU
@@ -311,5 +315,33 @@ void MainWindow::updateUI_redLight(PowerState ps) {
     }
 }
 
+
+void MainWindow::graphData(){
+    QCustomPlot *graph = ui->graph;
+    graph->addGraph();
+
+    // Set some data points
+    QVector<double> xData, yData;
+    xData << 1 << 2 << 3 << 4 << 5;
+    yData << 2 << 4 << 6 << 8 << 10;
+
+    // Set data for the graph
+    graph->graph(0)->setData(xData, yData);
+
+    // Set labels for axes
+    graph->xAxis->setLabel("X");
+    graph->yAxis->setLabel("Y");
+
+    // Set plot title
+    graph->plotLayout()->insertRow(0);
+    QCPTextElement *title = new QCPTextElement(graph, "Basic Graph", QFont("sans", 12, QFont::Bold));
+    graph->plotLayout()->addElement(0, 0, title);
+
+    // Rescale axes to fit the data
+    graph->rescaleAxes();
+
+    // Replot the graph
+    graph->replot();
+}
 
 

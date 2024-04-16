@@ -2690,6 +2690,16 @@ selection-background-color: rgb(98, 160, 234)</string>
         <number>6</number>
        </property>
       </widget>
+      <widget class="QCustomPlot" name="graph" native="true">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>50</y>
+         <width>281</width>
+         <height>80</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QFrame" name="frame_battery">
       <property name="geometry">
@@ -2800,6 +2810,14 @@ selection-background-color: rgb(98, 160, 234)</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

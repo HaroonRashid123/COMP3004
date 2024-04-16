@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "ExternalObj.h"
 #include "Neureset.h"
-#include "Headset.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,6 +40,7 @@ public slots:
     void updateUI_power(PowerState ps);
 
     void updateUI_dateTime();
+    void graphData();
 
 //    void showConnection(ConnectionState cs);
     void updateUI_blueLight(PowerState ps);
