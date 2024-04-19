@@ -72,7 +72,6 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
     });
     this->batteryCharge->start(1000);
 
-//    connect(this,&Neureset::readyForTreatment(), this, &Neureset::deliverTreatment());
 }
 
 /*====================================================================================================*\
@@ -351,6 +350,7 @@ void Neureset::deliverTreatment() {
         this->sessionPaused = false;
         this->remainingSessionTime = MAX_SESSION_TIME;
         this->remainingDisconnectTime = MAX_DISCONNECT_TIME;
+        currentSession->setEndDateTime(this->currentDateTime);
 
         qInfo("Session Saved.");
     }

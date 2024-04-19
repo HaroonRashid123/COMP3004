@@ -25,6 +25,8 @@ SessionState Session::getSessionState() {
 
 QDateTime Session::getStartDateTime() { return this->startDateTime; }
 
+QDateTime Session::getEndDateTime() { return this->endDateTime; }
+
 int Session::getBaseline(bool baseline_final, int e_id) {
     if ((e_id < 0) || (e_id > 21)){ return -1; }
 
@@ -51,6 +53,11 @@ void Session::setSessionState(SessionState ss) {
 void Session::setStartDateTime(QDateTime startDT) {
     this->startDateTime = startDT;
 }
+
+void Session::setEndDateTime(QDateTime endDT) {
+    this->endDateTime = endDT;
+}
+
 
 void Session::setBaseline(bool baseline_final, int e_id, int b_value) {
     if ((e_id < 0) || (e_id > 21)){ return; }

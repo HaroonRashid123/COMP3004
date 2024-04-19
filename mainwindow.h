@@ -11,6 +11,7 @@
 
 #include "ExternalObj.h"
 #include "Neureset.h"
+#include "Session.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

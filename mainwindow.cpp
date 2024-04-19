@@ -79,6 +79,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(neureset, &Neureset::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
 
     // SESSION LOGS
+    QObject::connect(ui->tabWidget_menu, &QTabWidget::currentChanged, [=](int index){
+        // If viewing session history, update text broswer with new session history
+        if(index == 2) {
+            ui->textBrowser_sessionLogs->clear();
+
+            // Iterate over the session logs and populate the text browser
+            for(Session* session : this->neureset->getSessionLogs()) {
+                if (session->getSessionState() == COMPLETE) {
+                    QString sessionInfo = QString("Start: %1\nEnd: %2\n")
+                                            .arg(session->getStartDateTime().toString("yyyy-MM-dd HH:mm:ss"))
+                                            .arg(session->getEndDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+                    // Append the session information to the text browser
+                    ui->textBrowser_sessionLogs->append(sessionInfo);
+                }
+            }
+        }
+    });
     connect(ui->pushButton_upload, &QPushButton::released, neureset, &Neureset::uploadLogs);
 
     // DATE/TIME
@@ -153,8 +170,6 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
 
-//    connect(ui->comboBox_e0_f1, &QComboBox::currentIndexChanged, headset, &Headset::getElectrode());
-
     /*====================================================================================================*\
      * UI SETUP (to match neureset state)
     \*====================================================================================================*/
@@ -188,8 +203,6 @@ MainWindow::MainWindow(QWidget *parent)
         this->electrodes[e_id]->setChecked(connected);
     }
 }
-
-
 
 MainWindow::~MainWindow() {
     delete ui;
