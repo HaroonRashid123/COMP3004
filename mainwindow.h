@@ -2,6 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QAction>
+#include <QTimer>
+#include <QDebug>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSpinBox>
+
 #include "ExternalObj.h"
 #include "Neureset.h"
 
@@ -22,10 +29,16 @@ private:
 
     // Members
     Neureset *neureset;
-    QTimer *timer;
-//    bool isTimerPaused;
     bool redLightOn = false;
     double currentTime;
+
+    // UI Elements
+    QCheckBox* electrodes[MAX_ELECTRODES];
+    QComboBox* electrodeFrequencies[MAX_ELECTRODES][3];
+    QSpinBox* electrodeAmplitudes[MAX_ELECTRODES][3];
+
+    QTimer *timer;
+    QTimer *flashTimer;
 
 public slots:
     // Menu

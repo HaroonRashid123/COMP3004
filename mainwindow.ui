@@ -250,7 +250,7 @@ selection-background-color: rgb(38, 162, 105);
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideLeft</enum>
@@ -497,7 +497,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_e1">
+     <widget class="QFrame" name="frame_e0">
       <property name="geometry">
        <rect>
         <x>510</x>
@@ -798,7 +798,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </property>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_e1_2">
+     <widget class="QFrame" name="frame_e2">
       <property name="geometry">
        <rect>
         <x>510</x>
@@ -1097,7 +1097,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </item>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_e1_3">
+     <widget class="QFrame" name="frame_e4">
       <property name="geometry">
        <rect>
         <x>510</x>
@@ -1414,7 +1414,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </item>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_e1_4">
+     <widget class="QFrame" name="frame_e1">
       <property name="geometry">
        <rect>
         <x>740</x>
@@ -1713,7 +1713,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </item>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_e1_5">
+     <widget class="QFrame" name="frame_e3">
       <property name="geometry">
        <rect>
         <x>740</x>
@@ -2012,7 +2012,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </item>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_e1_6">
+     <widget class="QFrame" name="frame_e5">
       <property name="geometry">
        <rect>
         <x>740</x>
@@ -2329,7 +2329,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </item>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_e1_7">
+     <widget class="QFrame" name="frame_e6">
       <property name="geometry">
        <rect>
         <x>510</x>
@@ -2646,7 +2646,7 @@ selection-background-color: rgb(98, 160, 234)</string>
        </item>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="frame_graph">
       <property name="geometry">
        <rect>
         <x>20</x>

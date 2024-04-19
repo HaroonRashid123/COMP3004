@@ -30,6 +30,8 @@ public:
     Electrode* getElectrodes();
 
     QDateTime getCurrentDateTime();
+
+    bool getSessionPaused();
     QVector<Session*> getSessionLogs();
 
     // Setter(s)
@@ -61,7 +63,8 @@ private:
     //Session Related
     bool inSession;
     bool sessionPaused;
-    int sessionTime;
+    int remainingSessionTime;
+    int remainingDisconnectTime;
     QVector<Session*> sessionLogs;
     QTimer* sessionTimer;
     QTimer* endSessionTimer;
@@ -84,6 +87,7 @@ public slots:
     bool hasDisconnection();
     void updateConnectionState(ConnectionState cs);
 
+    void uploadLogs();
     void deliverTreatment();
     void playOrPauseSession();
     void stopSession();

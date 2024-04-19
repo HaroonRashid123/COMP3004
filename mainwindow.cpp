@@ -8,9 +8,6 @@
 #include <QComboBox>
 #include <random>
 
-// Assuming you have a QComboBox instance called comboBox
-
-
 bool isFlashOn = false;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -39,26 +36,35 @@ MainWindow::MainWindow(QWidget *parent)
     */
 
     // For easier referencing, organize the electrode widget into an array...
-    QCheckBox* electrodes[MAX_ELECTRODES];
     for (int i=0; i<MAX_ELECTRODES; ++i) {
-            electrodes[i] = findChild<QCheckBox*>(QString("checkBox_e%1").arg(i));
+            this->electrodes[i] = findChild<QCheckBox*>(QString("checkBox_e%1").arg(i));
     }
 
-    QComboBox* electrodeFrequencies[MAX_ELECTRODES][3];
     for (int i=0; i<MAX_ELECTRODES; ++i) {
         for (int j = 0; j < 3; ++j) {
-            electrodeFrequencies[i][j] = findChild<QComboBox*>(QString("comboBox_e%1_f%2").arg(i).arg(j + 1));
+            this->electrodeFrequencies[i][j] = findChild<QComboBox*>(QString("comboBox_e%1_f%2").arg(i).arg(j + 1));
             // qInfo("%s", qPrintable(electrode_frequencies[i][j]->objectName()));
         }
     }
 
-    QSpinBox* electrodeAmplitudes[MAX_ELECTRODES][3];
     for (int i=0; i<MAX_ELECTRODES; ++i) {
         for (int j = 0; j < 3; ++j) {
-            electrodeAmplitudes[i][j] = findChild<QSpinBox*>(QString("spinBox_e%1_a%2").arg(i).arg(j + 1));
+            this->electrodeAmplitudes[i][j] = findChild<QSpinBox*>(QString("spinBox_e%1_a%2").arg(i).arg(j + 1));
             // qInfo("%s", qPrintable(electrode_amplitudes[i][j]->objectName()));
         }
     }
+
+    // Timer to flash Red Lights
+    this->flashTimer = new QTimer(this);
+    connect(this->flashTimer, &QTimer::timeout, [=]() {
+        if (isFlashOn) {
+            ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
+            isFlashOn = false;
+        } else {
+            ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(RED));
+            isFlashOn = true;
+        }
+    });
 
     /*====================================================================================================*\
      * MENU
@@ -66,13 +72,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // NEW SESSION
     connect(ui->pushButton_playPause, &QPushButton::released, neureset, &Neureset::playOrPauseSession);
+
     connect(ui->pushButton_stop, &QPushButton::released, neureset, &Neureset::stopSession);
 
     connect(neureset, &Neureset::updateUI_progressBar, ui->progressBar_session, &QProgressBar::setValue);
     connect(neureset, &Neureset::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
 
     // SESSION LOGS
-//    connect(ui->pushButton_upload, &QPushButton::released, neureset, &Neureset::uploadLogs);
+    connect(ui->pushButton_upload, &QPushButton::released, neureset, &Neureset::uploadLogs);
 
     // DATE/TIME
     connect(ui->pushButton_changeDateTime, &QPushButton::released, [=] {
@@ -175,11 +182,10 @@ MainWindow::MainWindow(QWidget *parent)
         ui->checkBox_pluggedIn->setChecked(false);
     }
 
-
     // Set Electrode Connections
     for(int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
         bool connected = (this->neureset->getElectrode(e_id)->getConnectionState() == CONNECTED) ? true : false;
-        electrodes[e_id]->setChecked(connected);
+        this->electrodes[e_id]->setChecked(connected);
     }
 }
 
@@ -209,13 +215,6 @@ void MainWindow::updateUI_showMenu(){
 
     ui->pushButton_playPause->setEnabled(true);
     ui->pushButton_stop->setEnabled(true);
-
-//    ui->label_progressTimer->setDisabled(true);
-//    ui->label_progressTimer->hide();
-//    ui->progressBar_session->setDisabled(true);
-//    ui->progressBar_session->hide();
-
-
 }
 
 void MainWindow::updateUI_hideMenu(){
@@ -269,12 +268,33 @@ void MainWindow::updateUI_power(PowerState ps){
         ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(PINK));
         this->updateUI_showMenu();
         this->updateUI_battery();
+
+        // Enable Inputs on UI
+        ui->frame_e0->setEnabled(true);
+        ui->frame_e1->setEnabled(true);
+        ui->frame_e2->setEnabled(true);
+        ui->frame_e3->setEnabled(true);
+        ui->frame_e4->setEnabled(true);
+        ui->frame_e5->setEnabled(true);
+        ui->frame_e6->setEnabled(true);
+        ui->frame_battery->setEnabled(true);
+        ui->frame_graph->setEnabled(true);
     } else {
         ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(GREY));
         this->updateUI_hideMenu();
 //        ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
 //                                               "selection-color: " + ColourToStr(GREY) +
 //                                               "selection-background-color: " + ColourToStr(GREY));
+        // Disable Inputs on UI
+        ui->frame_e0->setDisabled(true);
+        ui->frame_e1->setDisabled(true);
+        ui->frame_e2->setDisabled(true);
+        ui->frame_e3->setDisabled(true);
+        ui->frame_e4->setDisabled(true);
+        ui->frame_e5->setDisabled(true);
+        ui->frame_e6->setDisabled(true);
+        ui->frame_battery->setDisabled(true);
+        ui->frame_graph->setEnabled(true);
     }
 }
 
@@ -301,29 +321,11 @@ void MainWindow::updateUI_greenLight(PowerState ps) {
 void MainWindow::updateUI_redLight(PowerState ps) {
     if (ps == ON) {
         ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(RED));
-
-        /*
-        // Timer to flash Red Lights
-        QTimer *timer = new QTimer(this);
-        timer->setSingleShot(false);
-        connect(timer, &QTimer::timeout, [=]() {
-            if (isFlashOn) {
-                ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
-                isFlashOn = false;
-            } else {
-                ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(RED));
-                isFlashOn = true;
-            }
-
-            if (this->neureset->getRedLight() == OFF) {
-                ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
-                timer->deleteLater();
-            }
-        });
-        timer->start(200);
-        */
-
+        this->flashTimer->start(200);
     } else {
+        if (this->flashTimer->isActive()) {
+            this->flashTimer->stop();
+        }
         ui->label_redLight->setStyleSheet("background-color: " + ColourToStr(GREY));
     }
 }

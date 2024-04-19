@@ -23,10 +23,6 @@ SessionState Session::getSessionState() {
     return this->sessionState;
 }
 
-TreatmentState Session::getTreatmentState() {
-    return this->treatmentState;
-}
-
 QDateTime Session::getStartDateTime() { return this->startDateTime; }
 
 int Session::getBaseline(bool baseline_final, int e_id) {
@@ -50,10 +46,6 @@ int* Session::getBaselines(bool baseline_final) {
 \*====================================================================================================*/
 void Session::setSessionState(SessionState ss) {
     this->sessionState = ss;
-}
-
-void Session::setTreatmentState(TreatmentState ts) {
-    this->treatmentState = ts;
 }
 
 void Session::setStartDateTime(QDateTime startDT) {

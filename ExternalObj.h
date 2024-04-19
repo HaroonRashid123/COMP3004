@@ -3,12 +3,12 @@
 
 #include <QDateTime>
 #include <QTimer>
-
 #include <QString>
 
 #define MAX_ELECTRODES 7            // 7 for testing purposesl as per the testing specification
 #define MAX_DISCONNECT_TIME 20000   // milliseconds ( = 5 min)
-#define MAX_SESSION_TIME 300        // seconds (= 5 min)
+#define MAX_SESSION_TIME 30        // Adapted to 30 seconds for testing (Usually 5 min)
+#define SESSION_ROUND_TIME 6
 
 #define DELTA_MIN 1.0
 #define DELTA_MAX 4.0
@@ -38,18 +38,16 @@ enum ConnectionState {
 };
 
 enum SessionState {
-    INCOMPLETE = -1,
-    ROUND_ONE,
-    ROUND_TWO,
-    ROUND_THREE,
-    ROUND_FOUR,
+    ROUND_1_ANALYSIS,
+    ROUND_1_TREATMENT,
+    ROUND_2_ANALYSIS,
+    ROUND_2_TREATMENT,
+    ROUND_3_ANALYSIS,
+    ROUND_3_TREATMENT,
+    ROUND_4_ANALYSIS,
+    ROUND_4_TREATMENT,
+    POST_ANALYSIS,
     COMPLETE,
-};
-
-enum TreatmentState {
-    PRE_ANALYSIS,
-    TREATMENT,
-    POST_ANALYSIS
 };
 
 enum Band {

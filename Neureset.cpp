@@ -6,7 +6,8 @@
 Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime currentDateTime) :
     batteryRemaining(batteryRemaining), powerState(powerState), currentDateTime(currentDateTime),
     chargingState(DISCONNECTED), blueLight(OFF), greenLight(OFF), redLight(OFF),
-    connectionState(CONNECTED), inSession(false), sessionPaused(false), sessionTime(MAX_SESSION_TIME)
+    connectionState(CONNECTED), inSession(false), sessionPaused(false),
+    remainingSessionTime(MAX_SESSION_TIME), remainingDisconnectTime(MAX_DISCONNECT_TIME)
 {
 
     // Electrode Connections Setup
@@ -31,28 +32,38 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
     // Progress Bar Countdown
     this->sessionTimer = new QTimer(this);
     connect(this->sessionTimer, &QTimer::timeout, [=]() {
-        this->sessionTime--;
-        emit updateUI_progressBar(((300 - this->sessionTime) * 100) / 300);
-        emit updateUI_timerLabel(QString::number(this->sessionTime / 60) + ":" + QString::number(this->sessionTime % 60).rightJustified(2, '0'));
-        if (this->sessionTime <= 0) {
+        this->remainingSessionTime--;
+        emit updateUI_progressBar(((MAX_SESSION_TIME - this->remainingSessionTime) * 100) / MAX_SESSION_TIME);
+        emit updateUI_timerLabel(QString::number(this->remainingSessionTime / 60) + ":" + QString::number(this->remainingSessionTime % 60).rightJustified(2, '0'));
+        if (this->remainingSessionTime <= 0) {
+            // Reset Timer
             this->sessionTimer->stop();
-         }
+        }
+
+        // Session Flow
+        this->deliverTreatment();
+        this->reduceBattery(1);
     });
 
     // 5 minute cap before session ends
     this->endSessionTimer = new QTimer(this);
     connect(this->endSessionTimer, &QTimer::timeout, [=]() {
-        this->stopSession();
-        this->togglePower(OFF);
+        if (this->remainingDisconnectTime == 0) {
+            this->stopSession();
+            this->togglePower(OFF);
+            // Reset Timer
+            this->remainingDisconnectTime = MAX_DISCONNECT_TIME;
+            this->endSessionTimer->stop();
+        } else {
+            this->remainingDisconnectTime--;
+        }
     });
 
     // Will reduce battery when Power is ON, reduce extra if operating a session. Repeats every 15 seconds
     this->batteryDeplete = new QTimer(this);
     connect(this->batteryDeplete, &QTimer::timeout, [=]() {
-        if ((this->powerState == ON) && (this->inSession)) {
-            reduceBattery(2);
-        } else if ((this->powerState == ON) && (!this->inSession)) {
-            reduceBattery(1);
+        if ((this->powerState == ON) && (!this->inSession)) {
+            this->reduceBattery(1);
         }
     });
     this->batteryDeplete->start(15000);
@@ -61,10 +72,10 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
     this->batteryCharge = new QTimer(this);
     connect(this->batteryCharge, &QTimer::timeout, [=]() {
         if (this->chargingState == CONNECTED) {
-            chargeBattery(1);
+            chargeBattery(2);
         }
     });
-    this->batteryCharge->start(5000);
+    this->batteryCharge->start(1000);
 
 //    connect(this,&Neureset::readyForTreatment(), this, &Neureset::deliverTreatment());
 }
@@ -88,6 +99,7 @@ PowerState Neureset::getRedLight() { return this->redLight; }
 Electrode* Neureset::getElectrode(int e_id) { return &this->electrodes[e_id]; }
 Electrode* Neureset::getElectrodes() {return this->electrodes; }
 QDateTime Neureset::getCurrentDateTime() { return this->currentDateTime; }
+bool Neureset::getSessionPaused() { return this->sessionPaused; }
 QVector<Session*> Neureset::getSessionLogs() { return this->sessionLogs; }
 bool Neureset::getinSession() {return this->inSession; }
 
@@ -131,14 +143,33 @@ void Neureset::togglePower(PowerState ps) {
         this->setPowerState(OFF);
         this->setBlueLight(OFF);
         this->setRedLight(OFF);
+
+        if (this->inSession) {
+            // Pause
+            this->sessionTimer->stop();
+            this->sessionPaused = true;
+            this->endSessionTimer->stop();
+            qInfo("Saving session progress.");
+        }
+        qInfo("Neureset powering OFF");
     } else {
         this->setPowerState(ON);
+        qInfo("Neureset powering ON");
+
         if (this->connectionState == CONNECTED) {
             this->setBlueLight(ON);
             this->setRedLight(OFF);
         } else {
             this->setBlueLight(OFF);
             this->setRedLight(ON);
+        }
+
+        if (this->inSession) {
+            // Pause
+            this->sessionTimer->stop();
+            this->sessionPaused = true;
+            this->endSessionTimer->start(this->remainingDisconnectTime);
+            qInfo("Press play to resume session.");
         }
     }
     this->setGreenLight(OFF);
@@ -206,8 +237,9 @@ void Neureset::playOrPauseSession() {
             this->sessionLogs.append(session);
             this->inSession = true;
             this->sessionPaused = false;
-            this->sessionTime = MAX_SESSION_TIME;
+            this->remainingSessionTime = MAX_SESSION_TIME;
             this->sessionTimer->start(1000);
+            qInfo("Therapy session starting.");
         }
     } else {
         if (this->sessionPaused) {
@@ -215,11 +247,13 @@ void Neureset::playOrPauseSession() {
             this->sessionTimer->start(1000);
             this->sessionPaused = false;
             this->endSessionTimer->stop();
+            qInfo("Therapy session resuming.");
         } else {
             // Pause
             this->sessionTimer->stop();
             this->sessionPaused = true;
             this->endSessionTimer->start(MAX_DISCONNECT_TIME);
+            qInfo("Therapy session paused.");
         }
     }
 }
@@ -233,56 +267,69 @@ void Neureset::stopSession() {
         this->sessionLogs.removeLast();
         this->inSession = false;
         this->sessionPaused = false;
-        this->sessionTime = MAX_SESSION_TIME;
+        this->remainingSessionTime = MAX_SESSION_TIME;
         this->sessionTimer->stop();
 
         // Reset TimerUI
-        emit updateUI_progressBar(((300 - sessionTime) * 100) / 300);
-        emit updateUI_timerLabel(QString::number(sessionTime / 60) + ":" + QString::number(sessionTime % 60).rightJustified(2, '0'));
+        emit updateUI_progressBar(((300 - remainingSessionTime) * 100) / 300);
+        emit updateUI_timerLabel(QString::number(remainingSessionTime / 60) + ":" + QString::number(remainingSessionTime % 60).rightJustified(2, '0'));
     }
 }
 
 void Neureset::deliverTreatment() {
-    // PRE Analysis
-    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        double bl = this->electrodes[e_id].calculateBaseline();
-        this->sessionLogs.last()->setBaseline(false, e_id, bl);
+    // Session Flow
+    if (this->remainingSessionTime == (MAX_SESSION_TIME - 1)) {
+        qInfo("ROUND 1: Reading input waveforms, calculating ADF.");
+        this->sessionLogs.back()->setSessionState(ROUND_1_ANALYSIS);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 6)) {
+        qInfo("ROUND 1: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
+        this->setGreenLight(ON);
+        this->sessionLogs.back()->setSessionState(ROUND_1_TREATMENT);
     }
 
-    // find average of all baselines
-    double average_df_preTreatment = 0;
-    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        average_df_preTreatment = this->sessionLogs.last()->getBaseline(false, e_id);
-    }
-    average_df_preTreatment = average_df_preTreatment / MAX_ELECTRODES;
-
-    // Treatmet/Therapy
-    // IDK WHAT TO DO:
-    /*
-    //            make memeber variables
-    QTimer *treatmentTimer = new QTimer(this);
-    int treatmentCount = 0;
-    connect(this->treatmentTimer, &QTimer::timeout, [=]() {
-        // deliver treatment (1/16 dominant frequency + offset)
-        // find new baseline
-        treatmentCount++;
-        if (treatmentCount >= 16) {
-            this->treatmentTimer->stop();
-            treatmentCount = 0;
-        }
-    });
-    */
-
-    // Post Analysis
-    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        double bl = this->electrodes[e_id].calculateBaseline();
-        this->sessionLogs.last()->setBaseline(true, e_id, bl);
+    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 7)) {
+        qInfo("ROUND 1: Treatment finished.");
+        this->setGreenLight(OFF);
+        qInfo("ROUND 2: Reading input waveforms, calculating ADF.");
+        this->sessionLogs.back()->setSessionState(ROUND_2_ANALYSIS);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 12)) {
+        qInfo("ROUND 2: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
+        this->setGreenLight(ON);
+        this->sessionLogs.back()->setSessionState(ROUND_2_TREATMENT);
     }
 
-    // find average of all final baselines
-    double average_df_postTreatment = 0;
-    for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-        average_df_postTreatment = this->sessionLogs.last()->getBaseline(true, e_id);
+    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 13)) {
+        qInfo("ROUND 2: Treatment finished.");
+        this->setGreenLight(OFF);
+        qInfo("ROUND 3: Reading input waveforms, calculating ADF.");
+        this->sessionLogs.back()->setSessionState(ROUND_3_ANALYSIS);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 18)) {
+        qInfo("ROUND 3: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
+        this->setGreenLight(ON);
+        this->sessionLogs.back()->setSessionState(ROUND_3_TREATMENT);
     }
-    average_df_postTreatment = average_df_postTreatment / MAX_ELECTRODES;
+
+    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 19)) {
+        qInfo("ROUND 3: Treatment finished.");
+        this->setGreenLight(OFF);
+        qInfo("ROUND 4: Reading input waveforms, calculating ADF.");
+        this->sessionLogs.back()->setSessionState(ROUND_4_ANALYSIS);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 24)) {
+        qInfo("ROUND 4: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
+        this->setGreenLight(ON);
+        this->sessionLogs.back()->setSessionState(ROUND_4_TREATMENT);
+    }
+
+    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 25)) {
+        qInfo("ROUND 4: Treatment finished.");
+        this->setGreenLight(OFF);
+        qInfo("POST ANALYSIS: Reading input waveforms, calculating ADF.");
+        this->sessionLogs.back()->setSessionState(POST_ANALYSIS);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 30)) {
+        qInfo("POST ANALYSIS: Finished.");
+        this->sessionLogs.back()->setSessionState(POST_ANALYSIS);
+    }
+}
+
+void Neureset::uploadLogs() {
 }
