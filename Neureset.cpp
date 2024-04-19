@@ -35,11 +35,6 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
         this->remainingSessionTime--;
         emit updateUI_progressBar(((MAX_SESSION_TIME - this->remainingSessionTime) * 100) / MAX_SESSION_TIME);
         emit updateUI_timerLabel(QString::number(this->remainingSessionTime / 60) + ":" + QString::number(this->remainingSessionTime % 60).rightJustified(2, '0'));
-        if (this->remainingSessionTime <= 0) {
-            // Reset Timer
-            this->sessionTimer->stop();
-        }
-
         // Session Flow
         this->deliverTreatment();
         this->reduceBattery(1);
@@ -271,63 +266,73 @@ void Neureset::stopSession() {
         this->sessionTimer->stop();
 
         // Reset TimerUI
-        emit updateUI_progressBar(((300 - remainingSessionTime) * 100) / 300);
+        emit updateUI_progressBar(0);
         emit updateUI_timerLabel(QString::number(remainingSessionTime / 60) + ":" + QString::number(remainingSessionTime % 60).rightJustified(2, '0'));
     }
 }
 
 void Neureset::deliverTreatment() {
+    Session* currentSession = this->sessionLogs.back();
+
     // Session Flow
     if (this->remainingSessionTime == (MAX_SESSION_TIME - 1)) {
         qInfo("ROUND 1: Reading input waveforms, calculating ADF.");
-        this->sessionLogs.back()->setSessionState(ROUND_1_ANALYSIS);
+        currentSession->setSessionState(ROUND_1_ANALYSIS);
+        for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+            currentSession->setBaseline(false, e_id, this->electrodes[e_id].calculateBaseline());
+        }
     } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 6)) {
         qInfo("ROUND 1: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
         this->setGreenLight(ON);
-        this->sessionLogs.back()->setSessionState(ROUND_1_TREATMENT);
-    }
-
-    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 7)) {
+        currentSession->setSessionState(ROUND_1_TREATMENT);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 7)) {
         qInfo("ROUND 1: Treatment finished.");
         this->setGreenLight(OFF);
         qInfo("ROUND 2: Reading input waveforms, calculating ADF.");
-        this->sessionLogs.back()->setSessionState(ROUND_2_ANALYSIS);
+        currentSession->setSessionState(ROUND_2_ANALYSIS);
     } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 12)) {
         qInfo("ROUND 2: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
         this->setGreenLight(ON);
-        this->sessionLogs.back()->setSessionState(ROUND_2_TREATMENT);
-    }
-
-    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 13)) {
+        currentSession->setSessionState(ROUND_2_TREATMENT);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 13)) {
         qInfo("ROUND 2: Treatment finished.");
         this->setGreenLight(OFF);
         qInfo("ROUND 3: Reading input waveforms, calculating ADF.");
-        this->sessionLogs.back()->setSessionState(ROUND_3_ANALYSIS);
+        currentSession->setSessionState(ROUND_3_ANALYSIS);
     } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 18)) {
         qInfo("ROUND 3: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
         this->setGreenLight(ON);
-        this->sessionLogs.back()->setSessionState(ROUND_3_TREATMENT);
-    }
-
-    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 19)) {
+        currentSession->setSessionState(ROUND_3_TREATMENT);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 19)) {
         qInfo("ROUND 3: Treatment finished.");
         this->setGreenLight(OFF);
         qInfo("ROUND 4: Reading input waveforms, calculating ADF.");
-        this->sessionLogs.back()->setSessionState(ROUND_4_ANALYSIS);
+        currentSession->setSessionState(ROUND_4_ANALYSIS);
     } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 24)) {
         qInfo("ROUND 4: Delivering the 1 sec feedback at 1/16 of dominant + offset.");
         this->setGreenLight(ON);
-        this->sessionLogs.back()->setSessionState(ROUND_4_TREATMENT);
-    }
-
-    else if (this->remainingSessionTime == (MAX_SESSION_TIME - 25)) {
+        currentSession->setSessionState(ROUND_4_TREATMENT);
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 25)) {
         qInfo("ROUND 4: Treatment finished.");
         this->setGreenLight(OFF);
         qInfo("POST ANALYSIS: Reading input waveforms, calculating ADF.");
-        this->sessionLogs.back()->setSessionState(POST_ANALYSIS);
-    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 30)) {
-        qInfo("POST ANALYSIS: Finished.");
-        this->sessionLogs.back()->setSessionState(POST_ANALYSIS);
+        currentSession->setSessionState(POST_ANALYSIS);
+        int random = 1;
+        for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+            currentSession->setBaseline(true, e_id, this->electrodes[e_id].calculateBaseline()+random);
+        }
+    } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 30) /* == 0 */ ) {
+        qInfo("POST ANALYSIS: Finished. Saving Session.");
+        currentSession->setSessionState(COMPLETE);
+
+        // Reset Session attributes
+        this->sessionTimer->stop();
+        this->inSession = false;
+        this->sessionPaused = false;
+        this->remainingSessionTime = MAX_SESSION_TIME;
+        this->remainingDisconnectTime = MAX_DISCONNECT_TIME;
+
+        qInfo("Session Saved.");
     }
 }
 

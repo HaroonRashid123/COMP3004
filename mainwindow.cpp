@@ -294,7 +294,7 @@ void MainWindow::updateUI_power(PowerState ps){
         ui->frame_e5->setDisabled(true);
         ui->frame_e6->setDisabled(true);
         ui->frame_battery->setDisabled(true);
-        ui->frame_graph->setEnabled(true);
+        ui->frame_graph->setDisabled(true);
     }
 }
 

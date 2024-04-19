@@ -80,7 +80,7 @@ void Electrode::setAmplitude(int a_id, double amplitude) {
 \*====================================================================================================*/
 void Electrode::generateFrequency(int f_id, Band bandType) {
     double freq = 0;
-    // TODO: Generate random frequency
+    // TODO: Generate RANDOM frequency
     if (bandType == DELTA) {
         freq = 1;
     } else if (bandType == THETA) {
