@@ -22,9 +22,10 @@ private:
 
     // Members
     Neureset *neureset;
-//    QTimer *timer;
+    QTimer *timer;
 //    bool isTimerPaused;
     bool redLightOn = false;
+    double currentTime;
 
 public slots:
     // Menu
