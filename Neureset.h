@@ -19,6 +19,7 @@ public:
 
     // Getter(s)
     int getBatteryRemaining();
+    bool getinSession();
     ConnectionState getChargingState();
     PowerState getPowerState();
     PowerState getBlueLight();

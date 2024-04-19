@@ -89,6 +89,7 @@ Electrode* Neureset::getElectrode(int e_id) { return &this->electrodes[e_id]; }
 Electrode* Neureset::getElectrodes() {return this->electrodes; }
 QDateTime Neureset::getCurrentDateTime() { return this->currentDateTime; }
 QVector<Session*> Neureset::getSessionLogs() { return this->sessionLogs; }
+bool Neureset::getinSession() {return this->inSession; }
 
 /*====================================================================================================*\
  * SETTER(S)

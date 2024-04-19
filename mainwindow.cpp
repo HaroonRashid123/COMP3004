@@ -18,16 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::graphData);
-    graphData();
-    timer = new QTimer(this);
 
-        // Connect the timeout signal of QTimer to your graphData() function
-    connect(timer, SIGNAL(timeout()), this, SLOT(graphData()));
-
-        // Set the interval for the QTimer (in milliseconds)
-        int interval = 1000; // Set to update every second, adjust as needed
-        timer->start(interval);
 
     /*====================================================================================================*\
      * INIT MEMBER(S)
@@ -103,6 +94,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     });
     connect(neureset, &Neureset::updateUI_power, this, &MainWindow::updateUI_power);
+
+
+    /*====================================================================================================*\
+     * GRAPH
+    \*====================================================================================================*/
+    connect(ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::graphData);
+    graphData();
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(graphData()));
+    int interval = 1000;
+    timer->start(interval);
 
     /*====================================================================================================*\
      * BATTERY
@@ -332,20 +334,31 @@ void MainWindow::updateUI_redLight(PowerState ps) {
 void MainWindow::graphData(){
         int data = 50;
         QVector<double> x(data), y(data);
-//        qInfo() << this->neureset->getPowerState();
+        if (this->neureset) {
+            if (this->neureset->getinSession()){
 
-            double sinMin = 0;
-            double sinMax = 40;
-            double change = (sinMax - sinMin) / (data - 1);
-            for (int i = 0; i < data; ++i) {
-                x[i] = sinMin + i * change;
-                y[i] = rand() / ((double)RAND_MAX) * 2 - 1;
+                double sinMin = 0;
+                double sinMax = 40;
+                double change = (sinMax - sinMin) / (data - 1);
+                for (int i = 0; i < data; ++i) {
+                    x[i] = sinMin + i * change;
+                    y[i] = rand() / ((double)RAND_MAX) * 2 - 1;
+                }
+                    ui->customPlot->addGraph();
+                    ui->customPlot->graph(0)->setData(x, y);
+                    ui->customPlot->xAxis->setRange(sinMin, sinMax);
+                    ui->customPlot->yAxis->setRange(-1, 1);
+                    ui->customPlot->replot();
+            } else {
+
+                ui->customPlot->clearItems();
+                ui->customPlot->clearPlottables();
+                ui->customPlot->clearGraphs();
+
             }
-                ui->customPlot->addGraph();
-                ui->customPlot->graph(0)->setData(x, y);
-                ui->customPlot->xAxis->setRange(sinMin, sinMax);
-                ui->customPlot->yAxis->setRange(-1, 1);
-                ui->customPlot->replot();
+
+
+        }
 
 }
 
