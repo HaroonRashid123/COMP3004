@@ -277,7 +277,6 @@ void MainWindow::updateUI_power(PowerState ps){
         ui->frame_e4->setEnabled(true);
         ui->frame_e5->setEnabled(true);
         ui->frame_e6->setEnabled(true);
-        ui->frame_battery->setEnabled(true);
         ui->frame_graph->setEnabled(true);
     } else {
         ui->label_powerLight->setStyleSheet("background-color: " + ColourToStr(GREY));
@@ -293,7 +292,6 @@ void MainWindow::updateUI_power(PowerState ps){
         ui->frame_e4->setDisabled(true);
         ui->frame_e5->setDisabled(true);
         ui->frame_e6->setDisabled(true);
-        ui->frame_battery->setDisabled(true);
         ui->frame_graph->setDisabled(true);
     }
 }

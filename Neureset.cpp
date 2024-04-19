@@ -138,6 +138,7 @@ void Neureset::togglePower(PowerState ps) {
         this->setPowerState(OFF);
         this->setBlueLight(OFF);
         this->setRedLight(OFF);
+        this->setGreenLight(OFF);
 
         if (this->inSession) {
             // Pause
@@ -148,6 +149,11 @@ void Neureset::togglePower(PowerState ps) {
         }
         qInfo("Neureset powering OFF");
     } else {
+        // If battery is dead, device  cannot turn on
+        if (this->batteryRemaining == 0) {
+            return;
+        }
+
         this->setPowerState(ON);
         qInfo("Neureset powering ON");
 
@@ -160,6 +166,13 @@ void Neureset::togglePower(PowerState ps) {
         }
 
         if (this->inSession) {
+            if (this->sessionLogs.back()->getSessionState() == ROUND_1_TREATMENT ||
+                this->sessionLogs.back()->getSessionState() == ROUND_2_TREATMENT ||
+                this->sessionLogs.back()->getSessionState() == ROUND_3_TREATMENT ||
+                this->sessionLogs.back()->getSessionState() == ROUND_4_TREATMENT) {
+                this->setGreenLight(ON);
+            }
+
             // Pause
             this->sessionTimer->stop();
             this->sessionPaused = true;
@@ -167,7 +180,7 @@ void Neureset::togglePower(PowerState ps) {
             qInfo("Press play to resume session.");
         }
     }
-    this->setGreenLight(OFF);
+
 }
 
 void Neureset::chargeBattery(int percentAmount) {
@@ -182,13 +195,17 @@ void Neureset::chargeBattery(int percentAmount) {
 }
 
 void Neureset::reduceBattery(int percentAmount) {
-    if ((this->powerState == ON) && (this->chargingState == DISCONNECTED) && (batteryRemaining > 0)) {
-        if ((batteryRemaining - percentAmount) < 0) {
-            batteryRemaining = 0;
+    if ((this->powerState == ON) && (this->chargingState == DISCONNECTED) && (this->batteryRemaining > 0)) {
+        if ((this->batteryRemaining - percentAmount) < 0) {
+            this->batteryRemaining = 0;
         } else {
-            batteryRemaining -= percentAmount;
+            this->batteryRemaining -= percentAmount;
         }
         emit updateUI_battery();
+    }
+
+    if (batteryRemaining == 0) {
+        this->togglePower(OFF);
     }
 }
 
@@ -238,11 +255,13 @@ void Neureset::playOrPauseSession() {
         }
     } else {
         if (this->sessionPaused) {
-            // Play
-            this->sessionTimer->start(1000);
-            this->sessionPaused = false;
-            this->endSessionTimer->stop();
-            qInfo("Therapy session resuming.");
+            if (this->connectionState == CONNECTED) {
+                // Play
+                this->sessionTimer->start(1000);
+                this->sessionPaused = false;
+                this->endSessionTimer->stop();
+                qInfo("Therapy session resuming.");
+            }
         } else {
             // Pause
             this->sessionTimer->stop();
