@@ -20,11 +20,13 @@ public:
     // Getter(s)
     int getBatteryRemaining();
     bool getinSession();
+    bool getSessionPaused();
     ConnectionState getChargingState();
     PowerState getPowerState();
     PowerState getBlueLight();
     PowerState getRedLight();
     PowerState getGreenLight();
+
 
     Electrode* getElectrode(int e_id);
     Electrode* getElectrodes();

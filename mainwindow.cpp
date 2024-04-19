@@ -338,7 +338,7 @@ void MainWindow::graphData(){
             if (this->neureset->getPowerState() == ON){
                 ui->customPlot->setEnabled(true);
                 ui->customPlot->show();
-                    if (this->neureset->getinSession()){
+                    if (this->neureset->getinSession() && this->neureset->getSessionPaused() == false){
                         double sinMin = 0;
                         double sinMax = 40;
                         double change = (sinMax - sinMin) / (data - 1);

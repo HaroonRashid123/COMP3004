@@ -97,6 +97,7 @@ QDateTime Neureset::getCurrentDateTime() { return this->currentDateTime; }
 bool Neureset::getSessionPaused() { return this->sessionPaused; }
 QVector<Session*> Neureset::getSessionLogs() { return this->sessionLogs; }
 bool Neureset::getinSession() {return this->inSession; }
+bool Neureset::getSessionPaused() {return this->sessionPaused; }
 
 /*====================================================================================================*\
  * SETTER(S)
