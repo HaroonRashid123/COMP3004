@@ -33,7 +33,7 @@ public:
 
     QDateTime getCurrentDateTime();
 
-    bool getSessionPaused();
+
     QVector<Session*> getSessionLogs();
 
     // Setter(s)
