@@ -1,6 +1,8 @@
 ﻿#ifndef EXTERNALOBJ_H
 #define EXTERNALOBJ_H
 
+#include <random>
+
 #include <QDateTime>
 #include <QTimer>
 #include <QString>
@@ -21,6 +23,9 @@
 
 #define BETA_MIN 12.0
 #define BETA_MAX 30.0
+
+#define MIN_CHANGE -2.0
+#define MAX_CHANGE 5.0
 
 #define OFFSET 5
 
@@ -79,5 +84,8 @@ QString powerStateToStr(PowerState state);
 
 // Enum to string mapping function for ConnectionState
 QString connectionStateToStr(ConnectionState state);
+
+// To geenrate variance in readings/results
+double getRandomDouble(double min, double max);
 
 #endif // EXTERNALOBJ_H

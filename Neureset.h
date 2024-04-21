@@ -80,6 +80,7 @@ signals:
     void updateUI_progressBar(int value);
     void updateUI_timerLabel(const QString &text);
     void updateUI_dateTimeChanged();
+    void updateUI_sessionLogs();
 
 public slots:
     void togglePower(PowerState ps);

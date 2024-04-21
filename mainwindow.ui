@@ -250,7 +250,7 @@ selection-background-color: rgb(38, 162, 105);
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideLeft</enum>
@@ -301,7 +301,7 @@ selection-color: rgb(0, 0, 0);
 selection-background-color: rgb(98, 160, 234)</string>
            </property>
            <property name="value">
-            <number>0</number>
+            <number>100</number>
            </property>
           </widget>
           <widget class="QLabel" name="label_progressTimer">
@@ -486,12 +486,12 @@ selection-background-color: rgb(98, 160, 234)</string>
        <rect>
         <x>510</x>
         <y>10</y>
-        <width>361</width>
+        <width>461</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>Electrode Manipulation (✔ = connected)</string>
+       <string>Electrode Manipulation (✔ = connected) (PRE-Treatment Values Only)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -525,6 +525,15 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
+       <property name="value">
+        <number>1</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_7">
@@ -754,6 +763,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_19">
        <property name="geometry">
@@ -776,6 +791,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e0">
@@ -824,6 +845,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_44">
@@ -945,6 +972,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_52">
        <property name="geometry">
@@ -967,6 +1000,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e2">
@@ -1441,6 +1480,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_80">
        <property name="geometry">
@@ -1561,6 +1606,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_88">
        <property name="geometry">
@@ -1583,6 +1634,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e1">
@@ -1740,6 +1797,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_107">
        <property name="geometry">
@@ -1860,6 +1923,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <height>21</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label_115">
        <property name="geometry">
@@ -1882,6 +1951,12 @@ selection-background-color: rgb(98, 160, 234)</string>
          <width>51</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox_e3">
@@ -2695,7 +2770,7 @@ selection-background-color: rgb(98, 160, 234)</string>
         <rect>
          <x>10</x>
          <y>50</y>
-         <width>421</width>
+         <width>451</width>
          <height>111</height>
         </rect>
        </property>
@@ -2765,9 +2840,12 @@ selection-background-color: rgb(98, 160, 234)</string>
        <rect>
         <x>20</x>
         <y>30</y>
-        <width>561</width>
-        <height>361</height>
+        <width>951</width>
+        <height>401</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(61, 56, 70);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -2775,6 +2853,19 @@ selection-background-color: rgb(98, 160, 234)</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QTextBrowser" name="textBrowser_pcDisplay">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>931</width>
+         <height>371</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QLabel" name="label_5">
       <property name="geometry">
@@ -2787,6 +2878,44 @@ selection-background-color: rgb(98, 160, 234)</string>
       </property>
       <property name="text">
        <string>PC Display</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>430</y>
+        <width>311</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(61, 56, 70);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_4">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>520</y>
+        <width>741</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(61, 56, 70);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
      </widget>
     </widget>

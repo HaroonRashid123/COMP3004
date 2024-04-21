@@ -27,17 +27,17 @@ QDateTime Session::getStartDateTime() { return this->startDateTime; }
 
 QDateTime Session::getEndDateTime() { return this->endDateTime; }
 
-int Session::getBaseline(bool baseline_final, int e_id) {
+double Session::getBaseline(bool baseline_final, int e_id) {
     if ((e_id < 0) || (e_id > 21)){ return -1; }
 
-    if (baseline_final == true) {
+    if (baseline_final) {
         return this->baselines_after[e_id];
     }
     return this->baselines_before[e_id];
 }
 
-int* Session::getBaselines(bool baseline_final) {
-    if (baseline_final == true) {
+double* Session::getBaselines(bool baseline_final) {
+    if (baseline_final) {
         return this->baselines_after;
     }
     return this->baselines_before;
@@ -59,12 +59,13 @@ void Session::setEndDateTime(QDateTime endDT) {
 }
 
 
-void Session::setBaseline(bool baseline_final, int e_id, int b_value) {
+void Session::setBaseline(bool baseline_final, int e_id, double b_value) {
     if ((e_id < 0) || (e_id > 21)){ return; }
 
-    if (baseline_final == true) {
+    if (baseline_final) {
         this->baselines_after[e_id] = b_value;
+    } else {
+        this->baselines_before[e_id] = b_value;
     }
-    this->baselines_before[e_id] = b_value;
 }
 

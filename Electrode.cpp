@@ -3,13 +3,9 @@
 /*====================================================================================================*\
  * CONSTRUCTOR(S)
 \*====================================================================================================*/
-Electrode::Electrode(int id) : id(id) {
+Electrode::Electrode(int id) : id(id) {}
 
-
-}
-
-Electrode::Electrode()
-{}
+Electrode::Electrode() {}
 
 /*====================================================================================================*\
  * DESTRUCTOR(S)
@@ -82,13 +78,13 @@ void Electrode::generateFrequency(int f_id, Band bandType) {
     double freq = 0;
     // TODO: Generate RANDOM frequency
     if (bandType == DELTA) {
-        freq = 1;
+        freq = getRandomDouble(DELTA_MIN, DELTA_MAX);
     } else if (bandType == THETA) {
-        freq = 4;
+        freq = getRandomDouble(THETA_MIN, THETA_MAX);
     } else if (bandType == ALPHA) {
-        freq = 8;
+        freq = getRandomDouble(ALPHA_MIN, ALPHA_MAX);
     } else if (bandType == BETA) {
-        freq = 12;
+        freq = getRandomDouble(BETA_MIN, BETA_MAX);
     } else {
         return;
     }
@@ -101,6 +97,5 @@ double Electrode::calculateBaseline() {
     double adf = df_numerator / df_denominator;
     return adf;
 }
-
 
 

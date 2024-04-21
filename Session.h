@@ -19,21 +19,21 @@ public:
     SessionState getSessionState();
     QDateTime getStartDateTime();
     QDateTime getEndDateTime();
-    int getBaseline(bool baseline_final, int e_id);
-    int* getBaselines(bool baseline_final);
+    double getBaseline(bool baseline_final, int e_id);
+    double* getBaselines(bool baseline_final);
 
     // Setters
     void setSessionState(SessionState ss);
     void setStartDateTime(QDateTime startDT);
     void setEndDateTime(QDateTime endDT);
-    void setBaseline(bool baseline_final, int e_id, int b_value);
+    void setBaseline(bool baseline_final, int e_id, double b_value);
 
 private:
     SessionState sessionState;
     QDateTime startDateTime;
     QDateTime endDateTime;
-    int baselines_before[21];
-    int baselines_after[21];
+    double baselines_before[MAX_ELECTRODES];
+    double baselines_after[MAX_ELECTRODES];
 
 signals:
 

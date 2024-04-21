@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <qcustomplot.h>
 #include <QComboBox>
-#include <random>
 
 bool isFlashOn = false;
 
@@ -79,24 +78,39 @@ MainWindow::MainWindow(QWidget *parent)
     connect(neureset, &Neureset::updateUI_timerLabel, ui->label_progressTimer, &QLabel::setText);
 
     // SESSION LOGS
-    QObject::connect(ui->tabWidget_menu, &QTabWidget::currentChanged, [=](int index){
-        // If viewing session history, update text broswer with new session history
-        if(index == 2) {
-            ui->textBrowser_sessionLogs->clear();
-
-            // Iterate over the session logs and populate the text browser
-            for(Session* session : this->neureset->getSessionLogs()) {
-                if (session->getSessionState() == COMPLETE) {
-                    QString sessionInfo = QString("Start: %1\nEnd: %2\n")
-                                            .arg(session->getStartDateTime().toString("yyyy-MM-dd HH:mm:ss"))
-                                            .arg(session->getEndDateTime().toString("yyyy-MM-dd HH:mm:ss"));
-                    // Append the session information to the text browser
-                    ui->textBrowser_sessionLogs->append(sessionInfo);
-                }
+    connect(neureset, &Neureset::updateUI_sessionLogs, [=](){
+        ui->textBrowser_sessionLogs->clear();
+        for(Session* session : this->neureset->getSessionLogs()) {
+            if (session->getSessionState() == COMPLETE) {
+                QString sessionInfo = QString("Start: %1\nEnd: %2\n")
+                                        .arg(session->getStartDateTime().toString("yyyy-MM-dd HH:mm:ss"))
+                                        .arg(session->getEndDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+                ui->textBrowser_sessionLogs->append(sessionInfo);
             }
         }
     });
-    connect(ui->pushButton_upload, &QPushButton::released, neureset, &Neureset::uploadLogs);
+
+    connect(ui->pushButton_upload, &QPushButton::released, [=](){
+        ui->textBrowser_pcDisplay->clear();
+        for(Session* session : this->neureset->getSessionLogs()) {
+            if (session->getSessionState() == COMPLETE) {
+                QString sessionInfo = QString("[ Start: %1 | End: %2 ]")
+                        .arg(session->getStartDateTime().toString("yyyy-MM-dd HH:mm:ss"))
+                        .arg(session->getEndDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+                QString baselinesBefore = "Baselines (Hz, Pre-Treatment) : ";
+                QString baselinesAfter  = "Baselines (Hz, Post-Treatment): ";
+                for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
+                    baselinesBefore.append(QString("%1, ").arg(session->getBaseline(false, e_id)));
+                    baselinesAfter.append(QString("%1, ").arg(session->getBaseline(true, e_id)));
+                }
+
+                // Append the session information to the text browser
+                ui->textBrowser_pcDisplay->append(sessionInfo);
+                ui->textBrowser_pcDisplay->append(baselinesBefore);
+                ui->textBrowser_pcDisplay->append(baselinesAfter + "\n");
+            }
+        }
+    });
 
     // DATE/TIME
     connect(ui->pushButton_changeDateTime, &QPushButton::released, [=] {

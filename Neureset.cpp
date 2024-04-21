@@ -14,18 +14,30 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
     this->electrodes = new Electrode[MAX_ELECTRODES];
     for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
         this->electrodes[e_id].setConnectionState(CONNECTED);
+
+        // Match to UI Default values
+        this->electrodes[e_id].generateFrequency(1, DELTA);
+        this->electrodes[e_id].generateFrequency(2, DELTA);
+        this->electrodes[e_id].generateFrequency(3, DELTA);
+        this->electrodes[e_id].setAmplitude(1, 1);
+        this->electrodes[e_id].setAmplitude(2, 1);
+        this->electrodes[e_id].setAmplitude(3, 1);
     }
     this->connectionState = CONNECTED;
 
-    // Automated Electrode Connection checking
+    // Constant Timer
     QTimer *timer = new QTimer(this);
     timer->setSingleShot(false);
     connect(timer, &QTimer::timeout, [=]() {
-       if (this->connectionState == CONNECTED && this->hasDisconnection()) {
-           this->updateConnectionState(DISCONNECTED);
-       } else if (this->connectionState == DISCONNECTED && !this->hasDisconnection()) {
-           this->updateConnectionState(CONNECTED);
-       }
+        // Automated Electrode Connection checking
+        if (this->connectionState == CONNECTED && this->hasDisconnection()) {
+            this->updateConnectionState(DISCONNECTED);
+        } else if (this->connectionState == DISCONNECTED && !this->hasDisconnection()) {
+            this->updateConnectionState(CONNECTED);
+        }
+
+        // Increment DateTime
+        this->currentDateTime = this->currentDateTime.addSecs(1);
     });
     timer->start(1000);
 
@@ -336,9 +348,14 @@ void Neureset::deliverTreatment() {
         this->setGreenLight(OFF);
         qInfo("POST ANALYSIS: Reading input waveforms, calculating ADF.");
         currentSession->setSessionState(POST_ANALYSIS);
-        int random = 1;
         for (int e_id=0; e_id<MAX_ELECTRODES; ++e_id) {
-            currentSession->setBaseline(true, e_id, this->electrodes[e_id].calculateBaseline()+random);
+            double random =  getRandomDouble(MIN_CHANGE, MAX_CHANGE);
+            double postValue = this->electrodes[e_id].calculateBaseline()+random;
+            while (postValue <= 0) {
+                random =  getRandomDouble(MIN_CHANGE, MAX_CHANGE);
+                postValue = this->electrodes[e_id].calculateBaseline()+random;
+            }
+            currentSession->setBaseline(true, e_id, postValue);
         }
     } else if (this->remainingSessionTime == (MAX_SESSION_TIME - 30) /* == 0 */ ) {
         qInfo("POST ANALYSIS: Finished. Saving Session.");
@@ -353,8 +370,8 @@ void Neureset::deliverTreatment() {
         currentSession->setEndDateTime(this->currentDateTime);
 
         qInfo("Session Saved.");
+        emit updateUI_sessionLogs();
     }
 }
 
-void Neureset::uploadLogs() {
-}
+void Neureset::uploadLogs() {}
