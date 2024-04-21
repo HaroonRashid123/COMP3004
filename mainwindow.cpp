@@ -117,8 +117,23 @@ MainWindow::MainWindow(QWidget *parent)
         // Update Neureset Date
         QDateTime dateTime = ui->dateTimeEdit->dateTime();
         this->neureset->setDateTime(dateTime);
+
+        // Update UI with Date/Time changed message
+        ui->label_dateTimeChanged->show();
+        qInfo("Date/Time is %s", qPrintable(this->neureset->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [=]() {
+            ui->label_dateTimeChanged->hide();
+            timer->deleteLater();
+        });
+        timer->start(3000);
     });
-    connect(neureset, &Neureset::updateUI_dateTimeChanged, this, &MainWindow::updateUI_dateTime);
+
+    connect(ui->tabWidget_menu, &QTabWidget::currentChanged, [=](int index) {
+        if(index == 1) {
+            this->updateUI_dateTime();
+        }
+    });
 
     /*====================================================================================================*\
      * POWER
@@ -253,15 +268,8 @@ void MainWindow::updateUI_hideMenu(){
 }
 
 void MainWindow::updateUI_dateTime() {
-    // Update UI with Date/Time changed message
-    ui->label_dateTimeChanged->show();
-    qInfo("Date/Time is %s", qPrintable(this->neureset->getCurrentDateTime().toString("yyyy-MM-dd HH:mm:ss")));
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, [=]() {
-        ui->label_dateTimeChanged->hide();
-        timer->deleteLater();
-    });
-    timer->start(3000);
+    // Update UI with Date/Time
+    ui->dateTimeEdit->setDateTime(this->neureset->getCurrentDateTime());
 }
 /*====================================================================================================*\
  * BATTERY

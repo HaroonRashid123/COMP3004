@@ -139,7 +139,7 @@ void Neureset::setElectrode(int e_id, ConnectionState cs){
 
 void Neureset::setDateTime(QDateTime dt) {
     this->currentDateTime = dt;
-    emit updateUI_dateTimeChanged();
+//    emit updateUI_dateTimeChanged();
 }
 
 /*====================================================================================================*\
