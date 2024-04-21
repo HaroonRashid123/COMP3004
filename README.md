@@ -11,7 +11,6 @@ git clone https://github.com/HaroonRashid123/COMP3004.git
 
 #### Add Files
 git add README.md
-git add GIT.md
 git add Neureset.cpp
 git add Neureset.h
 git add Electrode.cpp

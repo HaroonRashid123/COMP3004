@@ -56,11 +56,11 @@ Neureset::Neureset(int batteryRemaining, PowerState powerState, QDateTime curren
     this->endSessionTimer = new QTimer(this);
     connect(this->endSessionTimer, &QTimer::timeout, [=]() {
         if (this->remainingDisconnectTime == 0) {
-            this->stopSession();
-            this->togglePower(OFF);
             // Reset Timer
             this->remainingDisconnectTime = MAX_DISCONNECT_TIME;
             this->endSessionTimer->stop();
+            this->stopSession();
+            this->togglePower(OFF);
         } else {
             this->remainingDisconnectTime--;
         }
@@ -160,6 +160,7 @@ void Neureset::togglePower(PowerState ps) {
             qInfo("Saving session progress.");
         }
         qInfo("Neureset powering OFF");
+
     } else {
         // If battery is dead, device  cannot turn on
         if (this->batteryRemaining == 0) {
@@ -167,8 +168,6 @@ void Neureset::togglePower(PowerState ps) {
         }
 
         this->setPowerState(ON);
-        qInfo("Neureset powering ON");
-
         if (this->connectionState == CONNECTED) {
             this->setBlueLight(ON);
             this->setRedLight(OFF);
@@ -176,6 +175,7 @@ void Neureset::togglePower(PowerState ps) {
             this->setBlueLight(OFF);
             this->setRedLight(ON);
         }
+        qInfo("Neureset powering ON");
 
         if (this->inSession) {
             if (this->sessionLogs.back()->getSessionState() == ROUND_1_TREATMENT ||
@@ -188,7 +188,7 @@ void Neureset::togglePower(PowerState ps) {
             // Pause
             this->sessionTimer->stop();
             this->sessionPaused = true;
-            this->endSessionTimer->start(this->remainingDisconnectTime);
+            this->endSessionTimer->start(1000);
             qInfo("Press play to resume session.");
         }
     }
@@ -247,7 +247,7 @@ void Neureset::updateConnectionState(ConnectionState cs) {
             // Pause
             this->sessionTimer->stop();
             this->sessionPaused = true;
-            this->endSessionTimer->start(MAX_DISCONNECT_TIME);
+            this->endSessionTimer->start(1000);
         }
     }
 
@@ -278,7 +278,7 @@ void Neureset::playOrPauseSession() {
             // Pause
             this->sessionTimer->stop();
             this->sessionPaused = true;
-            this->endSessionTimer->start(MAX_DISCONNECT_TIME);
+            this->endSessionTimer->start(1000);
             qInfo("Therapy session paused.");
         }
     }
@@ -286,19 +286,17 @@ void Neureset::playOrPauseSession() {
 
 void Neureset::stopSession() {
     if (this->inSession) {
-        // Stop the End-Session timer
-        this->endSessionTimer->stop();
-
         // Reset Session attributes
         this->sessionLogs.removeLast();
         this->inSession = false;
         this->sessionPaused = false;
         this->remainingSessionTime = MAX_SESSION_TIME;
         this->sessionTimer->stop();
+        qInfo("Erasing Session.");
 
         // Reset TimerUI
-        emit updateUI_progressBar(0);
-        emit updateUI_timerLabel(QString::number(remainingSessionTime / 60) + ":" + QString::number(remainingSessionTime % 60).rightJustified(2, '0'));
+        emit updateUI_progressBar(100);
+        emit updateUI_timerLabel("0:00");
     }
 }
 
