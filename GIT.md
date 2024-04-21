@@ -1,6 +1,4 @@
-## Work flow steps:
-
-### Uploading Progress:
+## Git flow steps:
 
 #### Clone repo (One-time)
 git clone https://github.com/HaroonRashid123/COMP3004.git
@@ -33,4 +31,6 @@ git push
 
 ### Updating branch (to make sure you have the most recent changes):
 git pull
+or
+git rebase
 
