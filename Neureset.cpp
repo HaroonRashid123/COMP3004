@@ -233,12 +233,6 @@ void Neureset::updateConnectionState(ConnectionState cs) {
         this->connectionState = CONNECTED;
         this->setBlueLight(ON);
         this->setRedLight(OFF);
-        if (this->inSession && this->sessionPaused) {
-            // Play
-           this->sessionTimer->start(1000);
-           this->sessionPaused = false;
-           this->endSessionTimer->stop();
-        }
     } else {
         this->connectionState = DISCONNECTED;
         this->setBlueLight(OFF);
@@ -248,6 +242,7 @@ void Neureset::updateConnectionState(ConnectionState cs) {
             this->sessionTimer->stop();
             this->sessionPaused = true;
             this->endSessionTimer->start(1000);
+            qInfo("Therapy Session Paused.");
         }
     }
 
@@ -272,6 +267,7 @@ void Neureset::playOrPauseSession() {
                 this->sessionTimer->start(1000);
                 this->sessionPaused = false;
                 this->endSessionTimer->stop();
+                this->remainingDisconnectTime = MAX_DISCONNECT_TIME;
                 qInfo("Therapy session resuming.");
             }
         } else {
