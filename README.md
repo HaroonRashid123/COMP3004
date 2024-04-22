@@ -1,4 +1,4 @@
-# COMP3004
+# COMP3004:Team 40
 Kyle Eng	1011925959
 Haroon Rashid 101183600
 Will Siri 	101195794

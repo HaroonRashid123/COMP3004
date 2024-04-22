@@ -245,7 +245,6 @@ void Neureset::updateConnectionState(ConnectionState cs) {
             qInfo("Therapy Session Paused.");
         }
     }
-
 }
 
 void Neureset::playOrPauseSession() {

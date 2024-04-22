@@ -283,10 +283,12 @@ void MainWindow::updateUI_battery() {
             ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
                                                    "selection-color: " + ColourToStr(BLACK) +
                                                    "selection-background-color: " + ColourToStr(RED));
+            if ( currentBatteryLevel == 10) { qInfo("Low Battery: @ 10%%"); }
         } else if (currentBatteryLevel <= 20) {
             ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
                                                    "selection-color: " + ColourToStr(BLACK) +
                                                    "selection-background-color: " + ColourToStr(YELLOW));
+            if ( currentBatteryLevel == 20) { qInfo("Low Battery: @ 20%%"); }
         } else {
             ui->progressBar_battery->setStyleSheet("background-color: " + ColourToStr(GREY) +
                                                    "selection-color: " + ColourToStr(BLACK) +
